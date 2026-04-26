@@ -1,0 +1,219 @@
+/* Outer shell — invisible, full-width, only handles position */
+.header {
+  position: fixed;
+  top: var(--space-3);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 var(--space-8);
+  pointer-events: none;
+}
+
+/* The visible pill bar */
+.inner {
+  position: relative;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-6);
+  pointer-events: all;
+}
+
+/*
+  Glass background lives on ::before so it never clips or interferes
+  with flex children. backdrop-filter creates its own stacking context
+  which would otherwise visually crop overflowing content.
+*/
+.inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04),
+              0 4px 16px rgba(0, 0, 0, 0.06),
+              inset 0 0 0 0.5px rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.innerScrolled::before {
+  opacity: 1;
+}
+
+/* All direct flex children sit above the ::before glass layer */
+.inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Logo */
+.logoLink {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.logo {
+  height: 20px;
+  width: auto;
+  display: block;
+  transition: filter 0.45s ease;
+}
+
+/* Desktop nav — centered, takes remaining space */
+.nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+.navLink {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease, color 0.45s ease;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  opacity: 0.55;
+}
+
+/* CTA pill */
+.cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+  background: var(--color-lime);
+  color: var(--color-dark);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 7px var(--space-4);
+  border-radius: 999px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta:hover {
+  background: #d8ff7a;
+  box-shadow: 0 2px 12px rgba(207, 255, 113, 0.45);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.bar {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+/* Mobile full-screen menu */
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background-color: var(--color-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(68px + var(--space-12)) var(--space-8) var(--space-12);
+  overflow: hidden;
+}
+
+.menuGrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mobileLink {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  line-height: 1.1;
+  transition: color 0.2s ease;
+}
+
+.mobileLink:hover {
+  color: var(--color-lime);
+}
+
+.mobileCta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--space-10);
+  background: var(--color-lime);
+  color: var(--color-dark);
+  font-size: var(--text-base);
+  font-weight: 700;
+  padding: var(--space-4) var(--space-8);
+  border-radius: 999px;
+  align-self: flex-start;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.mobileCta:hover {
+  background: #d8ff7a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--space-5);
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}

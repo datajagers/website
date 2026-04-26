@@ -1,0 +1,159 @@
+.section {
+  background-color: var(--color-dark);
+  padding: var(--space-24) var(--space-8) calc(var(--space-24) + 10px);
+  border-radius: var(--radius-4xl) var(--radius-4xl) 0 0;
+  margin-top: calc(var(--radius-4xl) * -1);
+  position: relative;
+  z-index: 5;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+/* Left — sticky title column */
+.left {
+  position: sticky;
+  top: var(--space-12);
+}
+
+.label {
+  display: block;
+  font-family: monospace;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  color: var(--color-white);
+  margin-bottom: var(--space-6);
+}
+
+.titleAccent {
+  color: var(--color-lime);
+}
+
+.sub {
+  font-size: var(--text-base);
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+
+/* Right — accordion */
+.right {
+  padding-top: var(--space-2);
+}
+
+/* FAQ item */
+.item {
+  position: relative;
+}
+
+.rule {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  transform-origin: left;
+  transition: background var(--duration-base) var(--ease-out);
+}
+
+.itemOpen .rule {
+  background: var(--color-lime);
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.question {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--color-white);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.trigger:hover .question {
+  color: var(--color-lime);
+}
+
+.icon {
+  font-size: var(--text-2xl);
+  font-weight: 300;
+  color: var(--color-lime);
+  flex-shrink: 0;
+  margin-top: 0.1em;
+  line-height: 1;
+  font-family: var(--font-display);
+}
+
+.answer {
+  font-size: var(--text-base);
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  padding-bottom: var(--space-6);
+  max-width: 58ch;
+}
+
+.closingRule {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .left {
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-16) var(--space-5) calc(var(--radius-3xl) + var(--space-10));
+  }
+
+  .title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .question {
+    font-size: var(--text-base);
+  }
+
+  .answer {
+    font-size: var(--text-sm);
+  }
+
+  .trigger {
+    padding: var(--space-4) 0;
+  }
+}

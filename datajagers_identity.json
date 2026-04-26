@@ -1,0 +1,160 @@
+{
+  "site_info": {
+    "url": "https://cute-heron-690316.framer.app",
+    "brand_name": "Datajagers",
+    "founder": "Wouter Jagers",
+    "email": "info@datajagers.nl",
+    "phone": "+31 6 20 07 65 97",
+    "core_slogan": "Imagine. Build. Innovate.",
+    "footer_slogan": "Focusing on your Why — I help you imagine.build.innovate",
+    "branding": {
+      "colors": {
+        "primary_dark": "#363636",
+        "background_white": "#FFFFFF",
+        "strategic_blue": "#5d67e6",
+        "innovation_lime": "#cfff71"
+      },
+      "visual_logic": {
+        "foundational_text": "#363636",
+        "structure_and_logic": "#5d67e6",
+        "innovation_and_highlights": "#cfff71"
+      }
+    }
+  },
+  "persona": {
+    "mission": "Helping businesses optimize what’s slow, structure what’s messy, uncover what's hidden and build what’s missing.",
+    "roles": ["Strategic Sparring Partner", "Excel Guru", "AI Whisperer", "Professional Googler", "Computer-stuff wizard"],
+    "tone_of_voice": {
+      "style": ["Personal", "Direct", "Structured", "Value-driven"],
+      "key_trait": "Needs only half a sentence to understand complex issues."
+    }
+  },
+  "value_proposition": {
+    "methodology": "Data-driven Lean Six Sigma approach (eliminating waste + maximizing precision).",
+    "the_crucial_question": "What do you want to achieve with this data?",
+    "reasons_to_choose": [
+      {
+        "title": "Proven Experience",
+        "description": "Insights from a current full-time Business Analyst."
+      },
+      {
+        "title": "Personalized Approach",
+        "description": "Strategic sparring partner who challenges your 'Why'."
+      },
+      {
+        "title": "1-Stop Shop",
+        "description": "Handling everything from process optimization to custom AI builds."
+      },
+      {
+        "title": "Ongoing Support",
+        "description": "Reliability beyond the build to ensure tools stay valuable."
+      }
+    ]
+  },
+  "services": [
+    {
+      "id": "optimize",
+      "hook": "Optimize what’s slow",
+      "service_name": "Process Optimization",
+      "brand_color": "#5d67e6",
+      "method": "Lean Principles",
+      "tags": ["#LeanMethodology", "#WorkflowAutomation", "#EfficiencyAudit", "#OperationalExcellence"],
+      "full_description": "Diving into daily operations to find friction points and eliminate waste (manual data entry, unnecessary handovers).",
+      "target_audience": "Teams bogged down by 'how we’ve always done it'.",
+      "deliverables": "Waste-free workflow blueprints and automated routines."
+    },
+    {
+      "id": "structure",
+      "hook": "Structure what’s messy",
+      "service_name": "Data Architecture & Dashboards",
+      "brand_color": "#363636",
+      "method": "Single Source of Truth",
+      "tags": ["#DataGovernance", "#VisualAnalytics", "#SingleSourceOfTruth", "#InformationArchitecture"],
+      "full_description": "Turning fragmented data sources into a logical, consistent architecture that powers automated dashboards.",
+      "target_audience": "Organizations struggling with multiple versions of the truth.",
+      "deliverables": "Clean data foundations and interactive visual dashboards."
+    },
+    {
+      "id": "uncover",
+      "hook": "Uncover what's hidden",
+      "service_name": "Data Analysis",
+      "brand_color": "#cfff71",
+      "method": "Strategic Sparring",
+      "tags": ["#StrategicSparring", "#HiddenInsights", "#DataStorytelling", "#ActionableClarity"],
+      "full_description": "Finding the 'hidden gold' in numbers by looking from different angles to uncover missed opportunities.",
+      "target_audience": "Decision-makers with plenty of data but no clear direction.",
+      "deliverables": "Deep-dive insights and actionable strategic narratives."
+    },
+    {
+      "id": "build",
+      "hook": "Build what’s missing",
+      "service_name": "Custom Software & Tools",
+      "brand_color": "#cfff71",
+      "method": "Innovation Sprints",
+      "tags": ["#AdvancedExcel", "#AIImplementation", "#CustomTooling", "#InnovationSprints"],
+      "full_description": "Building the missing pieces like automated Excel models or AI-integrated tools (ChatGPT implementations).",
+      "target_audience": "Companies outgrowing generic tools who need bespoke solutions.",
+      "deliverables": "Tailor-made Excel models and custom AI-powered integrations."
+    }
+  ],
+  "process_intro": "Whether I'm acting as your Excel Guru or your AI Strategist, I follow a clear framework to ensure we're building exactly what you need. By starting with your 'Why' and applying a structured Lean mindset, I make sure the 'computer-stuff' actually solves your real-world business problems.",
+  "proven_process": [
+    { "step": 1, "name": "The Sparring Session", "focus": "Uncovering the 'Why'", "brand_color": "#5d67e6" },
+    { "step": 2, "name": "The Blueprint", "focus": "Mapping efficient paths using Lean Six Sigma", "brand_color": "#363636" },
+    { "step": 3, "name": "The Build & Optimize", "focus": "Rapid realization of the missing pieces", "brand_color": "#cfff71" },
+    { "step": 4, "name": "Value Delivery", "focus": "Refining and ongoing support", "brand_color": "#5d67e6" }
+  ],
+  "testimonials": [
+    {
+      "quote": "Wouter is truly worth his weight in gold. He addresses issues immediately and has the remarkable ability to grasp a complex request from just half a sentence. As a strategic sparring partner, he consistently looks at things from a different angle, uncovering hidden insights and 'hidden tables' that significantly improve the overall understanding of a project.",
+      "name": "Tim Huisinga",
+      "role": "Digital Product Manager",
+      "theme": "Intuition & Speed",
+      "dark": false
+    },
+    {
+      "quote": "With a keen eye for efficiency, Wouter proactively tackles process improvements and ensures that no effort is wasted. He always asks the crucial question: 'What do you want to achieve with this data?' This prompts an extra layer of reflection that ensures time is invested in projects that add real value, rather than delivering reports that just end up sitting on the shelf.",
+      "name": "Merel Houben",
+      "role": "Seo Content Marketeer",
+      "theme": "Value focus",
+      "dark": false
+    },
+    {
+      "quote": "Wouter's greatest strengths are his conceptual thinking and his ability to create structure out of chaos. This is especially clear when he is clarifying complex data flows or defining dashboard requirements. He creates a rock-solid foundation for every project through his structured mindset and drive for consistency, making him a truly valuable asset to any team.",
+      "name": "Jorrit Schaart",
+      "role": "Lead Business Analyst",
+      "theme": "Structured mindset",
+      "dark": true
+    }
+  ],
+  "contact": {
+    "label": "Your Next Step Starts Here",
+    "tagline": "Ready to level up? Let's build a stronger, faster, and more efficient version — together."
+  },
+  "faq": [
+    {
+      "question": "What kind of businesses do you work with?",
+      "answer": "Small to mid-sized teams that have outgrown generic tools or are stuck in inefficient workflows. The common thread: plenty of data but no clear direction — or a clear direction but no tools to get there."
+    },
+    {
+      "question": "What does a typical engagement look like?",
+      "answer": "Every project starts with The Sparring Session — an honest conversation about the 'Why'. From there, timelines vary from a focused one-week sprint to a multi-month partnership, depending on scope and complexity."
+    },
+    {
+      "question": "How is this different from hiring a regular consultant?",
+      "answer": "You get a strategic sparring partner, not a report writer. The goal is never a document on a shelf — it's a working solution that creates real value from day one. Half a sentence is usually enough to know exactly what's needed."
+    },
+    {
+      "question": "What tools and technologies do you use?",
+      "answer": "Whatever fits the job. Excel and Power BI for data work, Python and SQL for heavier analysis, OpenAI APIs for AI integrations, and Lean Six Sigma principles for process work. The tool follows the problem, not the other way around."
+    },
+    {
+      "question": "Do you work remotely or on-site?",
+      "answer": "Primarily remote, with the option for on-site sessions when the work calls for it — particularly for complex data architecture workshops or strategic sparring sessions where being in the room matters."
+    },
+    {
+      "question": "How do we get started?",
+      "answer": "Book a free sparring session. In 30 minutes we'll identify whether there's a fit and what the first concrete step looks like. No pitch deck, no fluff — just an honest conversation about your challenge."
+    }
+  ]
+}
