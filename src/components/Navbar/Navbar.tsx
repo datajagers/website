@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { site_info } from '@/data/identity'
 import logoUrl from '@assets/logo_same_hight.svg'
+import logoIconUrl from '@assets/logo_no_point.svg'
 import styles from './Navbar.module.css'
 
 const NAV_LINKS = [
@@ -43,7 +44,13 @@ export function Navbar() {
             <img
               src={logoUrl}
               alt={site_info.brand_name}
-              className={styles.logo}
+              className={`${styles.logo} ${styles.logoWordmark}`}
+              style={{ filter: logoFilter }}
+            />
+            <img
+              src={logoIconUrl}
+              alt={site_info.brand_name}
+              className={`${styles.logo} ${styles.logoIcon}`}
               style={{ filter: logoFilter }}
             />
           </a>

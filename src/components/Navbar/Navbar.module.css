@@ -69,6 +69,22 @@
   transition: filter 0.45s ease;
 }
 
+.logoIcon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .innerScrolled .logoWordmark {
+    display: none;
+  }
+
+  .innerScrolled .logoIcon {
+    display: block;
+    height: 28px;
+    width: 28px;
+  }
+}
+
 /* Desktop nav — centered, takes remaining space */
 .nav {
   flex: 1;

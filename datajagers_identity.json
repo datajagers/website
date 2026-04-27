@@ -67,7 +67,7 @@
       "id": "structure",
       "hook": "Structure what’s messy",
       "service_name": "Data Architecture & Dashboards",
-      "brand_color": "#363636",
+      "brand_color": "#5d67e6",
       "method": "Single Source of Truth",
       "tags": ["#DataGovernance", "#VisualAnalytics", "#SingleSourceOfTruth", "#InformationArchitecture"],
       "full_description": "Turning fragmented data sources into a logical, consistent architecture that powers automated dashboards.",
@@ -78,7 +78,7 @@
       "id": "uncover",
       "hook": "Uncover what's hidden",
       "service_name": "Data Analysis",
-      "brand_color": "#cfff71",
+      "brand_color": "#5d67e6",
       "method": "Strategic Sparring",
       "tags": ["#StrategicSparring", "#HiddenInsights", "#DataStorytelling", "#ActionableClarity"],
       "full_description": "Finding the 'hidden gold' in numbers by looking from different angles to uncover missed opportunities.",
@@ -89,12 +89,12 @@
       "id": "build",
       "hook": "Build what’s missing",
       "service_name": "Custom Software & Tools",
-      "brand_color": "#cfff71",
+      "brand_color": "#5d67e6",
       "method": "Innovation Sprints",
       "tags": ["#AdvancedExcel", "#AIImplementation", "#CustomTooling", "#InnovationSprints"],
       "full_description": "Building the missing pieces like automated Excel models or AI-integrated tools (ChatGPT implementations).",
       "target_audience": "Companies outgrowing generic tools who need bespoke solutions.",
-      "deliverables": "Tailor-made Excel models and custom AI-powered integrations."
+      "deliverables": "Tailor-made Excel templates, software and AI powered integrations."
     }
   ],
   "process_intro": "Whether I'm acting as your Excel Guru or your AI Strategist, I follow a clear framework to ensure we're building exactly what you need. By starting with your 'Why' and applying a structured Lean mindset, I make sure the 'computer-stuff' actually solves your real-world business problems.",

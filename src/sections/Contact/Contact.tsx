@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { contact, services } from '@/data/identity'
 import styles from './Contact.module.css'
@@ -20,6 +20,13 @@ const encode = (data: Record<string, string>) =>
 export function Contact() {
   const [form, setForm] = useState<FormState>(EMPTY)
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (status === 'sent') {
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [status])
 
   const set = (field: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -42,7 +49,7 @@ export function Contact() {
   }
 
   return (
-    <section className={styles.section} id="contact">
+    <section className={styles.section} id="contact" ref={sectionRef}>
       <div className={styles.inner}>
 
         {/* Header */}
