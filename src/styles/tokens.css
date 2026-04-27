@@ -34,6 +34,7 @@
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
+  --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
@@ -66,4 +67,22 @@
   --duration-fast: 200ms;
   --duration-base: 350ms;
   --duration-slow: 600ms;
+}
+
+/* Scale down large radii on tablet */
+@media (max-width: 768px) {
+  :root {
+    --radius-2xl: 28px;
+    --radius-3xl: 40px;
+    --radius-4xl: 52px;
+  }
+}
+
+/* Scale down further on mobile */
+@media (max-width: 480px) {
+  :root {
+    --radius-2xl: 20px;
+    --radius-3xl: 28px;
+    --radius-4xl: 36px;
+  }
 }

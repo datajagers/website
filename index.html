@@ -12,6 +12,14 @@
     <title>Datajagers — Imagine. Build. Innovate.</title>
   </head>
   <body>
+    <!-- Hidden form so Netlify's build bot can detect the form fields -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input name="bot-field" />
+      <input name="name" />
+      <input name="email" />
+      <input name="service" />
+      <textarea name="message"></textarea>
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

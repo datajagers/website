@@ -32,7 +32,7 @@ export function Hero() {
           className={styles.eyebrow}
           {...fadeUp(0.15)}
         >
-          Strategic Data Partner · Lean Six Sigma
+          Strategic Data Partner
         </motion.p>
 
         <motion.div
