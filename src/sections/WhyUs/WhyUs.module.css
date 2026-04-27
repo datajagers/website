@@ -1,0 +1,225 @@
+.section {
+  background-color: var(--color-white);
+  padding: var(--space-24) var(--space-8) calc(var(--space-24) + 10px);
+  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+  margin-top: calc(var(--radius-3xl) * -1);
+  position: relative;
+  z-index: 3;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ─── Headline ───────────────────────────────────────────────── */
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  color: var(--color-dark);
+  text-align: center;
+  margin-bottom: var(--space-20);
+}
+
+.headlineAccent {
+  color: var(--color-blue);
+}
+
+/* ─── Three-column layout ────────────────────────────────────── */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 260px 1fr;
+  column-gap: 0;
+  align-items: center;
+}
+
+/* ─── Left / right columns ───────────────────────────────────── */
+
+.leftCol,
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* ─── Image ──────────────────────────────────────────────────── */
+
+.imageCol {
+  padding: 0 var(--space-5);
+}
+
+.mesh {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: block;
+}
+
+/* ─── USP items ──────────────────────────────────────────────── */
+
+.uspLeft,
+.uspRight {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.uspText {
+  flex: 1;
+}
+
+.uspLeft .uspText {
+  text-align: right;
+  padding-right: var(--space-5);
+}
+
+.uspRight .uspText {
+  padding-left: var(--space-5);
+}
+
+.uspTitle {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-blue);
+  line-height: 1.0;
+  margin-bottom: var(--space-2);
+}
+
+.uspBody {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: rgba(54, 54, 54, 0.7);
+  max-width: 28ch;
+}
+
+.uspLeft .uspBody {
+  margin-left: auto;
+}
+
+/* ─── Connector lines ────────────────────────────────────────── */
+
+.connectorLeft,
+.connectorRight {
+  flex-shrink: 0;
+  width: 48px;
+  height: 1px;
+  background: rgba(54, 54, 54, 0.22);
+  position: relative;
+}
+
+/* Dot at the right end (image-facing) for left connectors */
+.connectorLeft::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-dark);
+}
+
+/* Dot at the left end (image-facing) for right connectors */
+.connectorRight::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-dark);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr 200px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-20) var(--space-5) calc(var(--radius-3xl) + var(--space-10));
+  }
+
+  /* Stack: full-width image on top, 2×2 USP grid below */
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: var(--space-10) var(--space-6);
+  }
+
+  .imageCol {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 0;
+  }
+
+  .mesh {
+    aspect-ratio: 16 / 9;
+  }
+
+  .leftCol {
+    grid-column: 1;
+    grid-row: 2;
+    gap: var(--space-8);
+  }
+
+  .rightCol {
+    grid-column: 2;
+    grid-row: 2;
+    gap: var(--space-8);
+  }
+
+  /* Left-align everything on mobile */
+  .uspLeft,
+  .uspRight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .uspLeft .uspText {
+    text-align: left;
+    padding-right: 0;
+  }
+
+  .uspLeft .uspBody {
+    margin-left: 0;
+  }
+
+  .connectorLeft,
+  .connectorRight {
+    display: none;
+  }
+
+  .uspBody {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .leftCol {
+    grid-column: 1;
+  }
+
+  .rightCol {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}

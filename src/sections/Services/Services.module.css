@@ -1,10 +1,7 @@
 .section {
-  background-color: var(--color-dark);
-  padding: var(--space-24) var(--space-8) calc(var(--space-24) + 10px);
-  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
-  margin-top: calc(var(--radius-2xl) * -1);
-  position: relative;
-  z-index: 2;
+  background: var(--bg-primary);
+  padding: var(--section-y) var(--outer-padding);
+  border-top: 1px solid var(--border-hairline);
 }
 
 .inner {
@@ -12,172 +9,160 @@
   margin: 0 auto;
 }
 
-/* Header */
+/* ─── Header ──────────────────────────────────────────────── */
+
 .header {
-  margin-bottom: var(--space-12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
 }
 
-.label {
-  display: block;
-  font-family: monospace;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: var(--space-6);
+.eyebrow {
+  color: var(--fg-muted);
 }
 
-.title {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 5.5vw, 5.5rem);
-  font-weight: 800;
-  color: var(--color-white);
-  line-height: 1;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+.sectionIndex {
+  color: var(--fg-muted);
+}
+
+/* ─── Section wordmark ────────────────────────────────────── */
+
+.wordmarkWrap {
+  margin-bottom: clamp(40px, 6vw, 80px);
+  overflow: hidden;
+}
+
+.wordmark {
+  font-family: var(--font-body);
+  font-size: var(--text-display-xxl);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--fg-primary);
   white-space: nowrap;
+  display: block;
 }
 
-.titleAccent {
-  color: var(--color-lime);
-}
+/* ─── Row layout ──────────────────────────────────────────── */
 
-/* Grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
-}
-
-/* Card */
-.card {
-  background: #2a2a2a;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
+.rows {
   display: flex;
   flex-direction: column;
-  cursor: default;
-  will-change: transform;
-  transition: box-shadow var(--duration-base) var(--ease-out);
 }
 
-.card:hover {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+.row {
+  padding: clamp(32px, 4vw, 64px) 0;
 }
 
-/* Image */
-.imageWrap {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.image {
+.rowRule,
+.closingRule {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--duration-slow) var(--ease-out);
+  height: 1px;
+  background: var(--border-hairline);
+  margin-bottom: clamp(32px, 4vw, 64px);
 }
 
-.card:hover .image {
-  transform: scale(1.04);
+.closingRule {
+  margin-bottom: 0;
 }
 
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(42, 42, 42, 0) 40%,
-    rgba(42, 42, 42, 0.75) 100%
-  );
+/* 12-col grid: [index 1-2] [hook 3-7] [details 8-12] */
+.rowGrid {
+  display: grid;
+  grid-template-columns: 2fr 5fr 5fr;
+  gap: 0 var(--gutter);
+  align-items: flex-start;
 }
 
-/* Content */
-.content {
-  padding: var(--space-6) var(--space-6) var(--space-8);
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.meta {
-  margin-bottom: var(--space-4);
-}
-
-.methodPill {
-  display: inline-block;
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
+.rowIndex {
+  color: var(--fg-muted);
+  padding-top: 0.35em; /* align with hook cap-height */
 }
 
 .hook {
-  font-family: var(--font-display);
-  font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.95;
-  color: var(--color-white);
-  margin-bottom: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-display-xl);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: var(--fg-primary);
+}
+
+/* ─── Service details ─────────────────────────────────────── */
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: 0.2em;
 }
 
 .serviceName {
-  font-size: var(--text-sm);
+  font-size: var(--text-caption);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: var(--space-4);
+  color: var(--accent-structure);
+}
+
+.description {
+  font-size: var(--text-body-md);
+  line-height: 1.55;
+  color: var(--fg-primary);
 }
 
 .audience {
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.5;
-  flex: 1;
-  margin-bottom: var(--space-6);
+  font-size: var(--text-body-md);
+  line-height: 1.55;
+  color: var(--fg-muted);
 }
 
-/* Deliverables */
-.deliverables {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: var(--space-4);
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-.deliverablesLabel {
-  display: block;
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.tag {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-lime);
-  margin-bottom: var(--space-2);
+  color: var(--fg-primary);
+  white-space: nowrap;
 }
 
-.deliverablesText {
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.5;
+.tagHash {
+  color: var(--fg-muted);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .section {
-    padding: var(--space-20) var(--space-5) calc(var(--radius-3xl) + var(--space-10));
+/* ─── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .rowGrid {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .rowIndex {
+    grid-row: 1;
+    grid-column: 1;
   }
-}
 
-@media (max-width: 480px) {
-  .title {
+  .hook {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .details {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    padding-top: var(--space-5);
+  }
+
+  .wordmark {
     white-space: normal;
-    font-size: clamp(1.8rem, 8vw, 3rem);
+    line-height: 0.88;
   }
 }

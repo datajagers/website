@@ -1,9 +1,9 @@
+import { motion } from 'framer-motion'
 import { site_info } from '@/data/identity'
 import logoUrl from '@assets/logo_same_hight.svg'
 import styles from './Footer.module.css'
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#' },
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Testimonials', href: '#testimonials' },
@@ -13,14 +13,33 @@ const NAV_LINKS = [
 
 const YEAR = new Date().getFullYear()
 
+const fadeUp = (delay = 0) => ({
+  initial:     { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport:    { once: true, margin: '-40px' },
+  transition:  { delay, duration: 0.55, ease: [0.2, 0.8, 0.2, 1] as const },
+})
+
 export function Footer() {
   return (
     <footer className={styles.footer}>
+
+      {/* ── Showreel band ───────────────────────────────────── */}
+      <div className={styles.band}>
+        <div className={styles.bandInner}>
+          <span className="caption-label">{site_info.brand_name.toUpperCase()}</span>
+          <div className="showreel-band__rule" />
+          <span className="caption-label">{site_info.core_slogan.toUpperCase()}</span>
+        </div>
+      </div>
+
+      {/* ── Main grid ───────────────────────────────────────── */}
       <div className={styles.inner}>
 
-        {/* Brand */}
-        <div className={styles.brand}>
-          <img src={logoUrl} alt={site_info.brand_name} className={styles.logo} />
+        <motion.div className={styles.brand} {...fadeUp(0)}>
+          <a href="#" aria-label={site_info.brand_name}>
+            <img src={logoUrl} alt={site_info.brand_name} className={styles.logo} />
+          </a>
           <p className={styles.tagline}>{site_info.footer_slogan}</p>
           <div className={styles.contact}>
             <a href={`tel:${site_info.phone.replace(/\s/g, '')}`} className={styles.contactLink}>
@@ -30,10 +49,9 @@ export function Footer() {
               {site_info.email}
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Nav */}
-        <nav className={styles.nav} aria-label="Site navigation">
+        <motion.nav className={styles.nav} aria-label="Footer navigation" {...fadeUp(0.06)}>
           <span className={styles.navHeading}>Navigate</span>
           <ul className={styles.navList}>
             {NAV_LINKS.map((item) => (
@@ -42,27 +60,29 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </nav>
+        </motion.nav>
 
-        {/* CTA column */}
-        <div className={styles.cta}>
+        <motion.div className={styles.cta} {...fadeUp(0.12)}>
           <span className={styles.navHeading}>Start a project</span>
-          <p className={styles.ctaText}>Have a challenge in mind?<br />Let&apos;s talk.</p>
-          <a href="#contact" className={styles.ctaButton}>Get in touch</a>
-        </div>
+          <p className={styles.ctaText}>
+            Have a challenge in mind?<br />Let&apos;s talk.
+          </p>
+          <a href="#contact" className={styles.ctaButton}>Book a session</a>
+        </motion.div>
 
       </div>
 
-      {/* Bottom bar */}
+      {/* ── Bottom bar ──────────────────────────────────────── */}
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
-          <hr className={styles.rule} />
+          <div className={styles.rule} />
           <div className={styles.bottomRow}>
             <p className={styles.copyright}>© {YEAR} {site_info.brand_name}. All rights reserved.</p>
             <p className={styles.copyright}>Built by {site_info.founder}</p>
           </div>
         </div>
       </div>
+
     </footer>
   )
 }

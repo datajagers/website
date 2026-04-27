@@ -1,7 +1,26 @@
 @import './tokens.css';
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&display=swap');
+/* ─── JetBrains Mono (editorial chrome only) ─────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* ─── Inter — loaded from local variable font ────────────────── */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/Inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -12,14 +31,15 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
 }
 
 body {
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  background-color: var(--color-blue);
-  color: var(--color-white);
-  line-height: 1.6;
+  font-size: var(--text-body-md);
+  background-color: var(--bg-primary);
+  color: var(--fg-primary);
+  line-height: 1.55;
 }
 
 img {
@@ -39,19 +59,86 @@ button {
   font: inherit;
 }
 
-/* Inter variable font — loaded from local assets */
-@font-face {
-  font-family: 'Inter';
-  src: url('/assets/Inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
+/* ─── Global typography utilities ────────────────────────────── */
+
+/* Accent dots — the brand typography signature */
+.dot-structure  { color: var(--accent-structure);  }
+.dot-innovation { color: var(--accent-innovation); }
+
+/* Section chrome */
+.mono-sm {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-sm);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  line-height: 1.2;
 }
 
-@font-face {
-  font-family: 'Inter';
-  src: url('/assets/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
+.mono-sm-inv {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-sm);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fg-muted-inverse);
+  line-height: 1.2;
+}
+
+.caption-label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.caption-label-inv {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted-inverse);
+}
+
+/* ─── Showreel band ──────────────────────────────────────────── */
+.showreel-band {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.showreel-band__rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border-hairline);
+}
+
+.showreel-band__rule--inv {
+  background: var(--border-hairline-inv);
+}
+
+/* ─── Hairline divider ───────────────────────────────────────── */
+.hairline {
+  width: 100%;
+  height: 1px;
+  background: var(--border-hairline);
+}
+
+.hairline-inv {
+  width: 100%;
+  height: 1px;
+  background: var(--border-hairline-inv);
+}
+
+/* ─── Motion — respect prefers-reduced-motion ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

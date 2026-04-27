@@ -1,4 +1,12 @@
 {
+  "_meta": {
+    "version": "2.0",
+    "changelog": "Additive upgrade. All v1 fields preserved verbatim. New blocks: design_system, page_structure, content_extensions, agent_instructions. No brand identity changes — colors, slogan, voice, services unchanged. Only typographic and structural scaffolding added so a coding agent can produce a strong visual hierarchy.",
+    "intended_consumer": "Claude coding agent (Framer / Next.js / plain HTML+CSS) building the marketing site from this spec.",
+    "primary_typeface_locked": "Inter",
+    "design_inspiration_reference": "Editorial / studio-portfolio hierarchy (e.g. createstudio.framer.media): one display wordmark, asymmetric headers, mono editorial chrome, disciplined two-accent system."
+  },
+
   "site_info": {
     "url": "https://cute-heron-690316.framer.app",
     "brand_name": "Datajagers",
@@ -21,140 +29,334 @@
       }
     }
   },
+
   "persona": {
-    "mission": "Helping businesses optimize what’s slow, structure what’s messy, uncover what's hidden and build what’s missing.",
+    "mission": "Helping businesses optimize what's slow, structure what's messy, uncover what's hidden and build what's missing.",
     "roles": ["Strategic Sparring Partner", "Excel Guru", "AI Whisperer", "Professional Googler", "Computer-stuff wizard"],
     "tone_of_voice": {
       "style": ["Personal", "Direct", "Structured", "Value-driven"],
       "key_trait": "Needs only half a sentence to understand complex issues."
     }
   },
+
   "value_proposition": {
     "methodology": "Data-driven Lean Six Sigma approach (eliminating waste + maximizing precision).",
     "the_crucial_question": "What do you want to achieve with this data?",
     "reasons_to_choose": [
-      {
-        "title": "Proven Experience",
-        "description": "Insights from a current full-time Business Analyst."
-      },
-      {
-        "title": "Personalized Approach",
-        "description": "Strategic sparring partner who challenges your 'Why'."
-      },
-      {
-        "title": "1-Stop Shop",
-        "description": "Handling everything from process optimization to custom AI builds."
-      },
-      {
-        "title": "Ongoing Support",
-        "description": "Reliability beyond the build to ensure tools stay valuable."
-      }
+      { "title": "Proven Experience",     "description": "Expertise from a current, full-time Business Analyst. I bring real-world solutions — not just theory — straight to your project." },
+      { "title": "Personalized Approach", "description": "I don't just process data. I listen, challenge, and tailor every solution to your specific 'Why.'" },
+      { "title": "1-Stop Shop",           "description": "From Lean optimization and deep analysis to custom AI builds — I handle the entire stack so you don't have to." },
+      { "title": "Ongoing Support",       "description": "Consistent support, honest feedback, and accountability when it matters most." }
     ]
   },
+
   "services": [
-    {
-      "id": "optimize",
-      "hook": "Optimize what’s slow",
-      "service_name": "Process Optimization",
-      "brand_color": "#5d67e6",
-      "method": "Lean Principles",
-      "tags": ["#LeanMethodology", "#WorkflowAutomation", "#EfficiencyAudit", "#OperationalExcellence"],
-      "full_description": "Diving into daily operations to find friction points and eliminate waste (manual data entry, unnecessary handovers).",
-      "target_audience": "Teams bogged down by 'how we’ve always done it'.",
-      "deliverables": "Waste-free workflow blueprints and automated routines."
-    },
-    {
-      "id": "structure",
-      "hook": "Structure what’s messy",
-      "service_name": "Data Architecture & Dashboards",
-      "brand_color": "#5d67e6",
-      "method": "Single Source of Truth",
-      "tags": ["#DataGovernance", "#VisualAnalytics", "#SingleSourceOfTruth", "#InformationArchitecture"],
-      "full_description": "Turning fragmented data sources into a logical, consistent architecture that powers automated dashboards.",
-      "target_audience": "Organizations struggling with multiple versions of the truth.",
-      "deliverables": "Clean data foundations and interactive visual dashboards."
-    },
-    {
-      "id": "uncover",
-      "hook": "Uncover what's hidden",
-      "service_name": "Data Analysis",
-      "brand_color": "#5d67e6",
-      "method": "Strategic Sparring",
-      "tags": ["#StrategicSparring", "#HiddenInsights", "#DataStorytelling", "#ActionableClarity"],
-      "full_description": "Finding the 'hidden gold' in numbers by looking from different angles to uncover missed opportunities.",
-      "target_audience": "Decision-makers with plenty of data but no clear direction.",
-      "deliverables": "Deep-dive insights and actionable strategic narratives."
-    },
-    {
-      "id": "build",
-      "hook": "Build what’s missing",
-      "service_name": "Custom Software & Tools",
-      "brand_color": "#5d67e6",
-      "method": "Innovation Sprints",
-      "tags": ["#AdvancedExcel", "#AIImplementation", "#CustomTooling", "#InnovationSprints"],
-      "full_description": "Building the missing pieces like automated Excel models or AI-integrated tools (ChatGPT implementations).",
-      "target_audience": "Companies outgrowing generic tools who need bespoke solutions.",
-      "deliverables": "Tailor-made Excel templates, software and AI powered integrations."
-    }
+    { "id": "optimize",  "hook": "Optimize what's slow",     "service_name": "Process Optimization",         "brand_color": "#5d67e6", "method": "Lean Principles",       "tags": ["#LeanMethodology",      "#WorkflowAutomation",   "#EfficiencyAudit",         "#OperationalExcellence"], "full_description": "Diving into daily operations to find friction points and eliminate waste (manual data entry, unnecessary handovers).",        "target_audience": "Teams bogged down by 'how we've always done it'.",          "deliverables": "Waste-free workflow blueprints and automated routines." },
+    { "id": "structure", "hook": "Structure what's messy",   "service_name": "Data Architecture & Dashboards","brand_color": "#5d67e6", "method": "Single Source of Truth", "tags": ["#DataGovernance",      "#VisualAnalytics",      "#SingleSourceOfTruth",     "#InformationArchitecture"], "full_description": "Turning fragmented data sources into a logical, consistent architecture that powers automated dashboards.",                  "target_audience": "Organizations struggling with multiple versions of the truth.","deliverables": "Clean data foundations and interactive visual dashboards." },
+    { "id": "uncover",   "hook": "Uncover what's hidden",    "service_name": "Data Analysis",                "brand_color": "#5d67e6", "method": "Strategic Sparring",     "tags": ["#StrategicSparring",   "#HiddenInsights",       "#DataStorytelling",        "#ActionableClarity"], "full_description": "Finding the 'hidden gold' in numbers by looking from different angles to uncover missed opportunities.",                       "target_audience": "Decision-makers with plenty of data but no clear direction.", "deliverables": "Deep-dive insights and actionable strategic narratives." },
+    { "id": "build",     "hook": "Build what's missing",     "service_name": "Custom Software & Tools",      "brand_color": "#5d67e6", "method": "Innovation Sprints",     "tags": ["#AdvancedExcel",       "#AIImplementation",     "#CustomTooling",           "#InnovationSprints"], "full_description": "Building the missing pieces like automated Excel models or AI-integrated tools (ChatGPT implementations).",                   "target_audience": "Companies outgrowing generic tools who need bespoke solutions.","deliverables": "Tailor-made Excel templates, software and AI powered integrations." }
   ],
+
   "process_intro": "Whether I'm acting as your Excel Guru or your AI Strategist, I follow a clear framework to ensure we're building exactly what you need. By starting with your 'Why' and applying a structured Lean mindset, I make sure the 'computer-stuff' actually solves your real-world business problems.",
+
   "proven_process": [
-    { "step": 1, "name": "The Sparring Session", "focus": "Uncovering the 'Why'", "brand_color": "#5d67e6" },
-    { "step": 2, "name": "The Blueprint", "focus": "Mapping efficient paths using Lean Six Sigma", "brand_color": "#363636" },
-    { "step": 3, "name": "The Build & Optimize", "focus": "Rapid realization of the missing pieces", "brand_color": "#cfff71" },
-    { "step": 4, "name": "Value Delivery", "focus": "Refining and ongoing support", "brand_color": "#5d67e6" }
+    { "step": 1, "name": "The Sparring Session",  "focus": "Uncovering the 'Why'",                       "brand_color": "#5d67e6" },
+    { "step": 2, "name": "The Blueprint",         "focus": "Mapping efficient paths using Lean Six Sigma","brand_color": "#363636" },
+    { "step": 3, "name": "The Build & Optimize",  "focus": "Rapid realization of the missing pieces",     "brand_color": "#cfff71" },
+    { "step": 4, "name": "Value Delivery",        "focus": "Refining and ongoing support",                "brand_color": "#5d67e6" }
   ],
+
   "testimonials": [
-    {
-      "quote": "Wouter is truly worth his weight in gold. He addresses issues immediately and has the remarkable ability to grasp a complex request from just half a sentence. As a strategic sparring partner, he consistently looks at things from a different angle, uncovering hidden insights and 'hidden tables' that significantly improve the overall understanding of a project.",
-      "name": "Thomas Hendriks",
-      "role": "Digital Product Manager",
-      "theme": "Intuition & Speed",
-      "dark": false
-    },
-    {
-      "quote": "With a keen eye for efficiency, Wouter proactively tackles process improvements and ensures that no effort is wasted. He always asks the crucial question: 'What do you want to achieve with this data?' This prompts an extra layer of reflection that ensures time is invested in projects that add real value, rather than delivering reports that just end up sitting on the shelf.",
-      "name": "Maud Hermans",
-      "role": "Seo Content Marketeer",
-      "theme": "Value focus",
-      "dark": false
-    },
-    {
-      "quote": "Wouter's greatest strengths are his conceptual thinking and his ability to create structure out of chaos. This is especially clear when he is clarifying complex data flows or defining dashboard requirements. He creates a rock-solid foundation for every project through his structured mindset and drive for consistency, making him a truly valuable asset to any team.",
-      "name": "Jasper Smit",
-      "role": "Lead Business Analyst",
-      "theme": "Structured mindset",
-      "dark": true
-    }
+    { "quote": "Wouter is truly worth his weight in gold. He addresses issues immediately and has the remarkable ability to grasp a complex request from just half a sentence. As a strategic sparring partner, he consistently looks at things from a different angle, uncovering hidden insights and 'hidden tables' that significantly improve the overall understanding of a project.", "name": "Thomas Hendriks", "role": "Digital Product Manager",   "theme": "Intuition & Speed",  "dark": false },
+    { "quote": "With a keen eye for efficiency, Wouter proactively tackles process improvements and ensures that no effort is wasted. He always asks the crucial question: 'What do you want to achieve with this data?' This prompts an extra layer of reflection that ensures time is invested in projects that add real value, rather than delivering reports that just end up sitting on the shelf.", "name": "Maud Hermans", "role": "Seo Content Marketeer",     "theme": "Value focus",        "dark": false },
+    { "quote": "Wouter's greatest strengths are his conceptual thinking and his ability to create structure out of chaos. This is especially clear when he is clarifying complex data flows or defining dashboard requirements. He creates a rock-solid foundation for every project through his structured mindset and drive for consistency, making him a truly valuable asset to any team.", "name": "Jasper Smit", "role": "Lead Business Analyst",     "theme": "Structured mindset", "dark": true  }
   ],
+
   "contact": {
     "label": "Your Next Step Starts Here",
     "tagline": "Ready to level up? Let's build a stronger, faster, and more efficient version — together."
   },
+
   "faq": [
-    {
-      "question": "What kind of businesses do you work with?",
-      "answer": "Small to mid-sized teams that have outgrown generic tools or are stuck in inefficient workflows. The common thread: plenty of data but no clear direction — or a clear direction but no tools to get there."
+    { "question": "What kind of businesses do you work with?",                "answer": "Small to mid-sized teams that have outgrown generic tools or are stuck in inefficient workflows. The common thread: plenty of data but no clear direction — or a clear direction but no tools to get there." },
+    { "question": "What does a typical engagement look like?",                "answer": "Every project starts with The Sparring Session — an honest conversation about the 'Why'. From there, timelines vary from a focused one-week sprint to a multi-month partnership, depending on scope and complexity." },
+    { "question": "How is this different from hiring a regular consultant?",   "answer": "You get a strategic sparring partner, not a report writer. The goal is never a document on a shelf — it's a working solution that creates real value from day one. Half a sentence is usually enough to know exactly what's needed." },
+    { "question": "What tools and technologies do you use?",                  "answer": "The right tool for the right job — always. That means Excel when speed and accessibility matter, Power BI or custom Python dashboards when you need scalable reporting, and AI integrations running inside Databricks or Google Cloud Platform when the problem demands real power. Need something that runs your own scripts on demand? That gets built too. The stack is never decided upfront — it's decided by your use case." },
+    { "question": "Do you work remotely or on-site?",                         "answer": "Primarily remote, with the option for on-site sessions when the work calls for it — particularly for complex data architecture workshops or strategic sparring sessions where being in the room matters." },
+    { "question": "How do we get started?",                                   "answer": "Book a free sparring session. In 30 minutes we'll identify whether there's a fit and what the first concrete step looks like. No pitch deck, no fluff — just an honest conversation about your challenge." }
+  ],
+
+  "design_system": {
+    "typography": {
+      "primary": {
+        "family": "Inter",
+        "import": "https://rsms.me/inter/inter.css",
+        "fallback_stack": "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif",
+        "weights_used": [400, 500, 600, 700, 800],
+        "feature_settings": "'cv11', 'ss01', 'ss03'",
+        "rationale": "Inter is the single voice of the brand. Hierarchy is carried by size, weight, casing and tracking — never by switching family."
+      },
+      "mono_companion": {
+        "family": "JetBrains Mono",
+        "import": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap",
+        "fallback_stack": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+        "weights_used": [400, 500],
+        "purpose": "Reserved exclusively for editorial chrome — section indices, version markers, technical labels, large numerical kickers. NEVER used for paragraph copy, headlines, or button text. Maximum 5% of total text by area.",
+        "removable": "If a true single-typeface site is preferred, drop this and render chrome elements in Inter Medium with letter-spacing 0.06em uppercase — the hierarchy still holds, the technical-instrument feel weakens."
+      },
+      "scale": {
+        "display_xxl": { "role": "Hero brand wordmark",        "size_clamp": "clamp(72px, 16vw, 220px)", "weight": 700, "tracking_em": -0.04, "leading": 0.92, "case": "as-typed", "use_for": "Imagine.Build.Innovate. — the single largest typographic element on the page. One per page maximum." },
+        "display_xl":  { "role": "Section display headline",   "size_clamp": "clamp(44px, 7vw, 96px)",  "weight": 600, "tracking_em": -0.03, "leading": 1.0,  "case": "sentence", "use_for": "First headline of each major section. Limit to one per section." },
+        "headline_lg": { "role": "Hero supporting headline / pull-quote", "size_clamp": "clamp(28px, 4vw, 56px)", "weight": 500, "tracking_em": -0.02, "leading": 1.05, "case": "sentence", "use_for": "The 'Digital experiences that connect, scale and perform.' equivalent. Service titles. Testimonial pull-quotes." },
+        "headline_md": { "role": "Subsection heading",         "size_clamp": "clamp(22px, 2.4vw, 32px)", "weight": 500, "tracking_em": -0.01, "leading": 1.2,  "case": "sentence" },
+        "body_lg":     { "role": "Lead paragraph",             "size_px": 20, "weight": 400, "leading": 1.5,  "tracking_em": 0,     "case": "sentence" },
+        "body_md":     { "role": "Default copy",               "size_px": 16, "weight": 400, "leading": 1.55, "tracking_em": 0,     "case": "sentence" },
+        "caption":     { "role": "Eyebrows / micro-copy",      "size_px": 13, "weight": 500, "leading": 1.3,  "tracking_em": 0.08,  "case": "uppercase", "family": "primary", "use_for": "Section eyebrows, footer captions, tag chips" },
+        "mono_sm":     { "role": "Editorial chrome",           "size_px": 12, "weight": 400, "leading": 1.2,  "tracking_em": 0.02,  "case": "uppercase", "family": "mono",    "use_for": "Section indices (// 00), version markers (\\\\2026), numeric labels" },
+        "mono_xs":     { "role": "Micro chrome",               "size_px": 10, "weight": 500, "leading": 1.1,  "tracking_em": 0.06,  "case": "uppercase", "family": "mono" }
+      },
+      "casing_rules": {
+        "headlines":   "Sentence case. Single accent dot at the terminal punctuation only.",
+        "body":        "Sentence case.",
+        "captions":    "ALL UPPERCASE with letter-spacing 0.08em.",
+        "buttons":     "Sentence case at body_md weight 500. Never uppercase buttons.",
+        "service_tags":"Stylised hashtags as already provided — render in caption style with the # in fg_muted and the word in fg_primary."
+      },
+      "punctuation_accent": {
+        "rule": "The terminal period of any display_xxl or display_xl text is rendered in accent_innovation (#cfff71). Wrap as <span class='accent-dot'>.</span>. This is THE brand-typography signature — borrowed from the slogan rhythm 'Imagine.Build.Innovate.'",
+        "scope": "Maximum 3 accent-dots in the entire viewport at any time. Never on body or caption."
+      },
+      "wordmark_pattern": {
+        "applies_to": ["core_slogan", "any composed verb wordmark like 'Optimize.Structure.Uncover.Build.'"],
+        "render": "Render as a single line on desktop, two lines max on mobile. Words separated by full-stop characters. Each separator dot rendered in accent_structure (#5d67e6). The terminal dot rendered in accent_innovation (#cfff71). All letterforms in fg_primary (or fg_inverse on dark sections).",
+        "html_template": "<h1 class='wordmark'>Imagine<span class='dot-structure'>.</span>Build<span class='dot-structure'>.</span>Innovate<span class='dot-innovation'>.</span></h1>"
+      }
     },
-    {
-      "question": "What does a typical engagement look like?",
-      "answer": "Every project starts with The Sparring Session — an honest conversation about the 'Why'. From there, timelines vary from a focused one-week sprint to a multi-month partnership, depending on scope and complexity."
+
+    "color_tokens": {
+      "bg_primary":         { "value": "#FFFFFF",                "use": "Default page background" },
+      "bg_inverse":         { "value": "#363636",                "use": "Dark sections — testimonial #3, footer, alternating bands, hero variant" },
+      "bg_subtle":          { "value": "#FAFAFA",                "use": "Optional band separator — service grid background, FAQ background" },
+      "fg_primary":         { "value": "#363636",                "use": "Default text on light bg" },
+      "fg_inverse":         { "value": "#FFFFFF",                "use": "Default text on dark bg" },
+      "fg_muted":           { "value": "rgba(54,54,54,0.55)",   "use": "Captions, indices, secondary copy on light bg" },
+      "fg_muted_inverse":   { "value": "rgba(255,255,255,0.55)","use": "Captions on dark bg" },
+      "border_hairline":    { "value": "rgba(54,54,54,0.12)",   "use": "Editorial rules between SHOWREEL-style labels and version markers, FAQ dividers" },
+      "accent_structure":   { "value": "#5d67e6",                "use": "Process step badges, dashboard glyphs, link hover, separator dots in wordmark, structural diagrams" },
+      "accent_innovation":  { "value": "#cfff71",                "use": "Terminal punctuation accents, kicker numerics, build/innovation moments, CTA hover fills, the build step in proven_process" }
     },
-    {
-      "question": "How is this different from hiring a regular consultant?",
-      "answer": "You get a strategic sparring partner, not a report writer. The goal is never a document on a shelf — it's a working solution that creates real value from day one. Half a sentence is usually enough to know exactly what's needed."
+
+    "accent_usage_rules": {
+      "principle": "Each accent earns its place by being scarce. Restraint is what makes them read as brand, not decoration.",
+      "per_section_caps": {
+        "accent_structure_max": 3,
+        "accent_innovation_max": 2
+      },
+      "never": [
+        "Both accents in the same word.",
+        "Accent on body paragraphs.",
+        "Accent on more than one verb in a wordmark separator chain (only the terminal dot is innovation_lime).",
+        "Accent_innovation as a background fill for full sections — it is a punctuation/highlight color, not a surface."
+      ],
+      "always": [
+        "Innovation_lime owns the terminal period of display headlines.",
+        "Structure_blue owns the inter-word dots in wordmarks and the 'structure' service / process step.",
+        "Process step 3 (Build & Optimize) keeps innovation_lime as already specified."
+      ]
     },
-    {
-      "question": "What tools and technologies do you use?",
-      "answer": "Whatever fits the job. Excel and Power BI for data work, Python and SQL for heavier analysis, OpenAI APIs for AI integrations, and Lean Six Sigma principles for process work. The tool follows the problem, not the other way around."
+
+    "layout_grid": {
+      "max_width_px": 1440,
+      "outer_padding_clamp": "clamp(20px, 4vw, 56px)",
+      "gutter_px": 24,
+      "columns_desktop": 12,
+      "columns_tablet": 8,
+      "columns_mobile": 4,
+      "section_padding_y_clamp": "clamp(80px, 12vw, 160px)",
+      "asymmetry_rule": "Section headers anchor to column 1 with a 50–60% type column. Supporting copy and metadata sit in the right gutter or break the grid with a small horizontal bleed for editorial feel. Avoid centred headlines except inside the testimonial section."
     },
-    {
-      "question": "Do you work remotely or on-site?",
-      "answer": "Primarily remote, with the option for on-site sessions when the work calls for it — particularly for complex data architecture workshops or strategic sparring sessions where being in the room matters."
+
+    "editorial_chrome": {
+      "section_index_format": "// 00",
+      "section_index_position": "Top-left of each section, mono_sm in fg_muted (or fg_muted_inverse on dark sections). Increments per primary section: // 00 hero, // 01 value, // 02 services, // 03 process, // 04 testimonials, // 05 faq, // 06 contact.",
+      "version_marker": "\\\\2026",
+      "version_marker_position": "Bottom-right of hero only. mono_sm in fg_muted.",
+      "showreel_band_pattern": "Pattern of LEFT_LABEL ─────── RIGHT_LABEL with a 1px hairline rule in border_hairline filling the available space. Used in the hero footer and at the top of the contact section.",
+      "numeric_kicker_pattern": "Large mono numeric in accent_structure (e.g. '06+ YRS', '4 SERVICES', 'Q2 2026'). Display_xl size for the number, caption size for the label below."
     },
-    {
-      "question": "How do we get started?",
-      "answer": "Book a free sparring session. In 30 minutes we'll identify whether there's a fit and what the first concrete step looks like. No pitch deck, no fluff — just an honest conversation about your challenge."
+
+    "motion": {
+      "default_easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "default_duration_ms": 600,
+      "hero_reveal": "Wordmark animates word-by-word: opacity 0→1, y 24px→0, stagger 80ms per word. Terminal accent-dot scales 0.6→1 on the final word.",
+      "scroll_indices": "Section indices fade in (opacity 0→1, x -8px→0) when their section enters the viewport at 25% threshold.",
+      "no_parallax": true,
+      "respect_reduced_motion": true
+    },
+
+    "imagery": {
+      "rule": "If imagery is used at all, it lives behind or beside the wordmark only — never as a card thumbnail. Subject matter: data textures, network graphs, abstract dashboard fragments. Treat photographic images with a duotone in primary_dark + bg_primary so they read as part of the type system, not decoration.",
+      "iconography": "Use 1.5px stroke line icons in fg_primary or accent_structure. No filled icons. No emoji."
     }
-  ]
+  },
+
+  "page_structure": [
+    {
+      "id": "hero",
+      "section_index": "// 00",
+      "background": "bg_primary",
+      "layout": "full-viewport-asymmetric",
+      "composition": {
+        "section_index_top_left":   { "text": "// 00.01°",                                                                  "style": "mono_sm",      "color": "fg_muted" },
+        "headline_top_left":        { "text": "Data-driven solutions that optimize, structure and innovate.",              "style": "headline_lg",  "color": "fg_primary", "max_lines": 4, "accent_terminal_dot": true },
+        "kicker_top_right_primary": { "text": "06+ YRS",                                                                    "style": "display_xl",   "color": "accent_structure" },
+        "kicker_top_right_secondary":{"text": "FULL-TIME BUSINESS ANALYST · LEAN SIX SIGMA · AI BUILDS",                    "style": "caption",      "color": "fg_muted" },
+        "wordmark_center":          { "data_source": "$.site_info.core_slogan",                                             "style": "display_xxl",  "render_pattern": "wordmark_pattern", "max_lines": 1 },
+        "footer_left":              { "text": "A FREELANCE BUSINESS ANALYST TRUSTED BY DUTCH AND INTERNATIONAL TEAMS. WE TURN DATA INTO DECISIONS.", "style": "caption", "color": "fg_muted" },
+        "footer_right_band":        { "label": "AVAILABLE Q2 2026", "version_marker": "\\\\2026", "pattern": "showreel_band_pattern" }
+      }
+    },
+    {
+      "id": "value_proposition",
+      "section_index": "// 01",
+      "background": "bg_primary",
+      "layout": "split-2-column-asymmetric",
+      "composition": {
+        "eyebrow":   { "text": "WHY DATAJAGERS",                                                  "style": "caption",     "color": "fg_muted" },
+        "headline":  { "text": "What do you want to achieve with this data?",                     "style": "display_xl",  "color": "fg_primary", "accent_terminal_dot": true },
+        "subhead":   { "data_source": "$.value_proposition.methodology",                          "style": "body_lg",     "color": "fg_muted" },
+        "reasons_grid": { "data_source": "$.value_proposition.reasons_to_choose", "layout": "2x2 on desktop, 1-column on mobile", "card_style": { "title": "headline_md", "description": "body_md", "rule": "1px hairline above each card in border_hairline" } }
+      }
+    },
+    {
+      "id": "services",
+      "section_index": "// 02",
+      "background": "bg_primary",
+      "layout": "stacked-editorial-rows",
+      "composition": {
+        "section_wordmark": { "text": "Optimize.Structure.Uncover.Build.", "style": "display_xxl", "render_pattern": "wordmark_pattern", "note": "This is the second wordmark of the site. It mirrors the hero rhythm and tells the reader: these are my four verbs. Same dot-coloring rules apply." },
+        "eyebrow":   { "text": "WHAT I DO", "style": "caption", "color": "fg_muted" },
+        "service_rows": {
+          "data_source": "$.services",
+          "row_template": {
+            "layout": "12-col grid: col 1-2 = numbered index '01–04' in mono_sm; col 3-7 = hook in display_xl with accent_terminal_dot; col 8-12 = service_name + full_description + tags",
+            "tag_style": "caption with the '#' in fg_muted and the word in fg_primary, gap 12px",
+            "divider": "1px hairline above each row in border_hairline; inter-row spacing clamp(48px, 6vw, 96px)"
+          }
+        }
+      }
+    },
+    {
+      "id": "process",
+      "section_index": "// 03",
+      "background": "bg_inverse",
+      "color_inversion": true,
+      "layout": "horizontal-rail-on-desktop, stacked-on-mobile",
+      "composition": {
+        "eyebrow":  { "text": "THE PROVEN PROCESS",                                  "style": "caption",     "color": "fg_muted_inverse" },
+        "headline": { "text": "From Why to working solution in four steps.",         "style": "display_xl",  "color": "fg_inverse", "accent_terminal_dot": true },
+        "intro":    { "data_source": "$.process_intro",                              "style": "body_lg",     "color": "fg_muted_inverse" },
+        "steps_rail": {
+          "data_source": "$.proven_process",
+          "step_template": {
+            "step_index": "mono_sm '// 0{step}' in fg_muted_inverse",
+            "name":       "headline_md in fg_inverse",
+            "focus":      "body_md in fg_muted_inverse",
+            "step_dot":   "12px circle filled with the step's brand_color, sitting on the connecting hairline rail"
+          },
+          "rail_style": "1px horizontal hairline in border_hairline (white at 12% on dark bg), step dots evenly spaced"
+        }
+      }
+    },
+    {
+      "id": "testimonials",
+      "section_index": "// 04",
+      "background": "bg_primary",
+      "layout": "single-column-large-quotes",
+      "composition": {
+        "eyebrow":  { "text": "WHAT CLIENTS SAY",                "style": "caption",     "color": "fg_muted" },
+        "headline": { "text": "Half a sentence. Full picture.",  "style": "display_xl",  "color": "fg_primary", "accent_terminal_dot": true },
+        "quote_template": {
+          "data_source": "$.testimonials",
+          "render_rule": "If item.dark === true, the card background is bg_inverse with text in fg_inverse. Otherwise bg_subtle with text in fg_primary.",
+          "quote":   "headline_lg, weight 500, leading 1.15, accent_terminal_dot=true",
+          "name":    "body_md, weight 600",
+          "role":    "caption, fg_muted (or fg_muted_inverse on dark)",
+          "theme":   "mono_sm in fg_muted, prefixed with '// '"
+        }
+      }
+    },
+    {
+      "id": "faq",
+      "section_index": "// 05",
+      "background": "bg_primary",
+      "layout": "accordion-2-column-headline-left",
+      "composition": {
+        "eyebrow":  { "text": "FAQ",                            "style": "caption",     "color": "fg_muted" },
+        "headline": { "text": "Things people ask before we start.", "style": "display_xl", "color": "fg_primary", "accent_terminal_dot": true },
+        "accordion": {
+          "data_source": "$.faq",
+          "question_style": "headline_md, weight 500",
+          "answer_style":   "body_md, color fg_muted, max-width 60ch",
+          "divider":        "1px hairline in border_hairline above each item",
+          "default_open":   0
+        }
+      }
+    },
+    {
+      "id": "contact",
+      "section_index": "// 06",
+      "background": "bg_inverse",
+      "color_inversion": true,
+      "layout": "centered-statement",
+      "composition": {
+        "eyebrow":  { "data_source": "$.contact.label",         "style": "caption",      "color": "fg_muted_inverse" },
+        "headline": { "data_source": "$.contact.tagline",       "style": "display_xl",   "color": "fg_inverse",       "accent_terminal_dot": true },
+        "cta_primary":  { "label": "Book a sparring session",   "href": "mailto:info@datajagers.nl?subject=Sparring%20Session", "style": "button_primary", "background": "accent_innovation", "color": "fg_primary" },
+        "cta_secondary":{ "label": "+31 6 20 07 65 97",         "href": "tel:+31620076597",                            "style": "button_secondary", "color": "fg_inverse" },
+        "footer_band":  { "label": "FOCUSING ON YOUR WHY",      "version_marker": "\\\\2026", "pattern": "showreel_band_pattern" }
+      }
+    }
+  ],
+
+  "content_extensions": {
+    "hero_kicker_stat": {
+      "primary": "06+ YRS",
+      "secondary": "FULL-TIME BUSINESS ANALYST · LEAN SIX SIGMA · AI BUILDS",
+      "note": "Adjust the number to your real tenure. This is the equivalent of '120+ QUIETLY MAKING NOISE' in the Create\\Studio reference — a single numeric anchor that gives the hero a credibility metric."
+    },
+    "hero_footer_left": "A FREELANCE BUSINESS ANALYST TRUSTED BY DUTCH AND INTERNATIONAL TEAMS. WE TURN DATA INTO DECISIONS.",
+    "section_wordmark_services": "Optimize.Structure.Uncover.Build.",
+    "section_headlines": {
+      "value_proposition": "What do you want to achieve with this data?",
+      "process":           "From Why to working solution in four steps.",
+      "testimonials":      "Half a sentence. Full picture.",
+      "faq":               "Things people ask before we start."
+    }
+  },
+
+  "agent_instructions": {
+    "build_order": [
+      "1. Set up Inter via rsms.me/inter and JetBrains Mono via Google Fonts.",
+      "2. Generate CSS custom properties from design_system.color_tokens and design_system.typography.scale.",
+      "3. Implement the wordmark_pattern as a reusable component <Wordmark text='...'/> that splits on '.' and applies dot-structure / dot-innovation classes.",
+      "4. Render each entry of page_structure in order. Resolve $.path data_sources from the existing top-level fields (services, proven_process, testimonials, faq, etc.).",
+      "5. Apply accent_usage_rules as a lint pass before shipping — count accent occurrences per section.",
+      "6. Add motion last. Respect prefers-reduced-motion."
+    ],
+    "non_negotiables": [
+      "Inter is the only typeface for body, headlines and the wordmark. JetBrains Mono only appears in elements styled mono_sm or mono_xs.",
+      "Brand colors are exactly the four hex values in site_info.branding.colors. No tints or shades except the documented muted/border tokens.",
+      "The hero wordmark must be the largest text on the page.",
+      "Each section gets exactly one display_xl headline.",
+      "The terminal-dot accent appears on every display_xl and on the wordmarks — nowhere else."
+    ],
+    "do_not": [
+      "Do not introduce a third typeface.",
+      "Do not use accent_innovation as a section background.",
+      "Do not centre-align anything except the testimonial quote and the contact statement.",
+      "Do not add gradients, drop shadows on text, or glow effects.",
+      "Do not animate body copy."
+    ]
+  }
 }

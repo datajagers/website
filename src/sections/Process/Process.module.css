@@ -1,185 +1,134 @@
 .section {
-  background-color: var(--color-blue);
-  padding: var(--space-24) var(--space-8);
-  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-  margin-top: calc(var(--radius-3xl) * -1);
-  position: relative;
-  z-index: 3;
-  overflow: hidden;
-  padding-bottom: calc(var(--space-32) + 10px);
-}
-
-.section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 300px 300px;
+  background: var(--bg-inverse);
+  padding: var(--section-y) var(--outer-padding);
 }
 
 .inner {
-  max-width: 1000px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
 
-/* Header — two-column split */
+/* ─── Header ──────────────────────────────────────────────── */
+
 .header {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  align-items: end;
-  margin-bottom: var(--space-16);
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: flex-start;
+  margin-bottom: clamp(56px, 8vw, 120px);
 }
 
 .headerLeft {
   display: flex;
   flex-direction: column;
+  gap: var(--space-5);
 }
 
-.label {
-  display: block;
-  font-family: monospace;
-  font-size: var(--text-sm);
+.eyebrow {
+  color: var(--fg-muted-inverse);
+}
+
+.sectionIndex {
+  color: var(--fg-muted-inverse);
+}
+
+.headline {
+  font-family: var(--font-body);
+  font-size: var(--text-display-xl);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: var(--space-4);
-}
-
-.title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.92;
-  color: var(--color-white);
-}
-
-.titleAccent {
-  color: var(--color-dark);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: var(--fg-inverse);
 }
 
 .intro {
-  font-size: clamp(var(--text-sm), 1.2vw, var(--text-base));
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.7;
-  padding-bottom: var(--space-2);
+  font-size: var(--text-body-lg);
+  line-height: 1.5;
+  color: var(--fg-muted-inverse);
+  padding-top: 0.2em; /* align to headline cap-height */
 }
 
-/* Steps */
-.steps {
-  display: flex;
-  flex-direction: column;
+/* ─── Horizontal step rail ────────────────────────────────── */
+
+.rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+  padding-top: 28px; /* space for dot + rail line above */
 }
+
+/* The connecting horizontal hairline */
+.railLine {
+  position: absolute;
+  top: 14px; /* vertically centred on the 12px dot */
+  left: 6px;
+  right: 6px;
+  height: 1px;
+  background: var(--border-hairline-inv);
+  transform-origin: left center;
+}
+
+/* ─── Step ────────────────────────────────────────────────── */
 
 .step {
-  cursor: default;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
 }
 
-/* Animated rule */
-.rule {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  transform-origin: left;
+/* 12px dot sitting on the rail */
+.stepDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-bottom: var(--space-2);
+  position: relative;
+  z-index: 1;
 }
 
-/* Row */
-.row {
-  display: grid;
-  grid-template-columns: 4rem 1fr auto;
-  align-items: center;
-  gap: var(--space-8);
-  padding: var(--space-8) 0;
-  transition: background var(--duration-fast) var(--ease-out);
-  border-radius: var(--radius-md);
+.stepIndex {
+  color: var(--fg-muted-inverse);
 }
 
-.step:hover .row {
-  background: rgba(255, 255, 255, 0.05);
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
+.stepName {
+  font-family: var(--font-body);
+  font-size: var(--text-headline-md);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--fg-inverse);
 }
 
-/* Step number */
-.num {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.35);
-  align-self: flex-start;
-  padding-top: 0.2em;
-}
-
-/* Step name — masked reveal */
-.nameWrap {
-  overflow: hidden;
-  padding-bottom: 0.08em; /* prevent descender clip */
-}
-
-.name {
-  font-family: var(--font-display);
-  font-size: clamp(var(--text-3xl), 5.5vw, var(--text-7xl));
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--color-white);
-  display: block;
-}
-
-/* Focus text */
-.focus {
-  font-size: var(--text-base);
-  color: rgba(255, 255, 255, 0.65);
+.stepFocus {
+  font-size: var(--text-body-md);
   line-height: 1.55;
-  max-width: 28ch;
-  text-align: right;
+  color: var(--fg-muted-inverse);
 }
 
-/* Responsive */
+/* ─── Responsive ──────────────────────────────────────────── */
+
 @media (max-width: 900px) {
   .header {
     grid-template-columns: 1fr;
   }
+}
 
-  .row {
-    grid-template-columns: 3rem 1fr;
-    grid-template-rows: auto auto;
-    gap: var(--space-3) var(--space-4);
+@media (max-width: 768px) {
+  .rail {
+    grid-template-columns: 1fr 1fr;
+    row-gap: clamp(40px, 6vw, 64px);
   }
 
-  .focus {
-    grid-column: 2;
-    text-align: left;
-    max-width: 100%;
-  }
-
-  .name {
-    font-size: clamp(var(--text-2xl), 7vw, var(--text-4xl));
+  .railLine {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .section {
-    padding: var(--space-16) var(--space-5) calc(var(--radius-4xl) + var(--space-10));
-  }
-
-  .header {
-    margin-bottom: var(--space-10);
-  }
-
-  .row {
-    grid-template-columns: 2.5rem 1fr;
-    padding: var(--space-6) 0;
-    gap: var(--space-2) var(--space-3);
-  }
-
-  .intro {
-    font-size: var(--text-sm);
+  .rail {
+    grid-template-columns: 1fr;
   }
 }

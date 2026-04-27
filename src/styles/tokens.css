@@ -1,42 +1,60 @@
 :root {
-  /* Brand colours */
-  --color-dark: #363636;
+  /* ─── Brand colors (exact hex — no tints) ────────────────── */
+  --color-dark:  #363636;
   --color-white: #ffffff;
-  --color-blue: #5d67e6;
-  --color-lime: #cfff71;
+  --color-blue:  #5d67e6;
+  --color-lime:  #cfff71;
 
-  /* Semantic roles */
-  --color-bg-primary: var(--color-blue);
-  --color-bg-dark: var(--color-dark);
-  --color-text-on-blue: var(--color-white);
-  --color-text-on-dark: var(--color-white);
-  --color-accent: var(--color-lime);
+  /* ─── Semantic surface tokens ────────────────────────────── */
+  --bg-primary:          #ffffff;
+  --bg-inverse:          #363636;
+  --bg-subtle:           #fafafa;
+  --fg-primary:          #363636;
+  --fg-inverse:          #ffffff;
+  --fg-muted:            rgba(54, 54, 54, 0.55);
+  --fg-muted-inverse:    rgba(255, 255, 255, 0.55);
+  --border-hairline:     rgba(54, 54, 54, 0.12);
+  --border-hairline-inv: rgba(255, 255, 255, 0.12);
+  --accent-structure:    #5d67e6;
+  --accent-innovation:   #cfff71;
 
-  /* Typography */
-  --font-display: 'Barlow Condensed', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* ─── Typography — families ──────────────────────────────── */
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system,
+               'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
-  --text-8xl: 6rem;
+  /* ─── Typography — scale ─────────────────────────────────── */
+  --text-display-xxl: clamp(72px, 16vw, 220px);  /* hero wordmark       */
+  --text-display-xl:  clamp(44px, 7vw, 96px);    /* section headline    */
+  --text-headline-lg: clamp(28px, 4vw, 56px);    /* pull-quote / hero h */
+  --text-headline-md: clamp(22px, 2.4vw, 32px);  /* subsection heading  */
+  --text-body-lg:     20px;
+  --text-body-md:     16px;
+  --text-caption:     13px;
+  --text-mono-sm:     12px;
+  --text-mono-xs:     10px;
 
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
+  /* ─── Weight aliases ─────────────────────────────────────── */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+  --weight-extrabold:800;
+
+  /* ─── Layout ─────────────────────────────────────────────── */
+  --max-width:     1440px;
+  --outer-padding: clamp(20px, 4vw, 56px);
+  --section-y:     clamp(80px, 12vw, 160px);
+  --gutter:        24px;
+
+  /* ─── Spacing (kept for component internals) ─────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
@@ -44,45 +62,15 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
-  /* Layout */
-  --max-width: 1280px;
-  --section-padding: var(--space-24) var(--space-8);
-
-  /* Border radius — Apple-like premium feel */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-2xl: 40px;
-  --radius-3xl: 60px;
-  --radius-4xl: 80px;
+  /* ─── Border radius (buttons / small elements only) ─────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
   --radius-pill: 999px;
 
-  /* Borders */
-  --border-rule: 1px solid var(--color-blue);
-  --border-rule-dark: 1px solid rgba(255, 255, 255, 0.12);
-
-  /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* ─── Motion ─────────────────────────────────────────────── */
+  --ease-out:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring:   cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 200ms;
-  --duration-base: 350ms;
-  --duration-slow: 600ms;
-}
-
-/* Scale down large radii on tablet */
-@media (max-width: 768px) {
-  :root {
-    --radius-2xl: 28px;
-    --radius-3xl: 40px;
-    --radius-4xl: 52px;
-  }
-}
-
-/* Scale down further on mobile */
-@media (max-width: 480px) {
-  :root {
-    --radius-2xl: 20px;
-    --radius-3xl: 28px;
-    --radius-4xl: 36px;
-  }
+  --duration-base: 600ms;
+  --duration-slow: 900ms;
 }
