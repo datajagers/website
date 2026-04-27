@@ -40,13 +40,19 @@ export function Testimonials() {
     <section className={styles.section} id="testimonials">
       <div className={styles.inner}>
 
-        <div className={styles.header}>
+        <motion.div
+          className={styles.header}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        >
           <span className={styles.label}>{'{Testimonials}'}</span>
           <h2 className={styles.title}>
             Real <span className={styles.highlight}>Results</span>.<br />
             Real Feedback.
           </h2>
-        </div>
+        </motion.div>
 
         <motion.div
           className={styles.grid}
@@ -60,6 +66,7 @@ export function Testimonials() {
               key={i}
               className={`${styles.card} ${t.dark ? styles.cardDark : styles.cardLight}`}
               variants={cardVariant}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
             >
               <div className={styles.cardTop}>
                 <span className={styles.openQuote} aria-hidden>&ldquo;</span>

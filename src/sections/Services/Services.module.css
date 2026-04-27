@@ -79,7 +79,7 @@
 }
 
 .card:hover .image {
-  transform: scale(1.04);
+  transform: scale(1.08);
 }
 
 .imageOverlay {

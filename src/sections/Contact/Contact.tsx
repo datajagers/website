@@ -17,10 +17,14 @@ const encode = (data: Record<string, string>) =>
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join('&')
 
+const EXPLODE_MS = 720
+
 export function Contact() {
   const [form, setForm] = useState<FormState>(EMPTY)
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [explodeOrigin, setExplodeOrigin] = useState<{ x: string; y: string } | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const buttonRef  = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (status === 'sent') {
@@ -35,21 +39,62 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
+    const start = Date.now()
+
+    // Measure button center relative to section and start explosion
+    if (sectionRef.current && buttonRef.current) {
+      const sr = sectionRef.current.getBoundingClientRect()
+      const br = buttonRef.current.getBoundingClientRect()
+      setExplodeOrigin({
+        x: `${(((br.left + br.width / 2) - sr.left) / sr.width * 100).toFixed(1)}%`,
+        y: `${(((br.top + br.height / 2) - sr.top) / sr.height * 100).toFixed(1)}%`,
+      })
+    }
+
+    const waitForExplosion = () => {
+      const remaining = EXPLODE_MS - (Date.now() - start)
+      return remaining > 0 ? new Promise<void>(r => setTimeout(r, remaining)) : Promise.resolve()
+    }
+
     try {
       await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({ 'form-name': 'contact', ...form }),
       })
-      setStatus('sent')
       setForm(EMPTY)
+      await waitForExplosion()
+      setStatus('sent')
     } catch {
+      await waitForExplosion()
       setStatus('error')
+      setExplodeOrigin(null)
     }
   }
 
   return (
     <section className={styles.section} id="contact" ref={sectionRef}>
+
+      {/* Lime explosion — covers entire section from button center */}
+      {explodeOrigin && (
+        <div
+          className={styles.explodeOverlay}
+          style={{ '--ox': explodeOrigin.x, '--oy': explodeOrigin.y } as React.CSSProperties}
+        >
+          {status === 'sent' && (
+            <motion.div
+              className={styles.successInner}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className={styles.successTitle}>Message received.</p>
+              <p className={styles.successSub}>I'll get back to you within one business day.</p>
+            </motion.div>
+          )}
+        </div>
+      )}
+
       <div className={styles.inner}>
 
         {/* Header */}
@@ -67,18 +112,8 @@ export function Contact() {
           <p className={styles.tagline}>{contact.tagline}</p>
         </motion.div>
 
-        {/* Form */}
-        {status === 'sent' ? (
-          <motion.div
-            className={styles.successMessage}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className={styles.successTitle}>Message received.</p>
-            <p className={styles.successSub}>I'll get back to you within one business day.</p>
-          </motion.div>
-        ) : (
+        {/* Form — hidden once sent */}
+        {status !== 'sent' && (
           <motion.form
             className={styles.form}
             name="contact"
@@ -95,47 +130,21 @@ export function Contact() {
             <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="bot-field" />
 
-            {/* Name + Email */}
             <div className={styles.row}>
               <div className={styles.field}>
                 <label className={styles.fieldLabel} htmlFor="name">Name</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  className={styles.input}
-                  placeholder="Tom Janssen"
-                  value={form.name}
-                  onChange={set('name')}
-                  required
-                />
+                <input id="name" name="name" type="text" className={styles.input} placeholder="Tom Janssen" value={form.name} onChange={set('name')} required />
               </div>
               <div className={styles.field}>
                 <label className={styles.fieldLabel} htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  className={styles.input}
-                  placeholder="tom@company.com"
-                  value={form.email}
-                  onChange={set('email')}
-                  required
-                />
+                <input id="email" name="email" type="email" className={styles.input} placeholder="tom@company.com" value={form.email} onChange={set('email')} required />
               </div>
             </div>
 
-            {/* Service Interest */}
             <div className={styles.fieldHalf}>
               <label className={styles.fieldLabel} htmlFor="service">Service Interest</label>
               <div className={styles.selectWrap}>
-                <select
-                  id="service"
-                  name="service"
-                  className={styles.select}
-                  value={form.service}
-                  onChange={set('service')}
-                >
+                <select id="service" name="service" className={styles.select} value={form.service} onChange={set('service')}>
                   <option value="">Select a service…</option>
                   {services.map((s) => (
                     <option key={s.id} value={s.service_name}>{s.service_name}</option>
@@ -146,27 +155,21 @@ export function Contact() {
               </div>
             </div>
 
-            {/* Message */}
             <div className={styles.field}>
               <label className={styles.fieldLabel} htmlFor="message">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                className={styles.textarea}
-                placeholder="Share anything you'd like"
-                value={form.message}
-                onChange={set('message')}
-                rows={6}
-                required
-              />
+              <textarea id="message" name="message" className={styles.textarea} placeholder="Share anything you'd like" value={form.message} onChange={set('message')} rows={6} required />
             </div>
 
-            {/* Submit */}
             <div className={styles.submitRow}>
               {status === 'error' && (
                 <p className={styles.errorMessage}>Something went wrong — please try again.</p>
               )}
-              <button type="submit" className={styles.submit} disabled={status === 'sending'}>
+              <button
+                ref={buttonRef}
+                type="submit"
+                className={styles.submit}
+                disabled={status === 'sending'}
+              >
                 {status === 'sending' ? 'Sending…' : 'Get In Touch'}
               </button>
             </div>

@@ -2,6 +2,24 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&display=swap');
 
+/* ─── Ambient keyframes ─────────────────────────────────────── */
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1);     opacity: 0.045; }
+  50%       { transform: scale(1.08); opacity: 0.068; }
+}
+
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(207, 255, 113, 0); }
+  50%       { box-shadow: 0 0 0 6px rgba(207, 255, 113, 0.22), 0 0 28px rgba(207, 255, 113, 0.1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0,    0);     }
+  40%       { transform: translate(20px, -24px); }
+  70%       { transform: translate(-10px,-12px); }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

@@ -2,6 +2,7 @@ import './styles/global.css'
 import { Navbar } from './components/Navbar/Navbar'
 import { Hero } from './sections/Hero/Hero'
 import { Services } from './sections/Services/Services'
+import { WhyUs } from './sections/WhyUs/WhyUs'
 import { Process } from './sections/Process/Process'
 import { Testimonials } from './sections/Testimonials/Testimonials'
 import { FAQ } from './sections/FAQ/FAQ'
@@ -15,6 +16,7 @@ function App() {
       <main>
         <Hero />
         <Services />
+        <WhyUs />
         <Process />
         <Testimonials />
         <FAQ />

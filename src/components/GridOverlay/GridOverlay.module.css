@@ -1,0 +1,287 @@
+.wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 660px;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, white 38%),
+    linear-gradient(to bottom, white 68%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, white 38%),
+    linear-gradient(to bottom, white 68%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* ── Layout wrapper ─────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding-right: 32px;
+  /* padding-top set via inline style from Hero measurement */
+}
+
+/* ── Excel grid ─────────────────────────────────────────── */
+
+.grid {
+  display: flex;
+  pointer-events: all;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.col:first-child  { width: 32px; }
+.col:not(:first-child) { width: 72px; }
+.col:last-child   { border-right: none; }
+
+.header {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.colLabel {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.cell {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+  transition: background-color 0.35s ease;
+}
+
+.col:first-child .cell {
+  justify-content: center;
+  padding: 0;
+}
+
+.active       { background-color: rgba(255, 255, 255, 0.07); }
+.cellCenter   { justify-content: center; }
+.cellHeader   { background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+.cellTotal    { background: rgba(255, 255, 255, 0.04); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.cellPreTotal { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+
+.rowNum {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.13);
+}
+
+.value {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.26);
+  white-space: nowrap;
+  transition: color 0.35s ease;
+}
+
+.valueActive { color: rgba(207, 255, 113, 0.75); }
+.valueHeader { color: rgba(255, 255, 255, 0.42); font-weight: 700; letter-spacing: 0.04em; }
+.valueTotal  { color: rgba(207, 255, 113, 0.55); font-weight: 700; }
+
+/* ── Cards row ──────────────────────────────────────────── */
+
+.cardsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ── Dashboard card ─────────────────────────────────────── */
+
+.dashCard {
+  flex: 1;
+  min-width: 0;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px 8px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.dashHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.dashDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(207, 255, 113, 0.7);
+  flex-shrink: 0;
+}
+
+.dashTitle {
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 56px;
+  overflow: visible;
+}
+
+.barWrap {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: visible;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.barHi {
+  background: rgba(207, 255, 113, 0.45);
+}
+
+.barLabel {
+  font-family: 'Courier New', monospace;
+  font-size: 6px;
+  color: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.dashFooter {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 14px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dashStat {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(207, 255, 113, 0.6);
+}
+
+.dashLabel {
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Python code card ───────────────────────────────────── */
+
+.codeCard {
+  flex: 1;
+  min-width: 0;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.codeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.codeFileName {
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.28);
+  margin-left: 4px;
+}
+
+.codeBody {
+  padding: 8px 4px 8px 0;
+}
+
+.codeLine {
+  display: flex;
+  align-items: baseline;
+  line-height: 1.7;
+  white-space: pre;
+}
+
+.lineNum {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.15);
+  width: 24px;
+  text-align: right;
+  padding-right: 8px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Token colours */
+.tokKw { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(207, 255, 113, 0.62); }
+.tokId { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(255, 255, 255, 0.48); }
+.tokSt { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(255, 213, 128, 0.58); }
+.tokCm { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(255, 255, 255, 0.22); font-style: italic; }
+.tokOp { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(255, 255, 255, 0.38); }
+.tokNm { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(160, 190, 255, 0.65); }
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* Tablet: hide the grid, keep the cards */
+@media (max-width: 960px) {
+  .grid { display: none; }
+  .content { padding-right: 16px; }
+  .cardsRow { gap: 6px; }
+}
+
+/* Mobile: hide everything */
+@media (max-width: 768px) {
+  .wrap { display: none; }
+}

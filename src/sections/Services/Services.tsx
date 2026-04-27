@@ -23,12 +23,18 @@ export function Services() {
   return (
     <section className={styles.section} id="services">
       <div className={styles.inner}>
-        <div className={styles.header}>
+        <motion.div
+          className={styles.header}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        >
           <span className={styles.label}>{'{What We Do}'}</span>
           <h2 className={styles.title}>
             Four Ways To Move <span className={styles.titleAccent}>Forward</span>
           </h2>
-        </div>
+        </motion.div>
 
         <motion.div
           className={styles.grid}

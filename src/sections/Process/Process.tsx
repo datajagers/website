@@ -27,7 +27,13 @@ export function Process() {
     <section className={styles.section} id="process">
       <div className={styles.inner}>
 
-        <div className={styles.header}>
+        <motion.div
+          className={styles.header}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div className={styles.headerLeft}>
             <span className={styles.label}>{'{How It Works}'}</span>
             <h2 className={styles.title}>
@@ -37,7 +43,7 @@ export function Process() {
             </h2>
           </div>
           <p className={styles.intro}>{process_intro}</p>
-        </div>
+        </motion.div>
 
         <div className={styles.steps}>
           {proven_process.map((step) => (

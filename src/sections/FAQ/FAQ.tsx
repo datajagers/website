@@ -56,7 +56,13 @@ export function FAQ() {
     <section className={styles.section} id="faq">
       <div className={styles.inner}>
 
-        <div className={styles.left}>
+        <motion.div
+          className={styles.left}
+          initial={{ opacity: 0, x: -32 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        >
           <span className={styles.label}>{'{FAQ}'}</span>
           <h2 className={styles.title}>
             Got<br />
@@ -65,7 +71,7 @@ export function FAQ() {
           <p className={styles.sub}>
             Straight answers.<br />No fluff.
           </p>
-        </div>
+        </motion.div>
 
         <div className={styles.right}>
           {faq.map((item, i) => (
