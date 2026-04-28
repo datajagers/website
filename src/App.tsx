@@ -8,6 +8,7 @@ import { Testimonials } from './sections/Testimonials/Testimonials'
 import { FAQ } from './sections/FAQ/FAQ'
 import { Contact } from './sections/Contact/Contact'
 import { Footer } from './sections/Footer/Footer'
+import { PrivacyNotice } from './components/PrivacyNotice/PrivacyNotice'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <PrivacyNotice />
     </>
   )
 }

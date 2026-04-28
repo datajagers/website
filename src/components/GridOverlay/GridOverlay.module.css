@@ -16,13 +16,21 @@
   mask-composite: intersect;
 }
 
-/* ── Layout wrapper ─────────────────────────────────────── */
-
 .content {
   display: flex;
   flex-direction: column;
   padding-right: 32px;
-  /* padding-top set via inline style from Hero measurement */
+}
+
+/* ── Sequential pulse keyframe ──────────────────────────── */
+
+@keyframes cellPulse {
+  0%, 7%, 93%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(207, 255, 113, 0.045);
+  }
 }
 
 /* ── Excel grid ─────────────────────────────────────────── */
@@ -39,9 +47,9 @@
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.col:first-child  { width: 32px; }
-.col:not(:first-child) { width: 72px; }
-.col:last-child   { border-right: none; }
+.col:first-child         { width: 32px; }
+.col:not(:first-child)   { width: 72px; }
+.col:last-child          { border-right: none; }
 
 .header {
   height: 24px;
@@ -69,7 +77,10 @@
   padding: 0 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
-  transition: background-color 0.35s ease;
+  transition: background-color 0.3s ease;
+  /* Sequential wave: each cell peaks at a different point in the cycle */
+  animation: cellPulse 7s ease-in-out infinite;
+  animation-delay: calc(var(--pi, 0) * 55ms);
 }
 
 .col:first-child .cell {
@@ -77,10 +88,10 @@
   padding: 0;
 }
 
-.active       { background-color: rgba(255, 255, 255, 0.07); }
+.active       { background-color: rgba(255, 255, 255, 0.08) !important; }
 .cellCenter   { justify-content: center; }
-.cellHeader   { background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
-.cellTotal    { background: rgba(255, 255, 255, 0.04); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.cellHeader   { background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.14); animation: none; }
+.cellTotal    { background: rgba(255, 255, 255, 0.04); border-top: 1px solid rgba(255, 255, 255, 0.14); animation: none; }
 .cellPreTotal { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 
 .rowNum {
@@ -94,12 +105,13 @@
   font-size: 10px;
   color: rgba(255, 255, 255, 0.26);
   white-space: nowrap;
-  transition: color 0.35s ease;
+  transition: color 0.3s ease;
 }
 
-.valueActive { color: rgba(207, 255, 113, 0.75); }
+.valueActive { color: rgba(207, 255, 113, 0.8); }
 .valueHeader { color: rgba(255, 255, 255, 0.42); font-weight: 700; letter-spacing: 0.04em; }
 .valueTotal  { color: rgba(207, 255, 113, 0.55); font-weight: 700; }
+.valueDelta  { color: rgba(120, 220, 140, 0.5); }
 
 /* ── Cards row ──────────────────────────────────────────── */
 
@@ -107,6 +119,7 @@
   display: flex;
   gap: 8px;
   margin-top: 10px;
+  pointer-events: all;
 }
 
 /* ── Dashboard card ─────────────────────────────────────── */
@@ -120,6 +133,14 @@
   padding: 10px 12px 8px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow   var(--duration-fast) var(--ease-out);
+}
+
+.dashCard:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 .dashHeader {
@@ -144,6 +165,17 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
+  flex: 1;
+}
+
+.dashChip {
+  font-family: 'Courier New', monospace;
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  color: rgba(207, 255, 113, 0.55);
+  border: 1px solid rgba(207, 255, 113, 0.2);
+  border-radius: 3px;
+  padding: 1px 4px;
 }
 
 .barChart {
@@ -171,9 +203,7 @@
   flex-shrink: 0;
 }
 
-.barHi {
-  background: rgba(207, 255, 113, 0.45);
-}
+.barHi { background: rgba(207, 255, 113, 0.45); }
 
 .barLabel {
   font-family: 'Courier New', monospace;
@@ -206,7 +236,7 @@
   color: rgba(255, 255, 255, 0.25);
 }
 
-/* ── Python code card ───────────────────────────────────── */
+/* ── Code card ──────────────────────────────────────────── */
 
 .codeCard {
   flex: 1;
@@ -217,6 +247,14 @@
   overflow: hidden;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow   var(--duration-fast) var(--ease-out);
+}
+
+.codeCard:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 .codeHeader {
@@ -242,9 +280,7 @@
   margin-left: 4px;
 }
 
-.codeBody {
-  padding: 8px 4px 8px 0;
-}
+.codeBody { padding: 8px 4px 8px 0; }
 
 .codeLine {
   display: flex;
@@ -274,14 +310,12 @@
 
 /* ── Responsive ─────────────────────────────────────────── */
 
-/* Tablet: hide the grid, keep the cards */
 @media (max-width: 960px) {
   .grid { display: none; }
   .content { padding-right: 16px; }
   .cardsRow { gap: 6px; }
 }
 
-/* Mobile: hide everything */
 @media (max-width: 768px) {
   .wrap { display: none; }
 }

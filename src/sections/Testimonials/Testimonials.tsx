@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
 import { testimonials } from '@/data/identity'
+import { ScrambleText } from '@/components/ScrambleText'
 import styles from './Testimonials.module.css'
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 36 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 28, rotateX: 10 },
+  visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 }
 
 function Stars({ dark }: { dark: boolean }) {
@@ -27,7 +28,6 @@ function Avatar({ name }: { name: string }) {
     .join('')
     .slice(0, 2)
     .toUpperCase()
-
   return (
     <div className={styles.avatar} aria-hidden>
       {initials}
@@ -40,33 +40,42 @@ export function Testimonials() {
     <section className={styles.section} id="testimonials">
       <div className={styles.inner}>
 
+        {/* ── Header: progressive reveal ───────────────────── */}
         <motion.div
           className={styles.header}
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className={styles.label}>// Testimonials</span>
-          <h2 className={styles.title}>
+          <ScrambleText className={styles.label}>// Testimonials</ScrambleText>
+          <motion.h2
+            className={styles.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ delay: 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
             Real <span className={styles.highlight}>Results</span>.<br />
             Real Feedback.
-          </h2>
+          </motion.h2>
         </motion.div>
 
+        {/* ── Cards: staggered wave ─────────────────────────── */}
         <motion.div
           className={styles.grid}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ staggerChildren: 0.13 }}
+          transition={{ staggerChildren: 0.1 }}
         >
           {testimonials.map((t, i) => (
             <motion.article
               key={i}
               className={`${styles.card} ${t.dark ? styles.cardDark : styles.cardLight}`}
               variants={cardVariant}
-              whileHover={{ scale: 1.03, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+              whileHover={{ y: -6, rotateX: 4, rotateY: -3, transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } }}
+              style={{ transformPerspective: 900 }}
             >
               <div className={styles.cardTop}>
                 <span className={styles.openQuote} aria-hidden>&ldquo;</span>

@@ -1,10 +1,24 @@
 .section {
   background-color: var(--color-dark);
-  padding: var(--space-24) var(--space-8) calc(var(--space-24) + 10px);
-  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
-  margin-top: calc(var(--radius-2xl) * -1);
+  padding: var(--space-16) 0 calc(var(--space-24) + 10px);
   position: relative;
   z-index: 2;
+  overflow: hidden; /* clips the oversized scaling title */
+}
+
+/* ─── Big scaling title ───────────────────────────────────── */
+
+.bigTitleBlock {
+  padding: 0 var(--space-8);
+  margin-bottom: var(--space-16);
+}
+
+.bigTitleText {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
 }
 
 .inner {

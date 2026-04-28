@@ -1,52 +1,104 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { value_proposition } from '@/data/identity'
+import { FitText } from '@/components/FitText'
+import { ScrambleText } from '@/components/ScrambleText'
 import styles from './WhyUs.module.css'
 
-const fadeUp = (delay = 0) => ({
-  initial:     { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport:    { once: true, margin: '-60px' },
-  transition:  { delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
-})
-
 export function WhyUs() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  // Title slides down from above the container, driven by scroll progress
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'start start'],
+  })
+  const titleY       = useTransform(scrollYProgress, [0, 1], ['-110%', '0%'])
+  const titleOpacity = useTransform(scrollYProgress, [0.15, 0.55], [0, 1])
+
   return (
-    <section className={styles.section} id="why">
+    <section ref={sectionRef} className={styles.section} id="why">
+
+      {/* ── Title slides in from top on scroll ───────────── */}
+      <div className={styles.bigTitleBlock}>
+        <motion.div style={{ y: titleY, opacity: titleOpacity }}>
+          <FitText className={styles.bigTitleText}>The Difference</FitText>
+        </motion.div>
+      </div>
+
       <div className={styles.inner}>
         <div className={styles.layout}>
 
-          {/* ── Left: sticky anchor ──────────────────────────── */}
+          {/* ── Left: sticky anchor ──────────────────────── */}
           <motion.div
             className={styles.left}
-            initial={{ opacity: 0, x: -32 }}
+            initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className={styles.eyebrow}>// Why Datajagers</span>
+            <ScrambleText className={styles.eyebrow}>// Why Datajagers</ScrambleText>
 
-            <h2 className={styles.headline}>
-              The<br />
-              <span className={styles.headlineAccent}>Difference</span>
-            </h2>
+            <motion.div
+              className={styles.headline}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
+              <span className={styles.headlineLine}>Our</span>
+              <span className={`${styles.headlineLine} ${styles.headlineAccent}`}>DNA</span>
+            </motion.div>
 
-            <blockquote className={styles.pullQuote}>
+            <motion.blockquote
+              className={styles.pullQuote}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ delay: 0.35, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
               {value_proposition.the_crucial_question}
-            </blockquote>
+            </motion.blockquote>
           </motion.div>
 
-          {/* ── Right: USP grid ──────────────────────────────── */}
+          {/* ── Right: USP grid ──────────────────────────── */}
           <div className={styles.right}>
             {value_proposition.reasons_to_choose.map((reason, i) => (
               <motion.div
                 key={reason.title}
                 className={styles.reason}
-                {...fadeUp(0.08 + i * 0.08)}
+                initial={{ opacity: 0, y: 18, rotateX: 8 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ delay: i * 0.09, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, rotateX: 3, rotateY: -2 }}
+                style={{ transformPerspective: 800 }}
               >
-                <div className={styles.reasonRule} />
-                <span className={styles.reasonNum}>0{i + 1}</span>
-                <h3 className={styles.reasonTitle}>{reason.title}</h3>
-                <p className={styles.reasonBody}>{reason.description}</p>
+                {/* Rule draws in from left before content appears */}
+                <motion.div
+                  className={styles.reasonRule}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ delay: i * 0.09, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: 'left' }}
+                />
+
+                <span className={styles.reasonNum}>{`// 0${i + 1}`}</span>
+
+                <h3 className={styles.reasonTitle}>
+                  {reason.title}
+                </h3>
+
+                <motion.p
+                  className={styles.reasonBody}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ delay: i * 0.09 + 0.22, duration: 0.5 }}
+                >
+                  {reason.description}
+                </motion.p>
               </motion.div>
             ))}
           </div>

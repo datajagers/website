@@ -1,7 +1,5 @@
 .footer {
   background-color: var(--color-white);
-  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-  margin-top: calc(var(--radius-3xl) * -1);
   position: relative;
   z-index: 7;
 }
@@ -143,12 +141,23 @@
   align-items: center;
 }
 
+.bottomLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
 .copyright {
   font-family: var(--font-mono);
   font-size: var(--type-label-size);
   font-weight: 400;
   letter-spacing: 0.04em;
   color: rgba(54, 54, 54, 0.4);
+  text-decoration: none;
+}
+
+a.copyright:hover {
+  color: rgba(54, 54, 54, 0.8);
 }
 
 /* Responsive */

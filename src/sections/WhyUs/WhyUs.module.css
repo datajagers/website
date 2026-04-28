@@ -1,15 +1,32 @@
 .section {
   background-color: var(--color-white);
-  padding: var(--space-24) var(--space-8) calc(var(--space-24) + 10px);
-  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-  margin-top: calc(var(--radius-3xl) * -1);
+  padding: var(--space-16) 0 calc(var(--space-24) + 10px);
   position: relative;
   z-index: 3;
+  overflow: hidden;
+}
+
+/* ── Big scaling title ───────────────────────────────────── */
+
+.bigTitleBlock {
+  padding: 0 var(--space-8);
+  margin-bottom: var(--space-16);
+  overflow: hidden;
+}
+
+.bigTitleText {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-dark);
+  opacity: 0.07;
 }
 
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: 0 var(--space-8);
 }
 
 /* ── Layout ──────────────────────────────────────────────── */
@@ -42,6 +59,11 @@
 }
 
 .headline {
+  display: flex;
+  flex-direction: column;
+}
+
+.headlineLine {
   font-family: var(--font-display);
   font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 700;
@@ -49,6 +71,7 @@
   letter-spacing: -0.02em;
   line-height: 0.92;
   color: var(--color-dark);
+  display: block;
 }
 
 .headlineAccent {
@@ -136,14 +159,18 @@
 
 @media (max-width: 600px) {
   .section {
-    padding: var(--space-20) var(--space-5) calc(var(--radius-3xl) + var(--space-10));
+    padding: var(--space-12) 0 calc(var(--radius-3xl) + var(--space-10));
+  }
+
+  .inner {
+    padding: 0 var(--space-5);
   }
 
   .right {
     grid-template-columns: 1fr;
   }
 
-  .headline {
+  .headlineLine {
     font-size: clamp(2.5rem, 10vw, 4rem);
   }
 }

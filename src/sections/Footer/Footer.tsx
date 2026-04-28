@@ -59,7 +59,10 @@ export function Footer() {
           <hr className={styles.rule} />
           <div className={styles.bottomRow}>
             <p className={styles.copyright}>© {YEAR} {site_info.brand_name}. All rights reserved.</p>
-            <p className={styles.copyright}>Built by {site_info.founder}</p>
+            <div className={styles.bottomLinks}>
+              <a href="/privacy" className={styles.copyright}>Privacy Policy</a>
+              <p className={styles.copyright}>Built by {site_info.founder}</p>
+            </div>
           </div>
         </div>
       </div>
