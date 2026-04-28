@@ -19,7 +19,13 @@
   align-items: center;
   gap: var(--space-6);
   padding: 0 var(--space-6);
+  padding-left: 0;
   pointer-events: all;
+  transition: padding-left 0.45s ease;
+}
+
+.innerScrolled {
+  padding-left: var(--space-6);
 }
 
 /*

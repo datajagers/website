@@ -4,6 +4,7 @@ import { contact, services } from '@/data/identity'
 import { FitText } from '@/components/FitText'
 import { ScrambleText } from '@/components/ScrambleText'
 import { analytics } from '@/lib/analytics'
+import { useIsMobile } from '@/hooks/useIsMobile'
 import styles from './Contact.module.css'
 
 interface FormState {
@@ -23,6 +24,7 @@ const encode = (data: Record<string, string>) =>
 const EXPLODE_MS = 720
 
 export function Contact() {
+  const isMobile = useIsMobile()
   const [form, setForm]           = useState<FormState>(EMPTY)
   const [status, setStatus]       = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [explodeOrigin, setExplodeOrigin] = useState<{ x: string; y: string } | null>(null)
@@ -104,7 +106,7 @@ export function Contact() {
         <div className={styles.left}>
           <motion.div
             className={styles.titleBlock}
-            initial={{ opacity: 0, y: 32, filter: 'blur(8px)' }}
+            initial={{ opacity: 0, y: 32, filter: isMobile ? 'blur(0px)' : 'blur(8px)' }}
             whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}

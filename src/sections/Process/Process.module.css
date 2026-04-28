@@ -319,6 +319,11 @@
 /* ─── Responsive ──────────────────────────────────────────── */
 
 @media (max-width: 900px) {
+  .section {
+    position: relative;
+    min-height: unset;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     min-height: auto;

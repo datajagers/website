@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import { testimonials } from '@/data/identity'
 import { ScrambleText } from '@/components/ScrambleText'
+import { useIsMobile } from '@/hooks/useIsMobile'
 import styles from './Testimonials.module.css'
 
 function Stars({ dark }: { dark: boolean }) {
@@ -42,12 +43,13 @@ function TestimonialCard({
   scrollYProgress: MotionValue<number>
   exitStart: number
 }) {
-  const exitEnd = exitStart + 0.13
+  const isMobile = useIsMobile()
+  const exitEnd  = exitStart + 0.13
 
-  const y       = useTransform(scrollYProgress, [exitStart, exitEnd], ['0%', '-14%'])
+  const y      = useTransform(scrollYProgress, [exitStart, exitEnd], ['0%', '-14%'])
   const opacity = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0])
-  const scale   = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0.88])
-  const filter  = useTransform(
+  const scale  = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0.88])
+  const filter = useTransform(
     scrollYProgress,
     [exitStart, exitStart + 0.045, exitStart + 0.09, exitEnd],
     [
@@ -58,8 +60,12 @@ function TestimonialCard({
     ]
   )
 
+  const exitStyle = isMobile
+    ? { y, opacity, scale }
+    : { y, opacity, scale, filter }
+
   return (
-    <motion.div style={{ y, opacity, scale, filter, willChange: 'transform, opacity, filter' }}>
+    <motion.div style={{ ...exitStyle, willChange: 'transform, opacity' }}>
       <motion.article
         className={`${styles.card} ${t.dark ? styles.cardDark : styles.cardLight}`}
         initial={{ opacity: 0, y: 28, rotateX: 10 }}

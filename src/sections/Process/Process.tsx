@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { proven_process, process_intro } from '@/data/identity'
 import { ScrambleText } from '@/components/ScrambleText'
+import { useIsMobile } from '@/hooks/useIsMobile'
 import styles from './Process.module.css'
 
 const PHASE_SHORT: Record<number, string> = {
@@ -123,6 +124,7 @@ function PhaseViz({ phase }: { phase: number }) {
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null)
+  const isMobile   = useIsMobile()
 
   return (
     <section ref={sectionRef} className={styles.section} id="process">
@@ -134,7 +136,7 @@ export function Process() {
         <h2 className={styles.title}>
           <motion.span
             className={styles.titleLine}
-            initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+            initial={{ opacity: 0, y: 20, filter: isMobile ? 'blur(0px)' : 'blur(6px)' }}
             whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
@@ -144,7 +146,7 @@ export function Process() {
           </motion.span>
           <motion.span
             className={`${styles.titleLine} ${styles.titleLineDim}`}
-            initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+            initial={{ opacity: 0, y: 20, filter: isMobile ? 'blur(0px)' : 'blur(6px)' }}
             whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
