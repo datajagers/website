@@ -84,7 +84,7 @@ export function WhyUs() {
                   style={{ transformOrigin: 'left' }}
                 />
 
-                <span className={styles.reasonNum}>{`// 0${i + 1}`}</span>
+                <ScrambleText className={styles.reasonNum}>{`// 0${i + 1}`}</ScrambleText>
 
                 <h3 className={styles.reasonTitle}>
                   {reason.title}

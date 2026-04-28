@@ -133,11 +133,6 @@
   margin-bottom: var(--space-10);
 }
 
-.numSlash {
-  color: var(--color-lime);
-  opacity: 0.7;
-}
-
 /* ─── Body ────────────────────────────────────────────────── */
 
 .body {
@@ -166,30 +161,121 @@
   text-transform: uppercase;
 }
 
-/* ─── Equalizer bars ──────────────────────────────────────── */
+/* ─── Phase visualizations ────────────────────────────────── */
 
-@keyframes eqBar {
-  0%, 100% { transform: scaleY(var(--bar-min, 0.3)); }
-  50%       { transform: scaleY(1); }
+.viz {
+  width: 100%;
+  height: 52px;
+  overflow: visible;
+  display: block;
 }
 
-.bars {
+/* Phase 1 — Discovery: scatter dots + connecting path */
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(0.55); opacity: 0.22; }
+  50%       { transform: scale(1);   opacity: 0.90; }
+}
+
+@keyframes pathDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.discoveryPath {
+  stroke: var(--color-lime);
+  stroke-width: 0.8;
+  fill: none;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  opacity: 0.2;
+  animation: pathDraw 3s ease-out 0.4s forwards;
+}
+
+.discoveryDot {
+  fill: var(--color-lime);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dotPulse var(--dur, 2s) ease-in-out infinite;
+  animation-delay: var(--del, 0s);
+}
+
+/* Phase 2 — Blueprint: horizontal bars (Gantt) */
+
+@keyframes bpFill {
+  0%         { transform: scaleX(0); opacity: 0; }
+  8%         { opacity: 0.55; }
+  35%, 72%   { transform: scaleX(1); opacity: 0.55; }
+  88%        { opacity: 0.55; }
+  100%       { transform: scaleX(0); opacity: 0; }
+}
+
+.blueprintBar {
+  fill: var(--color-lime);
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+  animation: bpFill 3.4s ease-in-out infinite;
+  animation-delay: var(--del, 0s);
+}
+
+/* Phase 3 — Build: vertical bars trending upward */
+
+@keyframes buildPulse {
+  0%, 100% { transform: scaleY(0.38); opacity: 0.35; }
+  50%       { transform: scaleY(1);   opacity: 0.65; }
+}
+
+.buildViz {
+  width: 100%;
+  height: 52px;
   display: flex;
   align-items: flex-end;
-  gap: 4px;
-  height: 28px;
+  gap: 5px;
 }
 
-.bar {
-  display: block;
-  width: 3px;
-  height: 100%;
-  border-radius: 2px;
+.buildBar {
+  flex: 1;
+  height: var(--h, 40%);
+  max-height: 100%;
   background: var(--color-lime);
-  opacity: 0.45;
+  border-radius: 2px 2px 0 0;
   transform-origin: bottom;
-  animation: eqBar var(--bar-dur, 1.4s) ease-in-out infinite;
-  animation-delay: var(--bar-delay, 0s);
+  animation: buildPulse var(--dur, 1.5s) ease-in-out infinite;
+  animation-delay: var(--del, 0s);
+}
+
+/* Phase 4 — Value Delivery: rising trend line */
+
+@keyframes lineDraw {
+  from { stroke-dashoffset: 115; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes dotAppear {
+  0%, 80%   { opacity: 0; transform: scale(0); }
+  92%, 100% { opacity: 1; transform: scale(1); }
+}
+
+.valueGrid {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 0.5;
+}
+
+.valueLine {
+  stroke: var(--color-lime);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 115;
+  stroke-dashoffset: 115;
+  animation: lineDraw 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s infinite;
+  animation-fill-mode: forwards;
+}
+
+.valueDot {
+  fill: var(--color-lime);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dotAppear 2.2s ease-out 0.3s infinite;
+  animation-fill-mode: forwards;
 }
 
 /* ─── Footer ──────────────────────────────────────────────── */
@@ -208,13 +294,6 @@
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.phasePrefix {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.phaseAccent {
   color: var(--color-lime);
 }
 

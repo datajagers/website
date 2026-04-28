@@ -31,13 +31,13 @@ function ServiceRow({
     >
       <button className={styles.trigger} onClick={onToggle} aria-expanded={isOpen}>
 
-        <span className={styles.rowIndex}>{`// 0${index + 1}`}</span>
+        <ScrambleText className={styles.rowIndex}>{`// 0${index + 1}`}</ScrambleText>
 
         <span className={styles.rowHook}>
           {service.hook}
         </span>
 
-        <span className={styles.rowMethod}>{service.method}</span>
+        <ScrambleText className={styles.rowMethod}>{service.method}</ScrambleText>
 
         <motion.span
           className={styles.rowArrow}
@@ -85,7 +85,7 @@ function ServiceRow({
               </div>
 
               <div className={styles.expandRight}>
-                <span className={styles.deliverablesLabel}>// Deliverables</span>
+                <ScrambleText className={styles.deliverablesLabel}>// Deliverables</ScrambleText>
 
                 <motion.p
                   className={styles.deliverablesText}

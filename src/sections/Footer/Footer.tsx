@@ -1,4 +1,5 @@
 import { site_info } from '@/data/identity'
+import { ScrambleText } from '@/components/ScrambleText'
 import logoUrl from '@assets/logo_same_hight.svg'
 import styles from './Footer.module.css'
 
@@ -34,7 +35,7 @@ export function Footer() {
 
         {/* Nav */}
         <nav className={styles.nav} aria-label="Site navigation">
-          <span className={styles.navHeading}>Navigate</span>
+          <ScrambleText className={styles.navHeading}>Navigate</ScrambleText>
           <ul className={styles.navList}>
             {NAV_LINKS.map((item) => (
               <li key={item.href}>
@@ -46,7 +47,7 @@ export function Footer() {
 
         {/* CTA column */}
         <div className={styles.cta}>
-          <span className={styles.navHeading}>Start a project</span>
+          <ScrambleText className={styles.navHeading}>Start a project</ScrambleText>
           <p className={styles.ctaText}>Have a challenge in mind?<br />Let&apos;s talk.</p>
           <a href="#contact" className={styles.ctaButton}>Get in touch</a>
         </div>
@@ -58,10 +59,10 @@ export function Footer() {
         <div className={styles.bottomInner}>
           <hr className={styles.rule} />
           <div className={styles.bottomRow}>
-            <p className={styles.copyright}>© {YEAR} {site_info.brand_name}. All rights reserved.</p>
+            <ScrambleText className={styles.copyright}>{`© ${YEAR} ${site_info.brand_name}. All rights reserved.`}</ScrambleText>
             <div className={styles.bottomLinks}>
               <a href="/privacy" className={styles.copyright}>Privacy Policy</a>
-              <p className={styles.copyright}>Built by {site_info.founder}</p>
+              <ScrambleText className={styles.copyright}>{`Built by ${site_info.founder}`}</ScrambleText>
             </div>
           </div>
         </div>

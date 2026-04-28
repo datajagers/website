@@ -73,9 +73,9 @@ export function Hero() {
 
   // Content exits through the top of the sticky frame
   const contentY = useTransform(scrollYProgress, [0, 0.55], ['0px', '-115vh'])
-  // "Let's Create" rises from the bottom of the frame as content slides away
-  const revealOpacity = useTransform(scrollYProgress, [0.18, 0.52], [0, 1])
-  const revealY       = useTransform(scrollYProgress, [0.18, 0.52], ['52vh', '0vh'])
+  // "Let's Create" rises from below, peaks, then continues upward and exits
+  const revealOpacity = useTransform(scrollYProgress, [0.18, 0.50, 0.72, 0.88], [0, 1, 1, 0])
+  const revealY       = useTransform(scrollYProgress, [0.18, 0.50, 0.72, 0.90], ['52vh', '0vh', '0vh', '-52vh'])
 
   return (
     <section ref={outerRef} className={styles.hero}>
