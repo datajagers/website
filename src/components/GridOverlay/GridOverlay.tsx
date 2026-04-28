@@ -145,7 +145,7 @@ interface GridOverlayProps {
 
 export function GridOverlay({ top = 120, bottom = 0 }: GridOverlayProps) {
   const [activeCell, setActiveCell] = useState<string | null>(null)
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
     const schedule = () => {
