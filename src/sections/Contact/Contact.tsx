@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { contact, services } from '@/data/identity'
+import { FitText } from '@/components/FitText'
 import styles from './Contact.module.css'
 
 interface FormState {
@@ -95,20 +96,30 @@ export function Contact() {
         </div>
       )}
 
+      {/* Full-bleed title — outside the padded inner container */}
+      <motion.div
+        className={styles.titleBlock}
+        initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+        whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+        aria-label="Let's Work Together"
+      >
+        <FitText className={styles.titleLine}>Let's Work</FitText>
+        <FitText className={styles.titleLineAccent}>Together</FitText>
+      </motion.div>
+
       <div className={styles.inner}>
 
         {/* Header */}
         <motion.div
           className={styles.header}
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
         >
-          <span className={styles.label}>{`{${contact.label}}`}</span>
-          <h2 className={styles.title}>
-            Let's Work <span className={styles.accent}>Together</span>
-          </h2>
+          <span className={styles.label}>// {contact.label}</span>
           <p className={styles.tagline}>{contact.tagline}</p>
         </motion.div>
 

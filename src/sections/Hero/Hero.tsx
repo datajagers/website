@@ -59,7 +59,7 @@ export function Hero() {
           className={styles.eyebrow}
           {...fadeUp(0.15)}
         >
-          Strategic Data Partner
+          // Strategic Data Partner
         </motion.p>
 
         <motion.div

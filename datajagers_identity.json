@@ -1,6 +1,6 @@
 {
   "site_info": {
-    "url": "https://cute-heron-690316.framer.app",
+    "url": "https://www.datajagers.nl",
     "brand_name": "Datajagers",
     "founder": "Wouter Jagers",
     "email": "info@datajagers.nl",
@@ -22,7 +22,7 @@
     }
   },
   "persona": {
-    "mission": "Helping businesses optimize what’s slow, structure what’s messy, uncover what's hidden and build what’s missing.",
+    "mission": "Helping businesses optimize what's slow, structure what's messy, uncover what's hidden and build what's missing.",
     "roles": ["Strategic Sparring Partner", "Excel Guru", "AI Whisperer", "Professional Googler", "Computer-stuff wizard"],
     "tone_of_voice": {
       "style": ["Personal", "Direct", "Structured", "Value-driven"],
@@ -54,18 +54,18 @@
   "services": [
     {
       "id": "optimize",
-      "hook": "Optimize what’s slow",
+      "hook": "Optimize what's slow",
       "service_name": "Process Optimization",
       "brand_color": "#5d67e6",
       "method": "Lean Principles",
       "tags": ["#LeanMethodology", "#WorkflowAutomation", "#EfficiencyAudit", "#OperationalExcellence"],
       "full_description": "Diving into daily operations to find friction points and eliminate waste (manual data entry, unnecessary handovers).",
-      "target_audience": "Teams bogged down by 'how we’ve always done it'.",
+      "target_audience": "Teams bogged down by 'how we've always done it'.",
       "deliverables": "Waste-free workflow blueprints and automated routines."
     },
     {
       "id": "structure",
-      "hook": "Structure what’s messy",
+      "hook": "Structure what's messy",
       "service_name": "Data Architecture & Dashboards",
       "brand_color": "#5d67e6",
       "method": "Single Source of Truth",
@@ -87,7 +87,7 @@
     },
     {
       "id": "build",
-      "hook": "Build what’s missing",
+      "hook": "Build what's missing",
       "service_name": "Custom Software & Tools",
       "brand_color": "#5d67e6",
       "method": "Innovation Sprints",
@@ -156,5 +156,229 @@
       "question": "How do we get started?",
       "answer": "Book a free sparring session. In 30 minutes we'll identify whether there's a fit and what the first concrete step looks like. No pitch deck, no fluff — just an honest conversation about your challenge."
     }
-  ]
+  ],
+  "design_system": {
+    "system": {
+      "name": "Typography-Driven Motion System",
+      "version": "1.0"
+    },
+    "foundations": {
+      "philosophy": [
+        "Typography is the primary visual element",
+        "Spacing defines hierarchy and rhythm",
+        "Motion reinforces structure, not decoration",
+        "Use restraint: subtle, consistent, intentional",
+        "Introduce rhythm through repetition, offset, and timing"
+      ]
+    },
+    "typography": {
+      "fonts": {
+        "primary": "Inter, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "roles": {
+        "logo": {
+          "font": "Inter",
+          "weight": "600-700",
+          "letter_spacing": "0em",
+          "rules": [
+            "keep clean and tight",
+            "no expressive spacing or effects"
+          ]
+        },
+        "hero": {
+          "font": "Inter",
+          "size": "56px-72px",
+          "line_height": "1.0-1.15",
+          "weight": "500-600",
+          "letter_spacing": "0em"
+        },
+        "section_heading": {
+          "font": "Inter",
+          "size": "18px-28px",
+          "weight": "500",
+          "letter_spacing": "0.08em",
+          "text_transform": "uppercase"
+        },
+        "body": {
+          "font": "Inter",
+          "size": "16px-18px",
+          "line_height": "1.5",
+          "weight": "400"
+        },
+        "label": {
+          "font": "JetBrains Mono",
+          "size": "12px-14px",
+          "weight": "400-500",
+          "letter_spacing": "0.05em",
+          "text_transform": "uppercase"
+        },
+        "data": {
+          "font": "JetBrains Mono",
+          "weight": "500",
+          "usage": "numbers, stats, pricing"
+        },
+        "expressive": {
+          "font": "Inter",
+          "letter_spacing": "0.2em-0.4em",
+          "usage": "decorative or rhythmic text"
+        }
+      },
+      "rules": [
+        "Inter is used for 80-90% of content",
+        "JetBrains Mono is reserved for system/meta/data",
+        "never mix fonts within a single word",
+        "only apply heavy letter-spacing to short text",
+        "keep large text tight and body text readable"
+      ]
+    },
+    "spacing": {
+      "scale": {
+        "xs": "8px",
+        "sm": "16px",
+        "md": "32px",
+        "lg": "64px",
+        "xl": "120px-160px"
+      },
+      "layout": {
+        "container_width": "1100px-1300px",
+        "horizontal_padding": "24px-40px",
+        "alignment": "center"
+      },
+      "rhythm": {
+        "intra_section": "8px-16px",
+        "inter_section": "80px-160px",
+        "pattern": "alternate dense and spacious sections"
+      },
+      "rules": [
+        "use gap-based layout (flex/grid), not margin stacking",
+        "group related items tightly",
+        "separate groups with large spacing",
+        "maintain consistent spacing scale"
+      ]
+    },
+    "layout": {
+      "grid": {
+        "type": "single column centered",
+        "text_alignment": "left"
+      },
+      "patterns": [
+        "repeat text or elements to create rhythm",
+        "use duplication instead of decoration",
+        "maintain consistent max-width across sections"
+      ]
+    },
+    "motion": {
+      "philosophy": [
+        "motion should guide attention",
+        "prefer subtle, continuous movement",
+        "combine clarity (fade/blur) with expressive layering",
+        "use repetition and offset to create depth",
+        "introduce slight imperfection for a natural feel"
+      ],
+      "core": {
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "durations": {
+          "fast": "0.2s",
+          "normal": "0.4s-0.6s",
+          "slow": "0.8s-1s",
+          "drift": "4s-12s"
+        }
+      },
+      "animations": {
+        "fade_blur_in": {
+          "from": {
+            "opacity": 0,
+            "transform": "translateY(20px)",
+            "filter": "blur(8px)"
+          },
+          "to": {
+            "opacity": 1,
+            "transform": "translateY(0px)",
+            "filter": "blur(0px)"
+          },
+          "duration": "0.6s"
+        },
+        "stagger_reveal": {
+          "stagger": "40ms-80ms",
+          "child_animation": "fade_blur_in"
+        },
+        "drift": {
+          "transform": "translateY(2px-12px)",
+          "duration": "4s-12s",
+          "loop": true,
+          "direction": "alternate",
+          "easing": "ease-in-out"
+        },
+        "marquee": {
+          "direction": "horizontal",
+          "duration": "20s-40s",
+          "loop": true,
+          "easing": "linear"
+        },
+        "hover": {
+          "transform": "translateY(-2px)",
+          "opacity": 0.9,
+          "duration": "0.2s"
+        },
+        "cut": {
+          "type": "instant",
+          "duration": "0s"
+        }
+      },
+      "scroll": {
+        "trigger": "element enters viewport",
+        "threshold": "10%-20%",
+        "once": true
+      },
+      "blur": {
+        "entry": "6px-10px → 0px",
+        "rules": [
+          "use blur only during transitions",
+          "never leave primary content blurred",
+          "combine blur with opacity"
+        ]
+      },
+      "advanced_patterns": {
+        "layered_duplication": {
+          "description": "duplicate elements with slight timing or position offset",
+          "goal": "create echo and temporal layering"
+        },
+        "progressive_reveal": {
+          "description": "content appears in overlapping layers on scroll"
+        },
+        "typography_motion": {
+          "methods": [
+            "letter-spacing transitions",
+            "switch between spaced and normal text",
+            "duplicate lines for motion effect"
+          ]
+        }
+      },
+      "rules": [
+        "animate opacity, transform, and filter only",
+        "avoid layout reflow animations",
+        "limit movement to 10px-30px",
+        "prefer vertical motion (Y-axis)",
+        "use stagger instead of simultaneous animation",
+        "reuse the same animation patterns for consistency"
+      ]
+    },
+    "dos_and_donts": {
+      "dos": [
+        "use typography as the main design driver",
+        "create rhythm through spacing and motion",
+        "keep animations subtle and consistent",
+        "use JetBrains Mono to create contrast",
+        "apply blur only as a transition effect"
+      ],
+      "donts": [
+        "do not overuse monospace font",
+        "do not use large or aggressive animations",
+        "do not apply heavy letter-spacing to long text",
+        "do not mix inconsistent spacing values",
+        "do not rely on decorative graphics instead of layout and type"
+      ]
+    }
+  }
 }

@@ -47,7 +47,7 @@ export function Testimonials() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className={styles.label}>{'{Testimonials}'}</span>
+          <span className={styles.label}>// Testimonials</span>
           <h2 className={styles.title}>
             Real <span className={styles.highlight}>Results</span>.<br />
             Real Feedback.

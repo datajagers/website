@@ -63,7 +63,7 @@ export function FAQ() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className={styles.label}>{'{FAQ}'}</span>
+          <span className={styles.label}>// FAQ</span>
           <h2 className={styles.title}>
             Got<br />
             <span className={styles.titleAccent}>Questions?</span>

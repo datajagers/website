@@ -6,7 +6,7 @@ const fadeUp = (delay = 0) => ({
   initial:     { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport:    { once: true, margin: '-60px' },
-  transition:  { delay, duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  transition:  { delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
 })
 
 export function WhyUs() {
@@ -15,24 +15,27 @@ export function WhyUs() {
       <div className={styles.inner}>
         <div className={styles.layout}>
 
-          {/* ── Left: sticky headline block ─────────────────── */}
+          {/* ── Left: sticky anchor ──────────────────────────── */}
           <motion.div
             className={styles.left}
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className={styles.eyebrow}>Why Datajagers</span>
-            <span className={styles.index}>// 01</span>
+            <span className={styles.eyebrow}>// Why Datajagers</span>
+
             <h2 className={styles.headline}>
-              {value_proposition.the_crucial_question}
-              <span className={styles.dot}>.</span>
+              The<br />
+              <span className={styles.headlineAccent}>Difference</span>
             </h2>
-            <p className={styles.sub}>{value_proposition.methodology}</p>
+
+            <blockquote className={styles.pullQuote}>
+              {value_proposition.the_crucial_question}
+            </blockquote>
           </motion.div>
 
-          {/* ── Right: 2×2 reasons grid ─────────────────────── */}
+          {/* ── Right: USP grid ──────────────────────────────── */}
           <div className={styles.right}>
             {value_proposition.reasons_to_choose.map((reason, i) => (
               <motion.div

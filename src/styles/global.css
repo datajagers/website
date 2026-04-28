@@ -1,8 +1,26 @@
 @import './tokens.css';
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ─── Ambient keyframes ─────────────────────────────────────── */
+/* ─── Keyframes ─────────────────────────────────────────────── */
+
+@keyframes fadeBlurIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
 
 @keyframes breathe {
   0%, 100% { transform: scale(1);     opacity: 0.045; }
@@ -14,10 +32,9 @@
   50%       { box-shadow: 0 0 0 6px rgba(207, 255, 113, 0.22), 0 0 28px rgba(207, 255, 113, 0.1); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translate(0,    0);     }
-  40%       { transform: translate(20px, -24px); }
-  70%       { transform: translate(-10px,-12px); }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 *, *::before, *::after {

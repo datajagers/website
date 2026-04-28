@@ -2,91 +2,111 @@ import { motion } from 'framer-motion'
 import { proven_process, process_intro } from '@/data/identity'
 import styles from './Process.module.css'
 
-const rule = {
-  hidden: { scaleX: 0 },
-  visible: { scaleX: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+const PHASE_SHORT: Record<number, string> = {
+  1: 'SPARRING',
+  2: 'BLUEPRINT',
+  3: 'BUILD',
+  4: 'DELIVER',
 }
 
-const num = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.4, delay: 0.4 } },
-}
+// [min-scale, duration(s), delay(s)] for each of the 4 bars per column
+const BAR_DATA: [number, number, number][][] = [
+  [[0.20, 1.3, 0.00], [0.60, 1.7, 0.20], [0.40, 1.1, 0.40], [0.80, 1.5, 0.15]],
+  [[0.50, 1.6, 0.10], [0.30, 1.2, 0.30], [0.70, 1.8, 0.00], [0.40, 1.4, 0.25]],
+  [[0.70, 1.4, 0.20], [0.40, 1.6, 0.00], [0.55, 1.3, 0.35], [0.30, 1.9, 0.10]],
+  [[0.30, 1.5, 0.15], [0.65, 1.2, 0.40], [0.45, 1.7, 0.05], [0.70, 1.4, 0.30]],
+]
 
-const nameReveal = {
-  hidden: { y: '105%' },
-  visible: { y: '0%', transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.3 } },
-}
-
-const focus = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.5 } },
+function EqBars({ colIndex }: { colIndex: number }) {
+  return (
+    <div className={styles.bars} aria-hidden>
+      {BAR_DATA[colIndex].map(([min, dur, delay], i) => (
+        <span
+          key={i}
+          className={styles.bar}
+          style={{
+            '--bar-min': min,
+            '--bar-dur': `${dur}s`,
+            '--bar-delay': `${delay}s`,
+          } as React.CSSProperties}
+        />
+      ))}
+    </div>
+  )
 }
 
 export function Process() {
   return (
     <section className={styles.section} id="process">
-      <div className={styles.inner}>
+      <div className={styles.noise} aria-hidden />
 
-        <motion.div
-          className={styles.header}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className={styles.headerLeft}>
-            <span className={styles.label}>{'{How It Works}'}</span>
-            <h2 className={styles.title}>
-              A Simple,<br />
-              Proven<br />
-              <span className={styles.titleAccent}>Process</span>
-            </h2>
-          </div>
-          <p className={styles.intro}>{process_intro}</p>
-        </motion.div>
+      {/* Title as dominant design element */}
+      <motion.div
+        className={styles.titleBlock}
+        initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
+        whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <span className={styles.titleSlash}>//</span>
+        <h2 className={styles.title}>
+          <span className={styles.titleLine}>PROVEN</span>
+          <span className={styles.titleLine}>PROCESS</span>
+        </h2>
+      </motion.div>
 
-        <div className={styles.steps}>
-          {proven_process.map((step) => (
-            <motion.div
-              key={step.step}
-              className={styles.step}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-            >
-              {/* Animated rule */}
-              <motion.div className={styles.rule} variants={rule} />
+      {/* Intro annotation */}
+      <motion.p
+        className={styles.introText}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+      >
+        {process_intro}
+      </motion.p>
 
-              {/* Row */}
-              <div className={styles.row}>
-                <motion.span className={styles.num} variants={num}>
-                  {String(step.step).padStart(2, '0')}
-                </motion.span>
-
-                {/* Masked name reveal */}
-                <div className={styles.nameWrap}>
-                  <motion.h3 className={styles.name} variants={nameReveal}>
-                    {step.name}
-                  </motion.h3>
-                </div>
-
-                <motion.p className={styles.focus} variants={focus}>
-                  {step.focus}
-                </motion.p>
-              </div>
-            </motion.div>
-          ))}
-
-          {/* Closing rule */}
+      {/* 4-column grid */}
+      <div className={styles.grid}>
+        {proven_process.map((step, i) => (
           <motion.div
-            className={styles.rule}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </div>
+            key={step.step}
+            className={styles.col}
+            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, margin: '-10%' }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
+          >
+            {/* // 001 */}
+            <span className={styles.num}>
+              <span className={styles.numSlash}>// </span>
+              {String(step.step).padStart(3, '0')}
+            </span>
 
+            {/* Body: name → bars → focus */}
+            <div className={styles.body}>
+              <h3 className={styles.name}>{step.name}</h3>
+              <EqBars colIndex={i} />
+              <p className={styles.focus}>{step.focus}</p>
+            </div>
+
+            {/* Bottom */}
+            <div className={styles.footer}>
+              <span className={styles.phaseLabel}>
+                <span className={styles.phasePrefix}>PHASE/</span>
+                <span className={styles.phaseAccent}>{PHASE_SHORT[step.step]}</span>
+              </span>
+              <div className={styles.pips}>
+                {proven_process.map((_, j) => (
+                  <span
+                    key={j}
+                    className={`${styles.pip} ${j < step.step ? styles.pipOn : ''}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   )
