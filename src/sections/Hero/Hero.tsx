@@ -73,9 +73,10 @@ export function Hero() {
 
   // Content exits through the top of the sticky frame
   const contentY = useTransform(scrollYProgress, [0, 0.55], ['0px', '-115vh'])
-  // "Let's Create" rises from below, peaks, then continues upward and exits
-  const revealOpacity = useTransform(scrollYProgress, [0.18, 0.50, 0.72, 0.88], [0, 1, 1, 0])
-  const revealY       = useTransform(scrollYProgress, [0.18, 0.50, 0.72, 0.90], ['52vh', '0vh', '0vh', '-52vh'])
+  // "Let's Create" rises from below and holds, then shrinks in-place and fades out
+  const revealY       = useTransform(scrollYProgress, [0.18, 0.50], ['52vh', '0vh'])
+  const revealOpacity = useTransform(scrollYProgress, [0.18, 0.48, 0.65, 0.88], [0, 1, 1, 0])
+  const revealScale   = useTransform(scrollYProgress, [0.55, 0.90], [1, 0.52])
 
   return (
     <section ref={outerRef} className={styles.hero}>
@@ -83,61 +84,75 @@ export function Hero() {
       <div className={styles.stickyFrame}>
 
         {/* Reveal text — rises from bottom as content exits */}
-        <motion.div className={styles.revealLayer} style={{ opacity: revealOpacity, y: revealY }} aria-hidden>
+        <motion.div className={styles.revealLayer} style={{ opacity: revealOpacity, y: revealY, scale: revealScale }} aria-hidden>
           <FitText className={styles.revealText} as="div">Let's Create</FitText>
         </motion.div>
 
         {/* All hero content — translated upward on scroll */}
         <motion.div className={styles.contentLayer} style={{ y: contentY }}>
-          <div className={styles.grain} aria-hidden />
-          <div className={styles.orb}   aria-hidden />
+
+          {/* Background layer — subtle zoom-out fade-in */}
+          <motion.div
+            className={styles.bgLayer}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.8, ease: 'easeOut' }}
+            aria-hidden
+          >
+            <div className={styles.grain} />
+            <div className={styles.orb} />
+          </motion.div>
+
           <GridOverlay />
 
           <div className={styles.body}>
-            <motion.p
-              className={styles.eyebrow}
-              initial={{ opacity: 0, y: 14 }}
+
+            {/* Eyebrow + headline enter together */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              // Strategic Data Partner
-            </motion.p>
+              <p className={styles.eyebrow}>// Strategic Data Partner</p>
 
-            <div className={styles.headline} aria-label={site_info.core_slogan}>
-              {WORDS.map((word, i) => (
-                <div key={word} className={styles.wordRow}>
-                  <span className={styles.word}>
-                    <ScrambleWord word={word} delayMs={WORD_DELAY[i]} />
-                  </span>
-                  <motion.span
-                    className={styles.dot}
-                    initial={{ opacity: 0, y: -22 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: wordDotDelay(i), duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    .
-                  </motion.span>
-                </div>
-              ))}
-            </div>
+              <div className={styles.headline} aria-label={site_info.core_slogan}>
+                {WORDS.map((word, i) => (
+                  <div key={word} className={styles.wordRow}>
+                    <span className={styles.word}>
+                      <ScrambleWord word={word} delayMs={WORD_DELAY[i]} />
+                    </span>
+                    <motion.span
+                      className={styles.dot}
+                      initial={{ opacity: 0, y: -22 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: wordDotDelay(i), duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      .
+                    </motion.span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
 
+            {/* Subtext */}
             <motion.p
               className={styles.mission}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.0, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.65, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               {persona.mission}
             </motion.p>
 
+            {/* CTA — scale-up entry */}
             <motion.a
               ref={ctaRef}
               href="#contact"
               className={styles.cta}
               onClick={() => analytics.heroCta()}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
               Start the conversation <span className={styles.arrow}>→</span>
             </motion.a>
@@ -147,7 +162,7 @@ export function Hero() {
             className={styles.strip}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2.4, duration: 0.6 }}
+            transition={{ delay: 1.05, duration: 0.4 }}
           >
             {services.map((service, i) => (
               <div key={service.id} className={styles.hook}>

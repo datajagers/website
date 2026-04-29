@@ -37,6 +37,15 @@
   color: var(--color-white);
 }
 
+/* ─── Background layer — grain + orb, animated separately ───────────────────── */
+
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* ─── Content layer — translates upward on scroll ───────────────────────────── */
 
 .contentLayer {
@@ -188,10 +197,10 @@
 }
 
 .hook {
-  padding: var(--space-4) var(--space-6) var(--space-6);
+  padding: var(--space-3) var(--space-6) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   border-right: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease-out),
@@ -207,14 +216,14 @@
 
 .hookNum {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-lime);
   line-height: 1;
 }
 
 .hookLabel {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.4;
 }

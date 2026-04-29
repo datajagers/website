@@ -14,7 +14,24 @@ interface FormState {
   message: string
 }
 
+interface FormErrors {
+  name?: string
+  email?: string
+  service?: string
+  message?: string
+}
+
 const EMPTY: FormState = { name: '', email: '', service: '', message: '' }
+
+function validate(form: FormState): FormErrors {
+  const e: FormErrors = {}
+  if (!form.name.trim())                        e.name    = 'Name is required'
+  if (!form.email.trim())                       e.email   = 'Email is required'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email'
+  if (!form.service)                            e.service = 'Pick a topic so I know how to help'
+  if (!form.message.trim())                     e.message = 'A message helps me prepare'
+  return e
+}
 
 const encode = (data: Record<string, string>) =>
   Object.entries(data)
@@ -24,8 +41,10 @@ const encode = (data: Record<string, string>) =>
 const EXPLODE_MS = 720
 
 export function Contact() {
-  const isMobile = useIsMobile()
+  const isMobile = useIsMobile(1023)
   const [form, setForm]           = useState<FormState>(EMPTY)
+  const [errors, setErrors]       = useState<FormErrors>({})
+  const [submitted, setSubmitted] = useState(false)
   const [status, setStatus]       = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [explodeOrigin, setExplodeOrigin] = useState<{ x: string; y: string } | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -38,11 +57,17 @@ export function Contact() {
   }, [status])
 
   const set = (field: keyof FormState) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setForm((f) => ({ ...f, [field]: e.target.value }))
+      if (submitted) setErrors((prev) => ({ ...prev, [field]: undefined }))
+    }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitted(true)
+    const errs = validate(form)
+    if (Object.keys(errs).length > 0) { setErrors(errs); return }
+    setErrors({})
     setStatus('sending')
     const start = Date.now()
 
@@ -162,11 +187,13 @@ export function Contact() {
               <div className={styles.row}>
                 <div className={styles.field}>
                   <label className={styles.fieldLabel} htmlFor="name">Name</label>
-                  <input id="name" name="name" type="text" className={styles.input} placeholder="Tom Janssen" value={form.name} onChange={set('name')} required />
+                  <input id="name" name="name" type="text" className={`${styles.input} ${errors.name ? styles.inputError : ''}`} placeholder="Tom Janssen" value={form.name} onChange={set('name')} required />
+                  {errors.name && <span className={styles.fieldError}>{errors.name}</span>}
                 </div>
                 <div className={styles.field}>
                   <label className={styles.fieldLabel} htmlFor="email">Email</label>
-                  <input id="email" name="email" type="email" className={styles.input} placeholder="tom@company.com" value={form.email} onChange={set('email')} required />
+                  <input id="email" name="email" type="email" className={`${styles.input} ${errors.email ? styles.inputError : ''}`} placeholder="tom@company.com" value={form.email} onChange={set('email')} required />
+                  {errors.email && <span className={styles.fieldError}>{errors.email}</span>}
                 </div>
               </div>
 
@@ -178,7 +205,7 @@ export function Contact() {
                       key={s.id}
                       type="button"
                       className={`${styles.chip} ${form.service === s.service_name ? styles.chipActive : ''}`}
-                      onClick={() => setForm((f) => ({ ...f, service: s.service_name }))}
+                      onClick={() => { setForm((f) => ({ ...f, service: s.service_name })); setErrors((prev) => ({ ...prev, service: undefined })) }}
                     >
                       {s.hook}
                     </button>
@@ -186,17 +213,19 @@ export function Contact() {
                   <button
                     type="button"
                     className={`${styles.chip} ${form.service === 'Not sure yet' ? styles.chipActive : ''}`}
-                    onClick={() => setForm((f) => ({ ...f, service: 'Not sure yet' }))}
+                    onClick={() => { setForm((f) => ({ ...f, service: 'Not sure yet' })); setErrors((prev) => ({ ...prev, service: undefined })) }}
                   >
                     Not sure yet
                   </button>
                 </div>
                 <input type="hidden" name="service" value={form.service} />
+                {errors.service && <span className={styles.fieldError}>{errors.service}</span>}
               </div>
 
               <div className={styles.field}>
                 <label className={styles.fieldLabel} htmlFor="message">Message</label>
-                <textarea id="message" name="message" className={styles.textarea} placeholder="Share what's on your mind — even half a sentence is enough." value={form.message} onChange={set('message')} rows={5} required />
+                <textarea id="message" name="message" className={`${styles.textarea} ${errors.message ? styles.inputError : ''}`} placeholder="Share what's on your mind — even half a sentence is enough." value={form.message} onChange={set('message')} rows={5} required />
+                {errors.message && <span className={styles.fieldError}>{errors.message}</span>}
               </div>
 
               <div className={styles.submitRow}>

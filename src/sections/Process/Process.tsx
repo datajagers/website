@@ -124,7 +124,7 @@ function PhaseViz({ phase }: { phase: number }) {
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null)
-  const isMobile   = useIsMobile()
+  const isMobile   = useIsMobile(1023)
 
   return (
     <section ref={sectionRef} className={styles.section} id="process">

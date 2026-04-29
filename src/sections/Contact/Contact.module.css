@@ -236,6 +236,18 @@
   transform: none;
 }
 
+.inputError {
+  border-bottom-color: rgba(255, 107, 107, 0.6) !important;
+}
+
+.fieldError {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: rgba(255, 107, 107, 0.75);
+  margin-top: calc(var(--space-1) * -1);
+}
+
 .errorMessage {
   font-size: var(--text-sm);
   color: #ff6b6b;

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView, type MotionValue } from 'framer-motion'
 import { testimonials } from '@/data/identity'
 import { ScrambleText } from '@/components/ScrambleText'
 import { useIsMobile } from '@/hooks/useIsMobile'
@@ -43,13 +43,16 @@ function TestimonialCard({
   scrollYProgress: MotionValue<number>
   exitStart: number
 }) {
-  const isMobile = useIsMobile()
-  const exitEnd  = exitStart + 0.13
+  // Blur only on laptop/desktop (>1023px)
+  const isMobile = useIsMobile(1023)
+  const entryRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(entryRef, { once: true, margin: '-60px' })
+  const exitEnd  = exitStart + 0.15
 
-  const y      = useTransform(scrollYProgress, [exitStart, exitEnd], ['0%', '-14%'])
+  const y       = useTransform(scrollYProgress, [exitStart, exitEnd], ['0%', '-14%'])
   const opacity = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0])
-  const scale  = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0.88])
-  const filter = useTransform(
+  const scale   = useTransform(scrollYProgress, [exitStart, exitEnd], [1, 0.88])
+  const filter  = useTransform(
     scrollYProgress,
     [exitStart, exitStart + 0.045, exitStart + 0.09, exitEnd],
     [
@@ -65,40 +68,47 @@ function TestimonialCard({
     : { y, opacity, scale, filter }
 
   return (
-    <motion.div style={{ ...exitStyle, willChange: 'transform, opacity' }}>
-      <motion.article
-        className={`${styles.card} ${t.dark ? styles.cardDark : styles.cardLight}`}
-        initial={{ opacity: 0, y: 28, rotateX: 10 }}
-        whileInView={{ opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-        viewport={{ once: true, margin: '-80px' }}
-        whileHover={{ y: -6, rotateX: 4, rotateY: -3, transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } }}
-        style={{ transformPerspective: 900 }}
-      >
-        <div className={styles.cardTop}>
-          <span className={styles.openQuote} aria-hidden>&ldquo;</span>
-          <Stars dark={t.dark} />
-        </div>
-
-        <blockquote className={styles.quote}>
-          {t.quote}
-        </blockquote>
-
-        <div className={styles.person}>
-          <Avatar name={t.name} />
-          <div className={styles.personInfo}>
-            <span className={styles.personName}>{t.name}</span>
-            <ScrambleText className={styles.personRole}>{t.role}</ScrambleText>
+    // Entry wrapper: opacity + y reveal on viewport enter
+    <motion.div
+      ref={entryRef}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Exit wrapper: scroll-driven transforms — opacity here multiplies with entry opacity */}
+      <motion.div style={{ ...exitStyle, willChange: 'transform, opacity' }}>
+        <motion.article
+          className={`${styles.card} ${t.dark ? styles.cardDark : styles.cardLight}`}
+          whileHover={{ y: -6, rotateX: 4, rotateY: -3, transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } }}
+          style={{ transformPerspective: 900 }}
+        >
+          <div className={styles.cardTop}>
+            <span className={styles.openQuote} aria-hidden>&ldquo;</span>
+            <Stars dark={t.dark} />
           </div>
-        </div>
-      </motion.article>
+
+          <blockquote className={styles.quote}>
+            {t.quote}
+          </blockquote>
+
+          <div className={styles.person}>
+            <Avatar name={t.name} />
+            <div className={styles.personInfo}>
+              <span className={styles.personName}>{t.name}</span>
+              <ScrambleText className={styles.personRole}>{t.role}</ScrambleText>
+            </div>
+          </div>
+        </motion.article>
+      </motion.div>
     </motion.div>
   )
 }
 
 // ── Section ───────────────────────────────────────────────────────────────────
 
-// Cards exit one by one, staggered, as the section scrolls out
-const EXIT_STARTS = [0.55, 0.63, 0.71]
+// Cards exit one by one. Gap of 0.14 between starts gives ~75% more scroll
+// distance between exits than the previous 0.08 gap.
+const EXIT_STARTS = [0.50, 0.64, 0.78]
 
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -108,13 +118,13 @@ export function Testimonials() {
     offset: ['start end', 'end start'],
   })
 
-  // Label scales to nothing first
-  const labelScale   = useTransform(scrollYProgress, [0.45, 0.59], [1, 0])
-  const labelOpacity = useTransform(scrollYProgress, [0.44, 0.57], [1, 0])
+  // Label clears just before the first card starts exiting at 0.50
+  const labelScale   = useTransform(scrollYProgress, [0.38, 0.52], [1, 0])
+  const labelOpacity = useTransform(scrollYProgress, [0.37, 0.50], [1, 0])
 
-  // Title slides out the top of its clip container
-  const titleY       = useTransform(scrollYProgress, [0.52, 0.72], ['0%', '-115%'])
-  const titleOpacity = useTransform(scrollYProgress, [0.52, 0.68], [1, 0])
+  // Title slides out over the mid-section, spanning card 0 + card 1 exits
+  const titleY       = useTransform(scrollYProgress, [0.45, 0.72], ['0%', '-115%'])
+  const titleOpacity = useTransform(scrollYProgress, [0.45, 0.66], [1, 0])
 
   return (
     <section ref={sectionRef} className={styles.section} id="testimonials">

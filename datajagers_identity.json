@@ -22,7 +22,7 @@
     }
   },
   "persona": {
-    "mission": "Helping businesses optimize what's slow, structure what's messy, uncover what's hidden and build what's missing.",
+    "mission": "Helping businesses optimise what's slow, structure what's messy, uncover what's hidden and build what's missing.",
     "roles": ["Strategic Sparring Partner", "Excel Guru", "AI Whisperer", "Professional Googler", "Computer-stuff wizard"],
     "tone_of_voice": {
       "style": ["Personal", "Direct", "Structured", "Value-driven"],
@@ -30,7 +30,7 @@
     }
   },
   "value_proposition": {
-    "methodology": "Data-driven Lean Six Sigma approach (eliminating waste + maximizing precision).",
+    "methodology": "Data-driven Lean Six Sigma approach (eliminating waste + maximising precision).",
     "the_crucial_question": "What do you want to achieve with this data?",
     "reasons_to_choose": [
       {
@@ -43,7 +43,7 @@
       },
       {
         "title": "1-Stop Shop",
-        "description": "Handling everything from process optimization to custom AI builds."
+        "description": "Handling everything from process optimisation to custom AI builds."
       },
       {
         "title": "Ongoing Support",
@@ -54,8 +54,8 @@
   "services": [
     {
       "id": "optimize",
-      "hook": "Optimize what's slow",
-      "service_name": "Process Optimization",
+      "hook": "Optimise what's slow",
+      "service_name": "Process Optimisation",
       "brand_color": "#5d67e6",
       "method": "Lean Principles",
       "tags": ["#LeanMethodology", "#WorkflowAutomation", "#EfficiencyAudit", "#OperationalExcellence"],
@@ -71,7 +71,7 @@
       "method": "Single Source of Truth",
       "tags": ["#DataGovernance", "#VisualAnalytics", "#SingleSourceOfTruth", "#InformationArchitecture"],
       "full_description": "Turning fragmented data sources into a logical, consistent architecture that powers automated dashboards.",
-      "target_audience": "Organizations struggling with multiple versions of the truth.",
+      "target_audience": "Organisations struggling with multiple versions of the truth.",
       "deliverables": "Clean data foundations and interactive visual dashboards."
     },
     {
@@ -101,7 +101,7 @@
   "proven_process": [
     { "step": 1, "name": "The Sparring Session", "focus": "Uncovering the 'Why'", "brand_color": "#5d67e6" },
     { "step": 2, "name": "The Blueprint", "focus": "Mapping efficient paths using Lean Six Sigma", "brand_color": "#363636" },
-    { "step": 3, "name": "The Build & Optimize", "focus": "Rapid realization of the missing pieces", "brand_color": "#cfff71" },
+    { "step": 3, "name": "The Build & Optimise", "focus": "Rapid realisation of the missing pieces", "brand_color": "#cfff71" },
     { "step": 4, "name": "Value Delivery", "focus": "Refining and ongoing support", "brand_color": "#5d67e6" }
   ],
   "testimonials": [
