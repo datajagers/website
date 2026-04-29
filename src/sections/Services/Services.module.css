@@ -239,6 +239,12 @@
     padding: var(--space-20) var(--space-5) calc(var(--radius-3xl) + var(--space-10));
   }
 
+  /* Pull bigTitleBlock back to viewport edge to cancel section's horizontal padding */
+  .bigTitleBlock {
+    margin-left: calc(-1 * var(--space-5));
+    margin-right: calc(-1 * var(--space-5));
+  }
+
   .header {
     grid-template-columns: 1fr;
     margin-bottom: var(--space-10);
