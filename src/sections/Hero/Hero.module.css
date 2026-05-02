@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
   z-index: 0;
-  padding: 0 var(--space-8);
+  padding: 68px var(--space-8) 0; /* Add 68px top padding to match your layout */
   pointer-events: none;
 }
 
@@ -35,6 +35,9 @@
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: var(--color-white);
+  line-height: 0.9; /* Removes invisible space below the letters */
+  width: 100%;    /* Ensures it takes full width for centering */
+  text-align: center; 
 }
 
 /* ─── Background layer — grain + orb, animated separately ───────────────────── */
