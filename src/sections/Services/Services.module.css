@@ -9,29 +9,53 @@
 /* ─── Big scaling title ───────────────────────────────────── */
 
 .bigTitleBlock {
-  padding: 0 var(--space-8);
-  margin-bottom: var(--space-16);
-  /* REVERT: Use text-align instead of flex to keep the scaling logic happy */
-  text-align: center; 
+  /* 1. Force the container to take the full width of the screen */
   width: 100%;
+  display: block; 
+  
+  /* 2. Center the block itself */
+  margin-left: auto;
+  margin-right: auto;
+  
+  /* 3. Space below the title */
+  margin-bottom: var(--space-16);
+  
+  /* 4. Ensure it doesn't get squished by parent padding */
+  padding: 0; 
 }
 
 .bigTitleText {
+  /* 1. Make the text a block that fills the container */
+  display: block;
+  width: 100%;
+  
+  /* 2. Center the text alignment */
+  text-align: center;
+  
+  /* 3. The Optical Balance fix */
+  line-height: 0.85; 
+  
+  /* 4. Keep your font styling */
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--color-white);
-  
-  /* ADJUSTMENTS: Only fix the font's internal spacing and centering */
-  line-height: 0.85;      /* Removes the "ghost" padding from the font */
-  display: inline-block;  /* Allows text-align: center to work without shrinking */
-  width: 100%;           
 }
+
+/* ─── Ensure the rest of the content stays in the middle ─── */
 
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
+  /* Add padding here so your lists/paragraphs don't touch the screen edge */
+  padding: 0 var(--space-8);
+}
+
+@media (max-width: 600px) {
+  .inner {
+    padding: 0 var(--space-5);
+  }
 }
 
 /* ─── Header ─────────────────────────────────────────────── */
