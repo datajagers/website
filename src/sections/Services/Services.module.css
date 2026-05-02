@@ -11,9 +11,9 @@
 .bigTitleBlock {
   padding: 0 var(--space-8);
   margin-bottom: var(--space-16);
-  display: flex;
-  justify-content: center; /* Centers the content inside */
-  align-items: center;
+  /* REVERT: Use text-align instead of flex to keep the scaling logic happy */
+  text-align: center; 
+  width: 100%;
 }
 
 .bigTitleText {
@@ -22,10 +22,11 @@
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--color-white);
+  
+  /* ADJUSTMENTS: Only fix the font's internal spacing and centering */
   line-height: 0.85;      /* Removes the "ghost" padding from the font */
-  width: 100%;           /* Ensures it spans the full container */
-  text-align: center;    /* Centers the text horizontally */
-  display: block;        /* Ensures width: 100% is respected */
+  display: inline-block;  /* Allows text-align: center to work without shrinking */
+  width: 100%;           
 }
 
 .inner {
