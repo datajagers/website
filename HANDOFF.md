@@ -1,7 +1,10 @@
 # HANDOFF — Datajagers eigen website (v3, productiekandidaat)
 
-Laatst bijgewerkt: 2026-09-01. Dit document brengt een nieuwe sessie op het
+Laatst bijgewerkt: 2026-09-02. Dit document brengt een nieuwe sessie op het
 kennisniveau van de vorige. Lees het volledig vóór de eerste wijziging.
+
+**Huidige fase: inhoudsoptimalisatie** — zie §6. De techniek staat; het werk
+verschuift naar copy, boodschap en SEO-inhoud.
 
 ## 1. Wat dit is
 
@@ -106,8 +109,45 @@ Server starten: preview_start met naam `datajagers-v3`.
   navragen, niet terugzetten.
 - Middelste cijfers-kaart: "RUST" weg, fotolabel-tegenschaal (mini-artefacten
   weg), "Ontdek verder" is nu een echte link → `#verhaal`, 44px tap-overlay.
+- **Gepubliceerd naar GitHub**: v3 staat op `github.com/datajagers/website`,
+  branch `main`, commit `e8ab194` (2026-09-02). De oude React/Vite-versie zit
+  in de historie eronder. `netlify.toml` is statisch (publish "."); als de
+  repo nog aan Netlify hangt, deployt elke push naar main direct. LET OP: de
+  lokale v3-map heeft zelf GEEN git — de push liep via een tijdelijke kloon.
+  Eerste klusje voor een nieuwe sessie die wil pushen: `git init` in de
+  v3-map + remote koppelen + `git pull origin main` (inhoud is identiek),
+  óf vers klonen en daarin werken.
 
-## 6. Open beslissingen (aan Wouter voorleggen, niet zelf beslissen)
+## 6. Huidige fase: inhoudsoptimalisatie
+
+Wouter wil de inhoud optimaliseren. Waar de copy leeft:
+
+| inhoud | bestand |
+|---|---|
+| Hero (h1 "Data & daarna.", sub, CTA) + "In cijfers"-kop en kaarten | `Hero Fullbleed Datajagers.dc.html` (labels bestaan 2×: reizend + doel — wijzig beide) |
+| Wie we zijn: quote, statements A/B/C, chips | `Wie we zijn Statement Concept Light.dc.html` |
+| Herkenbaar-sectie | `Herkenbaar.dc.html` |
+| Diensten: rijen, deliverables, CTA | `Diensten Sectie Concept.dc.html` |
+| Proces (Gantt, fasen) | `Proces Gantt.dc.html` |
+| Klantverhalen/testimonials | `Testimonials Concept.dc.html` |
+| FAQ (6 vragen + antwoorden) | `FAQ v2.dc.html` / `FAQ Sectie.dc.html` |
+| Footer | `Footer.dc.html` (+ inline kopie in `src/contact.tmpl.html`) |
+| Contactpagina (formulier, teksten) | `src/contact.tmpl.html` |
+| SEO: titles, meta-descriptions, canonical | `build.mjs` (PAGES) |
+| sitemap/robots | `sitemap.xml`, `robots.txt` |
+
+Regels voor inhoudswerk:
+- **Testimonials zijn écht**: feedback van collega's Thomas Hendriks, Maud
+  Hermans en Jasper Smit, vertaald uit het Engels. Niet herschrijven of
+  aandikken zonder expliciet overleg — hooguit taalkundig polijsten.
+- Toon: Nederlands, kalm, zonder jargon, "data-studio, geen consultancy".
+  Wouter corrigeerde eerder richting rust en terughoudendheid.
+- Elke copy-edit = bron wijzigen → `node build.mjs` → verifiëren in de
+  browser (breekpunten 1440 én 375; tekstlengtes kunnen layouts breken —
+  denk aan `white-space: nowrap` op kaartlabels en chips-grids).
+- Sectiekop-nummering (01–07) moet doorlopend blijven als secties wijzigen.
+
+## 7. Open beslissingen (aan Wouter voorleggen, niet zelf beslissen)
 
 - Stockfoto's: founder-kaart toont een stock-persoon (lanyard_person.jpg),
   happy-person-2.jpg achter testimonials op 8%.
@@ -117,9 +157,10 @@ Server starten: preview_start met naam `datajagers-v3`.
 - Aankomst-Vizier speelt volledig (~2,2s) bij elke interne paginawissel —
   optie aangeboden om interne hops een verkorte reveal te geven; geen besluit.
 - "Ontdek verder" → `#verhaal` is een aanname; expliciet akkoord vragen kan.
-- Publicatie (git init + hosting) is nog niet gebeurd — er is GEEN git.
+- Netlify-koppeling van de repo is onbevestigd; uitzoeken vóór er live-impact
+  aan een push wordt toegeschreven.
 
-## 7. Verificatieprotocol (hard geleerd — niet overslaan)
+## 8. Verificatieprotocol (hard geleerd — niet overslaan)
 
 1. **Bouw na elke bron-edit** (`node build.mjs`), anders test je oude code.
 2. **Batchscripts**: asserts per wijziging; schrijf pas aan het eind; tel de
@@ -138,8 +179,10 @@ Server starten: preview_start met naam `datajagers-v3`.
 7. Inline ontwerpwaarden (zoals een opacity) nooit generiek wissen — eerst
    kijken wat er staat.
 
-## 8. Startprompt nieuwe sessie
+## 9. Startprompt nieuwe sessie
 
-Zie de prompt onderaan dit document of in de chat-overdracht. Kern: lees dit
-bestand, start `datajagers-v3` (poort 4480) via preview_start, open desktop-tab
-en een tweede tab op mobiel (375×812), wacht de Vizier af en meld je startstatus.
+Kern: lees dit bestand, start `datajagers-v3` (poort 4480) via preview_start,
+open een desktop-tab en een tweede tab op mobiel (375×812), wacht de Vizier af,
+en begin dan met de inhoudsfase: inventariseer alle copy per sectie (§6),
+audit hem kritisch (boodschap, toon, lengte, SEO) en leg verbetervoorstellen
+per sectie aan Wouter voor — geen copy wijzigen zonder akkoord.
