@@ -1,13 +1,4 @@
+# Statische site — geen buildstap; de repo-root is de publicatiemap.
+# 404.html wordt door Netlify automatisch als not-found-pagina gebruikt.
 [build]
-  command = "npm run build"
-  publish = "dist"
-
-[[redirects]]
-  from = "/privacy"
-  to = "/privacy.html"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  publish = "."

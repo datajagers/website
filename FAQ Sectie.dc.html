@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; }
+  </style>
+</helmet>
+<section id="faq" style="position: relative; --dj-base: #f6f6f4; --dj-surface: #f6f6f4; --dj-card: #ffffff; --dj-ink: #1D1D1D; --dj-muted: #6f6f6f; --dj-border: #dde7e4; --dj-rule: #dde7e4; --dj-rule-strong: #c2d1cc; color: var(--dj-ink,#1D1D1D); background: var(--dj-surface,#f6f6f4);">
+  <!-- diagonale wig — hoort bij het component; de paginadriver animeert hem -->
+  <div data-faq-wig="" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); z-index: 1; height: clamp(70px, 9vw, 150px); background: var(--dj-surface,#f6f6f4); clip-path: polygon(0 100%, 100% 100%, 100% 100%); pointer-events: none;"></div>
+  <div style="max-width: 1180px; margin: 0 auto;">
+    <dc-import name="FAQ v2" cta-label="{{ ctaLabel }}" cta-href="{{ ctaHref }}" hint-size="100%,640px"></dc-import>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 720 },
+  &quot;ctaLabel&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Plan een gesprek&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;ctaHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#contact&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      ctaLabel: this.props.ctaLabel ?? 'Plan een gesprek',
+      ctaHref: this.props.ctaHref ?? '#contact',
+    };
+  }
+}
+</script>
+</body>
+</html>

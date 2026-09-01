@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #1D1D1D; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: inherit; }
+    /* rij-hover: cirkel achter het nummer + titel schuift — zelfde taal als de footer-nav */
+    [data-dl-row] .dl-circ { transform: scale(0.4); opacity: 0; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-dl-row]:hover .dl-circ { transform: scale(1); opacity: 1; }
+    [data-dl-row] .dl-titel { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-dl-row]:hover .dl-titel { transform: translateX(8px); color: #ffffff; }
+    [data-dl-row] .dl-arrow { transform: rotate(45deg); opacity: 0.35; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-dl-row]:hover .dl-arrow { transform: translate(3px, -3px) rotate(0deg); opacity: 1; }
+    [data-dl-row] .dl-kort { transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-dl-row]:hover .dl-kort { color: rgba(242,245,249,0.75); }
+    /* founder-kaart: identiek hovergedrag als in de navbar */
+    [data-founder-card] .fc-photo { transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-founder-card]:hover .fc-photo { transform: scale(1.07); }
+    [data-founder-card] .fc-roll { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-founder-card]:hover .fc-roll { transform: translateY(-50%); }
+    /* mobiel: tapdoelen >= 44px zonder visuele verschuiving */
+    @media (max-width: 859px) { [data-dl-row] { padding: 8px 0; margin-top: 6px !important; } [data-dl-cta] { padding-top: 14px; } }
+    @media (prefers-reduced-motion: reduce) { [data-founder-card] .fc-photo, [data-founder-card] .fc-roll, [data-dl-row] .dl-circ, [data-dl-row] .dl-titel, [data-dl-row] .dl-arrow, [data-dl-cta] .dc-label, }
+  </style>
+</helmet>
+
+<section data-screen-label="Diensten concept" style="position: relative; background: transparent; color: #f2f5f9; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; padding-top: clamp(56px, 7vw, 104px);">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(24px, 4vw, 64px) clamp(56px, 7vw, 104px);">
+
+    <!-- sectiekop + intro leven in de estafette-scene op de hoofdpagina -->
+    <!-- diensten — referentiepatroon: links titel + alinea, rechts deliverables op hairlines -->
+    <div style="display: flex; flex-direction: column; gap: clamp(56px, 7vw, 120px);">
+      <sc-for list="{{ rows }}" as="d" hint-placeholder-count="4">
+        <div data-es-rij="" style="display: grid; grid-template-columns: {{ rowCols }}; gap: clamp(28px, 6vw, 140px); align-items: start;">
+          <div style="min-width: 0;">
+            <span style="display: inline-flex; align-items: baseline; gap: 12px; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 14px; color: rgba(242,245,249,0.45); font-feature-settings: 'tnum';">{{ d.num }}<span aria-hidden="true" style="display: inline-block; width: 22px; height: 1px; background: var(--dj-rule-strong,rgba(242,245,249,0.28)); transform: translateY(-4px);"></span></span>
+            <a data-dl-row="" href="{{ d.href }}" style="display: inline-flex; align-items: baseline; gap: 14px; margin-top: 14px; color: rgba(242,245,249,0.85);">
+              <span class="dl-titel" style="display: block; font-size: clamp(26px, 2.4vw, 44px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: #f2f5f9;">{{ d.titel }}</span>
+              <svg class="dl-arrow" viewBox="0 0 12 12" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="flex: none;"><path d="M1 11 11 1M4 1h7v7"></path></svg>
+            </a>
+            <sc-if value="{{ showKort }}" hint-placeholder-val="{{ true }}">
+              <p style="margin: 16px 0 0; font-size: clamp(14px, 0.85vw, 16px); font-weight: 400; line-height: 1.6; letter-spacing: -0.01em; color: rgba(242,245,249,0.5); max-width: 52ch;">{{ d.kort }}</p>
+            </sc-if>
+          </div>
+          <div style="min-width: 0; padding-top: {{ delivPad }};">
+            <sc-for list="{{ d.deliverables }}" as="dl" hint-placeholder-count="4">
+              <div style="padding: 13px 2px; border-bottom: 1px solid var(--dj-rule,rgba(242,245,249,0.14)); font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 13px; line-height: 1.5; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(242,245,249,0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ dl }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- onderregel: CTA links, meetlat rechts — footer-taal -->
+    <div style="margin-top: clamp(28px, 3.5vw, 48px); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a data-cta data-dl-cta="" href="{{ ctaHref }}" style="display: inline-flex; align-items: baseline; gap: 12px; color: #f2f5f9; border-bottom: 1px solid rgba(242,245,249,0.7); padding-bottom: 10px;" style-hover="color: var(--dj-hover,#93c3fd);">
+        <span class="dc-label" style="display: inline-block; font-size: clamp(15px, 0.85vw, 16px); font-weight: 400; letter-spacing: -0.02em;">{{ ctaLabel }}</span>
+        <svg class="dc-arrow" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="flex: none;"><path d="M1 11 11 1M4 1h7v7"></path></svg>
+      </a>
+      <div style="display: flex; align-items: center; gap: clamp(18px, 3vw, 40px); flex-wrap: wrap;">
+        <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 14px; color: rgba(242,245,249,0.65); font-feature-settings: 'tnum';">./ ANTWOORD BINNEN 24 UUR</span>
+        <!-- founder-kaart — 1:1 kopie van de navbar-kaart -->
+        <a data-founder-card="" href="{{ founderHref }}" style="flex: none; position: relative; display: flex; align-items: stretch; gap: 13px; background: #f2f2f0; border-radius: 5px; padding: 3px; width: 22%; min-width: 264px; height: 70px; box-sizing: border-box;" style-hover="background: #ffffff;">
+          <span style="display: block; width: 64px; height: 64px; border-radius: 5px; overflow: hidden; flex: none;">
+            <img loading="lazy" width="560" height="560" decoding="async" class="fc-photo" src="assets/lanyard_person.jpg" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+          </span>
+          <span style="display: flex; flex-direction: column; justify-content: center; padding-right: 26px; min-width: 0;">
+            <span style="font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: #1D1D1D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ontmoet de oprichter</span>
+            <span style="margin-top: 7px; font-size: 11px; line-height: 1.35; font-weight: 700; letter-spacing: -0.01em; color: #1D1D1D; white-space: nowrap;">Datajagers</span>
+            <span style="font-size: 11px; line-height: 1.35; font-weight: 400; letter-spacing: -0.01em; color: #5c5c5c; white-space: nowrap;">Oprichter</span>
+          </span>
+          <span aria-hidden="true" style="position: absolute; top: 10px; right: 10px; width: 18px; height: 18px; overflow: hidden; display: block;">
+            <span class="fc-roll" style="display: block;">
+              <span style="display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 12px; height: 12px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+              <span style="display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 12px; height: 12px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+            </span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 1000 },
+  &quot;showKort&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Inhoud&quot; },
+  &quot;rowHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;contact.html&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; },
+  &quot;founderHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#verhaal&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; },
+  &quot;ctaHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;contact.html&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Call-to-action&quot; },
+  &quot;ctaLabel&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Plan een gesprek&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Call-to-action&quot; }
+}">
+class Component extends DCLogic {
+  services = [
+    { num: '01', titel: 'Procesoptimalisatie', tag: 'Lean Six Sigma',
+      kort: 'Minder verspilling, meer resultaat volgens bewezen Lean Six Sigma-principes.',
+      deliverables: ['Procesanalyse & value stream map', 'Verspillingsscan', 'Verbeterroadmap', 'Borging & meetplan'] },
+    { num: '02', titel: 'Data & Dashboards', tag: 'Business analyse',
+      kort: 'Zet jouw rommelige data om in beslissingen die je écht kunt gebruiken.',
+      deliverables: ['Power BI dashboards', 'KPI-definities', 'Datamodel', 'Rapportage-automatisering'] },
+    { num: '03', titel: 'AI-Enablement & Maatwerk', tag: 'Praktisch, niet theoretisch',
+      kort: 'Breng AI in je dagelijkse workflow — praktisch, niet theoretisch.',
+      deliverables: ['Workflow-scan', 'Prompt- & toolkeuze', 'Maatwerk-automatisering', 'Team-training'] },
+    { num: '04', titel: '1-op-1 AI-Coaching', tag: 'Online · 90 minuten',
+      kort: '90 minuten. Één workflow getransformeerd — je gaat weg met iets dat werkt.',
+      deliverables: ['Intake & doelbepaling', 'Live sessie — 90 min', 'Werkende workflow', 'Opname & naslag'] },
+  ];
+  state = { mobile: (typeof window !== 'undefined' ? window.innerWidth < 860 : false) };
+  componentDidMount() {
+    this._mq = window.matchMedia('(max-width: 859px)');
+    this._onMq = (e) => this.setState({ mobile: e.matches });
+    this.setState({ mobile: this._mq.matches });
+    if (this._mq.addEventListener) this._mq.addEventListener('change', this._onMq);
+  }
+  componentWillUnmount() {
+    if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq);
+  }
+  renderVals() {
+    const m = this.state.mobile;
+    return {
+      headCols: m ? '1fr' : 'minmax(0, 1.6fr) minmax(260px, 1fr)',
+      rowCols: m ? '1fr' : 'minmax(0, 1.6fr) minmax(280px, 1fr)',
+      delivPad: m ? '0' : '10px',
+      showKort: this.props.showKort ?? true,
+      rows: this.services.map((s) => ({ ...s, href: this.props.rowHref ?? 'contact.html' })),
+      ctaHref: this.props.ctaHref ?? 'contact.html',
+      ctaLabel: this.props.ctaLabel ?? 'Plan een gesprek',
+      founderHref: this.props.founderHref ?? '#verhaal',
+    };
+  }
+}
+</script>
+</body>
+</html>

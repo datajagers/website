@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+  </style>
+</helmet>
+<div style="margin-top: 20px; display: flex; align-items: baseline; gap: clamp(40px, 8vw, 140px); border-top: 1px solid {{ lineColor }}; padding: 20px 2px 0 2px; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; line-height: 16.2px; letter-spacing: -0.5px; color: {{ inkColor }};">
+  <span style="display: inline-flex; align-items: center; gap: 9px; white-space: nowrap;"><span aria-hidden="true" style="width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); display: inline-block;"></span><span>({{ num }})</span></span>
+  <span style="white-space: nowrap;">({{ label }})</span>
+  <sc-if value="{{ hasRight }}" hint-placeholder-val="{{ false }}">
+    <span style="margin-left: auto; white-space: nowrap; opacity: 0.75; font-feature-settings: 'tnum';">{{ right }}</span>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1180, &quot;height&quot;: 80 },
+  &quot;num&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;06&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;label&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Veelgestelde vragen&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;right&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;tone&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;light&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const dark = (this.props.tone ?? 'light') === 'dark';
+    return {
+      num: this.props.num ?? '00',
+      label: this.props.label ?? '',
+      right: this.props.right ?? '',
+      hasRight: !!this.props.right,
+      // `tone` names the band this kop sits on, so it must resolve to literals.
+      // Going through --dj-ink/--dj-border made the light variant follow the
+      // theme instead of the band: on the light band the dark theme resolved
+      // --dj-ink to #ffffff and the whole row disappeared at 1.08:1.
+      lineColor: dark ? 'rgba(242,245,249,0.14)' : '#dde7e4',
+      inkColor: dark ? 'rgba(242,245,249,0.85)' : '#645c66',
+    };
+  }
+}
+</script>
+</body>
+</html>

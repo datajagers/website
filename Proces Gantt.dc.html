@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #1D1D1D; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    [data-pg-root] a { color: #f2f5f9; text-decoration: none; } [data-pg-root] a:hover { color: var(--dj-hover,#93c3fd); }
+    [data-pg-bar] { transform: scaleX(0); transform-origin: left; transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-pg-bar] > span { opacity: 0; transition: opacity 0.4s ease 0.5s; }
+    [data-pg-root][data-on="true"] [data-pg-bar] { transform: scaleX(1); }
+    [data-pg-root][data-on="true"] [data-pg-bar] > span { opacity: 1; }
+    [data-pg-in] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-pg-root][data-on="true"] [data-pg-in] { opacity: 1; transform: none; }
+    @media (max-width: 859px) {
+      /* mobiel: geen weekas, balken vol-breed onder elkaar — de volgorde vertelt het verhaal */
+      [data-pg-grid] { display: none !important; }
+      /* mobiel: de gantt blijft een gantt — de balken houden hun procentuele
+         start/breedte (de overlap ís de boodschap), alleen compacter en met
+         een leesbaar label. fit-content laat een smalle balk zijn tekst houden. */
+      [data-pg-lane] { height: 44px !important; }
+      [data-pg-bar] { min-width: fit-content; padding: 0 14px !important; }
+      [data-pg-bar] > span { font-size: 12.5px !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      [data-pg-bar], [data-pg-in] { transform: none !important; opacity: 1 !important; transition: none !important; }
+      [data-pg-bar] > span { opacity: 1 !important; transition: none !important; }
+    }
+  </style>
+</helmet>
+
+<div data-pg-root data-screen-label="Diensten / het proces" style="max-width: 1320px; margin: 0 auto; padding: clamp(40px, 5vw, 80px) clamp(24px, 4vw, 64px) clamp(56px, 7vw, 104px); color: #f2f5f9; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;">
+  <dc-import name="Sectiekop" num="05" label="Het proces" right="04 fasen" tone="dark" hint-size="100%,36px"></dc-import>
+  <h3 data-pg-in style="margin: clamp(20px, 3vh, 36px) 0 0; font-size: clamp(34px, 3.4vw, 58px); font-weight: 700; line-height: 1.08; letter-spacing: -0.03em; max-width: 20ch; text-wrap: balance;">Zo werken we <span style="color: #8a828c;">van vraag naar rust.</span></h3>
+  <p data-pg-in style="margin: 14px 0 0; max-width: 46ch; font-size: clamp(15px, 1vw, 17px); line-height: 1.6; letter-spacing: -0.01em; color: #a3a3a3;">Vier fasen, elkaar overlappend &mdash; want inzicht wacht niet op een opgeleverd systeem.</p>
+
+  <!-- gantt -->
+  <div style="position: relative; margin-top: clamp(36px, 5vh, 64px);">
+    <!-- raster: alleen ritme, geen weekaanduiding -->
+    <div data-pg-grid aria-hidden="true" style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(11, 1fr);">
+      <sc-for list="{{ weken }}" as="wk" hint-placeholder-count="11">
+        <div style="border-left: 1px solid var(--dj-rule,rgba(242,245,249,0.14));"></div>
+      </sc-for>
+    </div>
+    <!-- balken -->
+    <div style="position: relative; display: flex; flex-direction: column; gap: 14px; padding: 8px 0 10px;">
+      <sc-for list="{{ fasen }}" as="f" hint-placeholder-count="4">
+        <div data-pg-lane style="position: relative; height: 62px;">
+          <div data-pg-bar style="position: absolute; top: 0; bottom: 0; left: {{ f.left }}; width: {{ f.width }}; background: #f6f6f4; border-radius: 5px; display: flex; align-items: center; padding: 0 20px; transition-delay: {{ f.delay }};">
+            <span style="font-size: clamp(15px, 1.1vw, 18px); font-weight: 600; letter-spacing: -0.02em; color: #1D1D1D; white-space: nowrap;">{{ f.titel }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- fase-uitleg -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: clamp(24px, 3vw, 48px); margin-top: clamp(40px, 5vh, 64px); border-top: 1px solid var(--dj-rule,rgba(242,245,249,0.14)); padding-top: clamp(24px, 3vh, 36px);">
+    <sc-for list="{{ fasen }}" as="f" hint-placeholder-count="4">
+      <div data-pg-in style="display: flex; flex-direction: column; gap: 12px; transition-delay: {{ f.delay }};">
+        <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #8a828c; font-feature-settings: 'tnum';">({{ f.num }})</span>
+        <span style="font-size: clamp(20px, 1.6vw, 26px); font-weight: 700; letter-spacing: -0.02em;">{{ f.titel }}</span>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; letter-spacing: -0.01em; color: #a3a3a3; max-width: 34ch;">{{ f.tekst }}</p>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const root = document.querySelector('[data-pg-root]');
+    if (!root || !window.IntersectionObserver) { if (root) root.setAttribute('data-on', 'true'); return; }
+    this._io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { root.setAttribute('data-on', 'true'); this._io.disconnect(); } });
+    }, { threshold: 0.25 });
+    this._io.observe(root);
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+  renderVals() {
+    const W = 11;
+    const pct = (v) => ((v / W) * 100).toFixed(2) + '%';
+    const mk = (num, titel, start, end, periode, tekst, delay) => ({
+      num, titel, periode, tekst, delay,
+      left: pct(start - 1), width: pct(end - start + 1),
+    });
+    return {
+      weken: Array.from({ length: 11 }, (_, i) => ({ num: (i + 1) < 10 ? '0' + (i + 1) : String(i + 1) })),
+      fasen: [
+        mk('01', 'Ontdekken', 1, 3, 'Week 1\u20133', 'We beginnen met luisteren: doelen, cijfers en waar het schuurt \u2014 helder voordat we iets bouwen.', '0s'),
+        mk('02', 'Strategie', 2.6, 5.5, 'Week 3\u20135', 'De vertaalslag: welke vraag beantwoorden we, met welke data, in welke taal. E\u00e9n richting, geen ruis.', '0.12s'),
+        mk('03', 'Bouwen', 4.4, 9, 'Week 4\u20139', 'Dashboards, koppelingen en AI-workflows \u2014 gebouwd m\u00e9t je team, getoetst aan de echte praktijk.', '0.24s'),
+        mk('04', 'Live & daarna', 7.8, 11, 'Week 8\u2192', 'Livegang is het begin: we blijven meten, bijsturen en ondersteunen zodat het waardevol blijft.', '0.36s'),
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

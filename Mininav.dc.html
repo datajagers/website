@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    a { color: inherit; text-decoration: none; } a:hover { color: inherit; }
+    [data-mn-panel] { display: grid; transition: grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease; }
+    [data-mn-link] { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-mn-panel][data-open="true"] [data-mn-link] { opacity: 1; transform: translateY(0); }
+    [data-mn-panel][data-open="true"] [data-mn-link]:nth-child(1) { transition-delay: 0.1s; }
+    [data-mn-panel][data-open="true"] [data-mn-link]:nth-child(2) { transition-delay: 0.145s; }
+    [data-mn-panel][data-open="true"] [data-mn-link]:nth-child(3) { transition-delay: 0.19s; }
+    [data-mn-panel][data-open="true"] [data-mn-link]:nth-child(4) { transition-delay: 0.235s; }
+    [data-mn-link] .ml-label { transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-mn-link]:hover .ml-label { color: #ffffff; }
+    [data-mn-link] .ml-sweep { transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-mn-link]:hover .ml-sweep { transform: scaleX(1); }
+    [data-mn-bar] { transition: opacity 0.35s ease, background-color 0.35s ease; }
+    [data-mn-bar] .mn-logo, [data-mn-bar] .mn-menu { transition: background-color 0.35s ease, color 0.35s ease; }
+    @media (prefers-reduced-motion: reduce) { [data-mn-panel], [data-mn-link], [data-mn-bar], [data-mn-bar] .mn-logo, [data-mn-bar] .mn-menu, [data-mn-scrim] { transition: none !important; } }
+  </style>
+</helmet>
+
+<div style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;">
+  <div data-mn-scrim aria-hidden="true" onClick="{{ onClose }}" style="position: fixed; inset: 0; z-index: 590; background: rgba(0,0,0,0.45); opacity: {{ scrimOpacity }}; pointer-events: {{ scrimPE }}; transition: opacity 0.4s ease;"></div>
+
+  <!-- uitklap-menu (zelfde grammatica als de hero-navbar) -->
+  <div data-mn-panel data-open="{{ expanded }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 595; background: #111111; border-radius: 0 0 5px 5px; grid-template-rows: {{ panelRows }}; box-shadow: {{ panelShadow }};">
+    <div style="overflow: hidden; min-height: 0;">
+      <div style="padding: 108px clamp(18px, 2vw, 28px) 28px; max-width: 1500px; margin: 0 auto;">
+        <nav aria-label="Menu" style="display: flex; flex-direction: column;">
+          <sc-for list="{{ links }}" as="ml" hint-placeholder-count="4">
+            <a data-mn-link href="{{ ml.href }}" onClick="{{ onClose }}" style="position: relative; display: flex; align-items: flex-start; gap: 8px; padding: 18px 2px; border-bottom: 1px solid var(--dj-rule,rgba(242,245,249,0.14)); color: #d4d4d4;">
+              <span class="ml-label" style="font-size: 16px; letter-spacing: -0.01em; line-height: 1.2;">{{ ml.label }}</span>
+              <span aria-hidden="true" style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 11px; line-height: 11.2px; color: #7d7d7d; transform: translateY(-2px); font-feature-settings: 'tnum';">{{ ml.num }}</span>
+              <span class="ml-sweep" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: #ffffff;"></span>
+            </a>
+          </sc-for>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- minibalk: logo + MENU, kleurt mee met wat eronder ligt -->
+  <div data-mn-bar style="position: fixed; top: 0; left: 0; right: 0; z-index: 600; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; opacity: 0; pointer-events: none;">
+    <a href="#top" aria-label="Datajagers" style="display: block; width: 98px; flex: none;">
+      <span class="mn-logo" role="img" aria-hidden="true" style="display: block; width: 100%; height: 18px; -webkit-mask: url('assets/logo_wordmark.svg') left center / contain no-repeat; mask: url('assets/logo_wordmark.svg') left center / contain no-repeat; background: #1D1D1D;"></span>
+    </a>
+    <button type="button" class="mn-menu" aria-expanded="{{ expanded }}" onClick="{{ onToggle }}" style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 1.6px; background: transparent; border: 0; cursor: pointer; padding: 8px 2px; min-height: 44px; color: #1D1D1D;">{{ menuLabel }}</button>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: false };
+  componentDidMount() {
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.open) this.setState({ open: false }); };
+    window.addEventListener('keydown', this._onKey);
+    this._schedule = () => { if (!this._pend) { this._pend = true; requestAnimationFrame(() => { this._pend = false; this._update(); }); } };
+    window.addEventListener('scroll', this._schedule, { passive: true });
+    window.addEventListener('resize', this._schedule);
+    this._iv = setInterval(this._schedule, 400); // vangt layoutverschuivingen zonder scroll
+    this._update();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('scroll', this._schedule);
+    window.removeEventListener('resize', this._schedule);
+    clearInterval(this._iv);
+  }
+  _probe(x, y, bar, panel, extra) {
+    // wat ligt er onder de balk? -> { photo, bg } (bg = eerste dekkende achtergrondkleur)
+    let els;
+    try { els = document.elementsFromPoint(x, y); } catch (e) { return { photo: false, bg: null }; }
+    els = els.filter((e) => !bar.contains(e) && (!panel || !panel.contains(e)) && (!extra || !extra.contains(e)));
+    let photo = false, bg = null;
+    for (const el of els) {
+      const cs = getComputedStyle(el);
+      if (!photo && (el.tagName === 'IMG' || el.tagName === 'VIDEO' || el.tagName === 'CANVAS' || (cs.backgroundImage && cs.backgroundImage !== 'none'))) photo = true;
+      const m = (cs.backgroundColor || '').match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/);
+      if (m && (m[4] === undefined || parseFloat(m[4]) > 0.5)) { bg = [parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3])]; break; }
+    }
+    return { photo, bg };
+  }
+  _update() {
+    const bar = document.querySelector('[data-mn-bar]');
+    const panel = document.querySelector('[data-mn-panel]');
+    if (!bar) return;
+    const hero = document.getElementById('top');
+    const heroGone = !hero || hero.getBoundingClientRect().bottom < 64;
+    const heroNav = document.querySelector('[data-hero-nav]');
+    const y = 32, vw = window.innerWidth;
+    let L, R, active;
+    if (!heroGone) {
+      // in de hero: peil wat er onder de navbalk ligt (foto = volle navbar; licht eindpaneel = mininav)
+      L = this._probe(36, y, bar, panel, heroNav);
+      R = this._probe(vw - 60, y, bar, panel, heroNav);
+      const photoState = L.photo || R.photo;
+      active = !photoState; // licht "In cijfers"-paneel actief
+      if (heroNav) {
+        heroNav.style.opacity = active ? '0' : '1';
+        heroNav.style.pointerEvents = active ? 'none' : 'auto';
+      }
+    } else {
+      active = true;
+      if (heroNav) { heroNav.style.opacity = '1'; heroNav.style.pointerEvents = 'auto'; }
+      L = this._probe(36, y, bar, panel);
+      R = this._probe(vw - 60, y, bar, panel);
+    }
+    bar.style.opacity = (active || this.state.open) ? '1' : '0';
+    bar.style.pointerEvents = (active || this.state.open) ? 'auto' : 'none';
+    if (!active) return;
+    const logo = bar.querySelector('.mn-logo'), menu = bar.querySelector('.mn-menu');
+    if (this.state.open) {
+      // boven het donkere paneel: altijd licht, balk transparant
+      bar.style.backgroundColor = 'transparent';
+      if (logo) logo.style.backgroundColor = '#f6f6f4';
+      if (menu) menu.style.color = '#f6f6f4';
+      return;
+    }
+    // sectie-toon rect-gebaseerd (hit-testing mist gepinde/pointer-events:none-lagen)
+    const sec = heroGone ? this._sectionAt(y) : { tone: 'light', fill: '#f6f6f4' };
+    const tone = sec ? sec.tone : 'light';
+    const ink = tone === 'light' ? '#1D1D1D' : '#f6f6f4';
+    // Altijd een vlak achter de balk: transparant liet secties door het
+    // logo heen scrollen (hairlines dwars door het woordmerk). Boven een foto
+    // dekkend, daarbuiten 85% + blur zodat de balk bij de sectie blijft horen.
+    const fill = sec && sec.fill ? sec.fill : '#f6f6f4';
+    bar.style.backgroundColor = (L.photo || R.photo) ? fill : fill + 'd9';
+    if (logo) logo.style.backgroundColor = ink;
+    if (menu) menu.style.color = ink;
+  }
+  _sectionAt(y) {
+    // laatste sectie in DOM-volgorde die de probehoogte overlapt wint (wipes schuiven eroverheen)
+    const map = [
+      ['#verhaal', 'light', '#f6f6f4'],
+      ['#herkenbaar', 'dark', '#1D1D1D'],
+      ['[data-es-track]', 'dark', '#1D1D1D'],
+      ['#diensten', 'dark', '#1D1D1D'],
+      ['#proof-quotes', 'light', '#f6f6f4'],
+      ['#faq', 'light', '#f6f6f4'],
+      ['footer, [data-footer], #site-footer', 'dark', '#1D1D1D'],
+    ];
+    let hit = null;
+    for (const [sel, tone, fill] of map) {
+      const el = document.querySelector(sel);
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      if (r.top <= y && r.bottom > y) hit = { tone, fill };
+    }
+    return hit;
+  }
+  componentDidUpdate() { this._update(); }
+  renderVals() {
+    const home = this.props.home ?? '';
+    const links = [
+      { label: 'Home', href: home || '#top', num: '01' },
+      { label: 'Wie we zijn', href: home + '#verhaal', num: '02' },
+      { label: 'Diensten', href: home + '#diensten', num: '03' },
+      { label: 'FAQ', href: home + '#faq', num: '04' },
+      { label: 'Contact', href: this.props.contactHref ?? 'contact.html', num: '05' },
+    ];
+    return {
+      links,
+      menuLabel: this.state.open ? 'SLUIT' : 'MENU',
+      expanded: this.state.open ? 'true' : 'false',
+      panelRows: this.state.open ? '1fr' : '0fr',
+      panelShadow: this.state.open ? '0 30px 60px rgba(0,0,0,0.5)' : '0 0 0 rgba(0,0,0,0)',
+      scrimOpacity: this.state.open ? '1' : '0',
+      scrimPE: this.state.open ? 'auto' : 'none',
+      onToggle: () => this.setState((s) => ({ open: !s.open })),
+      onClose: () => this.setState({ open: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /inzicht.html
+
+Sitemap: https://www.datajagers.nl/sitemap.xml

@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="bca0c32c-e961-4508-bf1d-05c9ef53f52c"></script>
+</head>
+<body>
+
+<x-dc>
+<helmet>
+  <script>
+    // Synchrone pre-paint: het coal-doek staat op het allereerste frame, vóór
+    // er ook maar iets van de bundel binnenstroomt. curtains.js kleedt het
+    // daarna aan met het vizier (lijnen, ruit, woordmerk) en doet de iris-exit.
+    (function () {
+      // thema vóór eerste paint (geen flits)
+      try { if (localStorage.getItem('dj-theme') !== 'light') document.documentElement.classList.add('dj-dark'); } catch (e) {}
+      if (document.getElementById('dj-preloader')) return;
+      var pl = document.createElement('div');
+      pl.id = 'dj-preloader';
+      var s = pl.style;
+      s.position = 'fixed'; s.top = '0'; s.left = '0'; s.right = '0'; s.bottom = '0';
+      s.zIndex = '3000'; s.overflow = 'hidden'; s.background = 'transparent';
+      var cover = document.createElement('div');
+      cover.className = 'dj-pl-cover';
+      cover.setAttribute('aria-hidden', 'true');
+      var cs = cover.style;
+      cs.position = 'absolute'; cs.top = '0'; cs.left = '0'; cs.right = '0'; cs.bottom = '0';
+      cs.background = '#1D1D1D'; cs.willChange = 'clip-path';
+      pl.appendChild(cover);
+      (document.body || document.documentElement).appendChild(pl);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Fragment Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("527a2d42-47ec-4a6a-bca8-93f1acea99d7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fragment Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("31a4172c-c2a5-4e5a-8ac6-c055541e7a12") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fragment Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("512950bf-8b93-460a-a858-8d3a4b610d1a") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2896e2fd-c92a-4eeb-9006-09eb0e1e12b7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("65b70cd0-9653-438e-a31d-9d7e6f173115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("0619c3e3-eb8d-45d1-8a09-c7e3deae423d") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fa0ee8d9-27fa-49ef-aa4f-f069f827dd85") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2896e2fd-c92a-4eeb-9006-09eb0e1e12b7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("65b70cd0-9653-438e-a31d-9d7e6f173115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("0619c3e3-eb8d-45d1-8a09-c7e3deae423d") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fa0ee8d9-27fa-49ef-aa4f-f069f827dd85") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2896e2fd-c92a-4eeb-9006-09eb0e1e12b7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("65b70cd0-9653-438e-a31d-9d7e6f173115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("0619c3e3-eb8d-45d1-8a09-c7e3deae423d") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fa0ee8d9-27fa-49ef-aa4f-f069f827dd85") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("2896e2fd-c92a-4eeb-9006-09eb0e1e12b7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("65b70cd0-9653-438e-a31d-9d7e6f173115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("0619c3e3-eb8d-45d1-8a09-c7e3deae423d") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fa0ee8d9-27fa-49ef-aa4f-f069f827dd85") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("2896e2fd-c92a-4eeb-9006-09eb0e1e12b7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("65b70cd0-9653-438e-a31d-9d7e6f173115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("0619c3e3-eb8d-45d1-8a09-c7e3deae423d") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fa0ee8d9-27fa-49ef-aa4f-f069f827dd85") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+  <style>
+    * { box-sizing: border-box; }
+    /* Dark-mode tokens: light mode uses each element's inline fallback (var undefined),
+       so it renders pixel-identical; dark mode redefines the tokens on <html lang="nl".dj-dark>.
+       Preloader jet-black (#1d1d1d) becomes the site's base surface in dark mode. */
+    html.dj-dark {
+      --dj-base: #1d1d1d;
+      --dj-surface: #1d1d1d;
+      --dj-card: #2a2a2a;
+      --dj-ink: #ffffff;
+      --dj-muted: #a3a3a3;
+      --dj-border: #363636; --dj-rule: rgba(242,245,249,0.14); --dj-rule-strong: rgba(242,245,249,0.28);
+    }
+    /* Authoritative base: child-section helmets each inject their own
+       `html, body { background }` reset (equal specificity, injected later),
+       so they'd win. !important from the top-level Hero beats those non-!important
+       resets and the inline color-scheme, making jet-black the true scroll base. */
+    html.dj-dark, html.dj-dark body { background: #1d1d1d !important; }
+    html.dj-dark { color-scheme: dark !important; }
+    /* Lijnsysteem: één standaardlijn, één zwaardere voor nadruk. Secties die
+       hun eigen band pinnen (FAQ licht, Herkenbaar donker) zetten deze twee
+       lokaal over; dit zijn de lichte standaardwaarden. */
+    :root { --dj-rule: #dde7e4; --dj-rule-strong: #c2d1cc; }
+    html, body { margin: 0; padding: 0; background: var(--dj-base, #f6f6f4); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; font-feature-settings: 'ss01'; }
+    a { color: #1f66c4; text-decoration: none; }
+    a:hover { color: var(--dj-hover,#1f66c4); }
+    html.dj-dark a { color: #61A6FB; }
+    html.dj-dark a:hover { color: var(--dj-hover,#93c3fd); }
+    @keyframes floatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    @keyframes floatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes floatC { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes floatD { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes floatHero { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes dsCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .floaty { animation: none !important; } }
+      /* footer: FAQ-hover op navsecties + ArrowCTA-nudge op contactlink */
+    [data-foot-link] .fl-circ { transform: scale(0.4); opacity: 0; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-foot-link]:hover .fl-circ { transform: scale(1); opacity: 1; }
+    [data-foot-link] .fl-label { display: inline-block; flex: 1; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-foot-link]:hover .fl-label { transform: translateX(8px); color: #ffffff; }
+    @media (prefers-reduced-motion: reduce) { [data-foot-link] .fl-circ, [data-foot-link] .fl-label, [data-foot-cta] .fc-label, }
+</style>
+  <script src="aa2feb43-c723-42a1-a85f-93069ae3a1a5"></script>
+  <script src="38fcd711-026a-4dd5-bd8b-ae1db6c20826"></script>
+  <script src="9f7381b9-146c-46de-b647-ce7515728e88"></script>
+  <script src="07ea75cb-2dd9-413b-98df-b276a99e6563"></script>
+  <style>
+    /* estafette: mobiel/reduced — scenes statisch onder elkaar, geen pin */
+    @media (max-width: 859px) {
+      [data-es-track] { height: auto !important; }
+      [data-es-stage] { position: relative !important; height: auto !important; }
+      [data-es-scene] { position: relative !important; inset: auto !important; opacity: 1 !important; transform: none !important; padding-top: clamp(80px, 14vh, 140px) !important; padding-bottom: clamp(40px, 7vh, 80px) !important; }
+      [data-es-slot] { visibility: visible !important; }
+      [data-es-word] { display: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      [data-es-track] { height: auto !important; }
+      [data-es-stage] { position: relative !important; height: auto !important; }
+      [data-es-scene] { position: relative !important; inset: auto !important; opacity: 1 !important; transform: none !important; padding-top: clamp(80px, 14vh, 140px) !important; padding-bottom: clamp(40px, 7vh, 80px) !important; }
+      [data-es-slot] { visibility: visible !important; }
+      [data-es-word] { display: none !important; }
+    }
+  </style>
+  <script src="8fa698fc-13c1-4e7c-96ef-233c657cb5a5"></script>
+  <script src="504454a8-7de0-4122-9b73-2c3b65958343"></script>
+  <script src="1eb71f28-7bb2-4593-b5f8-67b236ca472f"></script>
+</helmet>
+
+<div style="width: 100%; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;">
+
+  <!-- page-hold: alles vóór de footer staat visueel stil tijdens de footer-reveal -->
+  <div data-page-hold="" style="position: relative;">
+
+  <!-- ============================================================ -->
+  <!-- ====== HERO — kader-expansie met scroll-trigger (ke-driver) = -->
+  <!-- ============================================================ -->
+  <!-- mininav: logo + MENU, verschijnt zodra de hero (met de volle navbar) uit beeld is -->
+  <dc-import name="Mininav" home="" contact-href="contact.html" hint-size="1px,1px" style="display:block;"></dc-import>
+
+<div id="top" style="position: relative; z-index: 2;">
+    <dc-import name="Hero Fullbleed Datajagers" hint-size="100%,100vh" style="display:block;position:relative;"></dc-import>
+    <!-- diagonale wig: hero -> wie we zijn (in #top zodat hij bóven de hero schildert) -->
+    <div data-wwz-wig="" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; height: clamp(70px, 9vw, 150px); background: #f6f6f4; clip-path: polygon(0 100%, 100% 100%, 100% 100%); pointer-events: none;"></div>
+  </div>
+
+  <!-- ===== content stack ===== -->
+  <div data-hero-follow="" style="position:relative;z-index:1;">
+
+  <!-- ============================================================ -->
+  <!-- ============== PROOF / DASHBOARD (fluid, shared) =========== -->
+  <!-- ============================================================ -->
+  <!-- wie we zijn — gepinde quote + horizontale wipe naar statements (A/B/C, sticky rail);
+       de belofte leeft als C-statement ín de sectie -->
+  <section id="verhaal" style="position: relative; z-index: 1; background: #f6f6f4;">
+    <dc-import name="Wie we zijn Statement Concept Light" hint-size="100%,5300px" style="display:block;"></dc-import>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ============== HERKENBAAR — immersive struggles ============ -->
+  <!-- ============================================================ -->
+  <!-- ====== SD-B -> HERKENBAAR — boog-echo: paneel komt binnen als vlakke boog en vlakt af met scroll ====== -->
+  <section id="herkenbaar" style="position: relative; z-index: 2; background: #f6f6f4;">
+    <div style="position: relative; background: #1D1D1D; --dj-base: #1d1d1d; --dj-surface: #1d1d1d; --dj-card: #2a2a2a; --dj-ink: #ffffff; --dj-muted: #a3a3a3; --dj-border: #363636; --dj-rule: rgba(242,245,249,0.14); --dj-rule-strong: rgba(242,245,249,0.28);">
+      <div data-hk-boogkap="" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); height: 140px; background: #1D1D1D; border-radius: 100% 100% 0 0; pointer-events: none;"></div>
+      <dc-import name="Herkenbaar" hint-size="100%,3200px" style="display:block;"></dc-import>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ====== ESTAFETTE — adempauze wordt in-place de diensten-kop ====== -->
+  <div data-es-track="" style="position: relative; height: 220vh; background: #1D1D1D;">
+    <div data-es-stage="" style="position: sticky; top: 0; height: 62vh; overflow: hidden;">
+      <div data-es-scene="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(28px, 4vw, 44px); text-align: center; padding: 0 22px; will-change: transform, opacity;">
+        <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #8a828c;">HERKENBAAR?</span>
+        <h2 style="margin: 0; max-width: 22ch; font-size: clamp(30px, 3.4vw, 60px); font-weight: 700; line-height: 1.15; letter-spacing: -0.03em; color: #ffffff; text-wrap: balance;">Niet je mensen zitten vast. <span style="color: #8a828c;">Je <span data-es-slot="a" style="visibility: hidden;">tooling</span> zit vast.</span></h2>
+      </div>
+      <div data-es-scene="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 clamp(24px, 4vw, 64px); opacity: 0; will-change: transform, opacity;">
+        <div style="max-width: 1320px; margin: 0 auto; width: 100%;">
+          <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--dj-rule,rgba(242,245,249,0.14)); padding-bottom: 14px;">
+            <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #8a828c;">(04)</span>
+            <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #8a828c;">(Diensten)</span>
+            <span style="margin-left: auto; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #8a828c;">04 — TRAJECTEN</span>
+          </div>
+          <h2 style="margin: 32px 0 0; max-width: 22ch; font-size: clamp(30px, 3.4vw, 60px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: #ffffff; text-wrap: balance;"><span data-es-slot="b" style="visibility: hidden;">tooling</span> die wél meewerkt. <span style="color: #8a828c;">En training die je team meeneemt.</span></h2>
+          <p style="margin: 18px 0 0; max-width: 46ch; font-size: clamp(15px, 0.85vw, 16px); line-height: 1.6; color: #a3a3a3;">Van procesoptimalisatie tot dashboards en AI-workflows — gebouwd mét je team, zodat het blijft werken als wij weg zijn.</p>
+        </div>
+      </div>
+      <span data-es-word="" aria-hidden="true" style="position: absolute; left: 0; top: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: #ffffff; transform-origin: left top; will-change: transform; pointer-events: none; opacity: 0;">tooling</span>
+    </div>
+  </div>
+
+  <!-- ============== DIENSTEN — Waven case-player app =========== -->
+  <!-- ============================================================ -->
+  <section id="diensten" data-nav-anchor data-diensten-pin="" style="position: relative; z-index: 0; background: #1D1D1D;">
+    <dc-import name="Diensten Sectie Concept" row-href="contact.html" cta-href="contact.html" hint-size="100%,2000px"></dc-import>
+    <!-- het proces — gantt van de vier fasen, binnen dezelfde donkere band -->
+    <dc-import name="Proces Gantt" hint-size="100%,900px" style="display:block;"></dc-import>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ===== DIENSTEN -> KLANTVERHALEN — diagonale wig-wipe ======= -->
+  <!-- diensten pint (sticky) zodra zijn onderkant in beeld is; de  -->
+  <!-- klantverhalen schuiven er met de diagonale snede overheen    -->
+  <!-- ============================================================ -->
+  <section id="proof-quotes" data-tm-pin="" style="position: relative; z-index: 1; background: var(--dj-surface,#f6f6f4);">
+    <!-- diagonale wig: harde geometrische snede, links laag → rechts hoog -->
+    <div data-tm-wig="" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); z-index: 1; height: clamp(70px, 9vw, 150px); background: var(--dj-surface,#f6f6f4); clip-path: polygon(0 100%, 100% 100%, 100% 100%); pointer-events: none;"></div>
+    <dc-import name="Testimonials Concept" compact="{{ true }}" cta-href="contact.html" hint-size="100%,2200px"></dc-import>
+  </section>
+
+
+  <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- ============== FAQ — diagonale wipe over gepind gevoel ===== -->
+  <!-- ============================================================ -->
+  <div id="faq" style="position: relative; z-index: 2; background: #f6f6f4;">
+    <dc-import name="FAQ Sectie" cta-label="{{ ctaLabel }}" cta-href="{{ ctaTarget }}" hint-size="100%,720px"></dc-import>
+    <!-- uitloop: laatste vraag + sticky kolom komen volledig in beeld vóór de footer-reveal begint -->
+    <div aria-hidden="true" style="height: clamp(200px, 38vh, 420px); background: #f6f6f4;"></div>
+  </div>
+
+  </div><!-- einde hero-follow -->
+  <!-- einde page-hold -->
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- ============== FOOTER — donker editorial =================== -->
+  <!-- ============================================================ -->
+
+<dc-import name="Footer" contact-href="contact.html" cta-href="contact.html" hint-size="100%,2200px"></dc-import>
+
+  <!-- persistent bottom fog — kleurneutraal liquid glass: geen witte tint, alleen
+       geblurde/verzadigde doorkijk + heel lichte sheen, werkt op elke achtergrondkleur -->
+  <div data-dj-fog="" aria-hidden="true" style="position: fixed; left: 0; right: 0; bottom: 0; height: 96px; pointer-events: none; z-index: 30; background: linear-gradient(to top, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0) 100%); -webkit-backdrop-filter: blur(12px) saturate(1.35) brightness(1.04); backdrop-filter: blur(12px) saturate(1.35) brightness(1.04); -webkit-mask-image: linear-gradient(to top, #000 0%, #000 26%, transparent 100%); mask-image: linear-gradient(to top, #000 0%, #000 26%, transparent 100%);"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{
+  &quot;ctaLabel&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Plan een gesprek&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Call-to-action&quot; },
+  &quot;ctaTarget&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;contact.html&quot;, &quot;options&quot;: [&quot;contact.html&quot;, &quot;#diensten&quot;, &quot;inzichten.html&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Call-to-action&quot; }
+}">
+class Component extends DCLogic {
+  state = { i: 0, w: (typeof window !== 'undefined' ? window.innerWidth : 1280), prog: 0, dashIn: false, footIn: false, dark: (typeof document !== 'undefined' && document.documentElement.classList.contains('dj-dark')) };
+
+  toggleTheme = () => {
+    const dark = !document.documentElement.classList.contains('dj-dark');
+    document.documentElement.classList.toggle('dj-dark', dark);
+    try { localStorage.setItem('dj-theme', dark ? 'dark' : 'light'); } catch (e) {}
+    this.setState({ dark: dark });
+  };
+
+  reduce = !!(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  metrics = [
+    { label: 'Omzet',             value: '\u20ac2,41M', delta: '9,1%', up: true },
+    { label: 'Actieve gebruikers', value: '18.420',     delta: '6,2%', up: true },
+    { label: 'Conversie',         value: '4,8%',        delta: '1,3%', up: true },
+    { label: 'Churn',             value: '2,1%',        delta: '0,4%', up: true },
+    { label: 'Retentie',          value: '92,4%',       delta: '0,8%', up: true },
+  ];
+
+  // diagonale wig (identiek aan de contactpagina): kantelt van horizontaal naar diagonaal
+  // met scroll-delay + onderkritisch gedempte veer, en groeit mee in hoogte
+  // twee instanties: FAQ (over het gevoel-blok) en klantverhalen (over diensten)
+  _wigConfigs = [
+    { wig: '[data-faq-wig]', sec: 'faq' },
+    { wig: '[data-tm-wig]', sec: 'proof-quotes' },
+    { wig: '[data-hk-boogkap]', sec: 'herkenbaar' },
+    { wig: '[data-wwz-wig]', sec: 'verhaal' },
+  ];
+  _startWig() {
+    if (this._wigRaf) return;
+    if (!this._wigS) this._wigS = this._wigConfigs.map(() => ({ t: 0, v: 0, d: undefined }));
+    const step = () => {
+      const vh = window.innerHeight;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let busy = false, any = false;
+      this._wigConfigs.forEach((cfg, k) => {
+        const wig = document.querySelector(cfg.wig);
+        const sec = document.getElementById(cfg.sec);
+        if (!wig || !sec) return;
+        any = true;
+        const s = this._wigS[k];
+        const r = sec.getBoundingClientRect();
+        const raw = Math.max(0, Math.min(1, (vh * 1.25 - r.top) / (vh * 0.85)));
+        if (s.d === undefined) s.d = raw;
+        s.d += (raw - s.d) * (reduce ? 1 : 0.07);
+        if (reduce) { s.t = s.d; s.v = 0; }
+        else {
+          s.v += (s.d - s.t) * 0.106;
+          s.v *= 0.875;
+          s.t += s.v;
+        }
+        const t = Math.max(0, Math.min(1.15, s.t));
+        if (wig.hasAttribute('data-hk-boogkap')) {
+          // boog-echo: vlakke boog die afvlakt naarmate de sectie het beeld vult
+          const maxB = Math.min(180, window.innerWidth * 0.12);
+          wig.style.height = Math.max(5, (1 - Math.pow(Math.min(1, t), 1.4)) * maxB).toFixed(1) + 'px';
+        } else {
+          wig.style.clipPath = 'polygon(0 100%, 100% ' + (100 - t * 100).toFixed(2) + '%, 100% 100%)';
+          const maxH = Math.min(225, Math.max(105, window.innerWidth * 0.135));
+          wig.style.height = (maxH * (0.35 + 0.65 * Math.min(1, t))).toFixed(1) + 'px';
+        }
+        if (!reduce && (Math.abs(raw - s.t) > 0.001 || Math.abs(s.v) > 0.001 || Math.abs(raw - s.d) > 0.001)) busy = true;
+      });
+      this._wigRaf = (any && busy) ? requestAnimationFrame(step) : null;
+    };
+    this._wigRaf = requestAnimationFrame(step);
+  }
+
+  _applyFooterSheet() {
+    const track = document.querySelector('[data-foot-track]');
+    const sheet = document.querySelector('[data-foot-sheet]');
+    if (!track || !sheet) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { sheet.style.transform = 'none'; return; }
+    const r = track.getBoundingClientRect();
+    const total = r.height - window.innerHeight;
+    const p = Math.max(0, Math.min(1, (-r.top) / total));
+    const e = 1 - Math.pow(1 - p, 3);
+    sheet.style.transform = 'translateY(' + ((1 - e) * 101).toFixed(2) + '%)';
+    // content vóór de footer staat stil via CSS sticky op [data-page-hold]; offset
+    // wordt in _fitPageHold gezet (resize/ResizeObserver), niet per scroll-frame.
+  }
+
+  // sticky top = -(inhoudshoogte - viewport): de wrapper pint exact wanneer zijn
+  // onderkant de viewport-bodem raakt en staat dan compositor-stil terwijl de
+  // footer-sheet eroverheen schuift.
+  _fitPageHold() {
+    // gevoel-sectie pint zodra zijn onderkant in beeld is; de FAQ schuift er met de wig overheen
+    const pin = document.querySelector('[data-gevoel-pin]');
+    if (pin) {
+      const pv = (-(Math.max(0, pin.offsetHeight - window.innerHeight))).toFixed(0) + 'px';
+      if (pin.style.position !== 'sticky') pin.style.position = 'sticky';
+      if (pin.style.top !== pv) pin.style.top = pv;
+    }
+    // diensten pint op dezelfde manier; de klantverhalen schuiven er met de wig overheen
+    const dpin = document.querySelector('[data-diensten-pin]');
+    if (dpin) {
+      const dv = (-(Math.max(0, dpin.offsetHeight - window.innerHeight))).toFixed(0) + 'px';
+      if (dpin.style.position !== 'sticky') dpin.style.position = 'sticky';
+      if (dpin.style.top !== dv) dpin.style.top = dv;
+    }
+    // klantverhalen pinnen op dezelfde manier; de FAQ schuift er vlak overheen
+    const tpin = document.querySelector('[data-tm-pin]');
+    if (tpin) {
+      const tv = (-(Math.max(0, tpin.offsetHeight - window.innerHeight))).toFixed(0) + 'px';
+      if (tpin.style.position !== 'sticky') tpin.style.position = 'sticky';
+      if (tpin.style.top !== tv) tpin.style.top = tv;
+    }
+    const hold = document.querySelector('[data-page-hold]');
+    if (!hold) return;
+    const top = -(Math.max(0, hold.offsetHeight - window.innerHeight));
+    const val = top.toFixed(0) + 'px';
+    if (hold.style.position !== 'sticky') hold.style.position = 'sticky';
+    if (hold.style.top !== val) hold.style.top = val;
+  }
+
+  // Wie we zijn (C) -> De belofte: GSAP ScrollTrigger scrubt de diepte-exit van de
+  // gepinde C-viewport terwijl de belofte eroverheen schuift (CSS-sticky pin, React-veilig;
+  // de sdb appear-animaties blijven ongemoeid — die draait sdb-driver zelf).
+  _startWwzST() {
+    return; // scrub verhuisd naar wwz-st.js (remount-proof driver in de helmet)
+    if (this._wwzBound) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bind = () => {
+      if (this._wwzBound) return;
+      const proof = document.getElementById('proof');
+      const wwz = document.getElementById('verhaal');
+      const inner = wwz && wwz.firstElementChild;
+      if (!(window.gsap && window.ScrollTrigger && proof && inner)) { setTimeout(bind, 400); return; }
+      this._wwzBound = true;
+      window.gsap.registerPlugin(window.ScrollTrigger);
+      this._wwzST = window.ScrollTrigger.create({
+        trigger: proof, start: 'top bottom', end: 'top top', scrub: true,
+        onUpdate: (self) => {
+          const e = self.progress;
+          inner.style.transform = 'translateY(' + (e * 56).toFixed(1) + 'px) scale(' + (1 - e * 0.025).toFixed(4) + ')';
+          inner.style.filter = 'brightness(' + (1 - e * 0.12).toFixed(3) + ')';
+        },
+      });
+    };
+    bind();
+  }
+
+  componentDidMount() {
+    // PERF: removed a 3.2s setInterval that called setState for metric state which
+    // the template never reads — it forced a full re-render of the entire page
+    // (every imported section, incl. the WebGL dashboard) every 3.2s, forever.
+    // The hero KPI ribbon is static, so nothing depended on it.
+    this._onResize = () => {
+      this.setState({ w: window.innerWidth });
+      this._fitPageHold();
+      if (this._applyReveals) requestAnimationFrame(this._applyReveals);
+      if (this._cwOpen) this._cwPose(true, true);   // her-fit de open clip (px-waarde)
+    };
+    window.addEventListener('resize', this._onResize);
+
+    // page-hold sticky offset volgt de contenthoogte (images/fonts/DC's laden async)
+    this._fitPageHold();
+    this._startWwzST();
+    const holdEl = document.querySelector('[data-page-hold]');
+    if (holdEl && window.ResizeObserver) {
+      this._holdRO = new ResizeObserver(() => this._fitPageHold());
+      this._holdRO.observe(holdEl);
+    } else {
+      this._holdTimer = setInterval(() => this._fitPageHold(), 1200);
+    }
+
+    // sectie- en paginalinks lopen via de globale interceptor in curtains.js
+
+    if (this.reduce) {
+      this.setState({ dashIn: true, footIn: true });
+    } else {
+      // scroll-scrubbed reveal engine — direct DOM writes, no setState.
+      // Two tiers: [data-rv] children cascade individually (n = stagger index,
+      // data-rv-dir = up|left|right, data-plx = parallax factor); [data-reveal]
+      // wrappers WITHOUT rv-children keep the old whole-block reveal.
+      this._collectFx = () => {
+        const rvNodes = Array.prototype.slice.call(document.querySelectorAll('[data-rv]'));
+        this._rvEls = rvNodes.map((el) => ({
+          el: el,
+          n: parseFloat(el.getAttribute('data-rv')) || 0,
+          dir: el.getAttribute('data-rv-dir') || 'up',
+          plx: parseFloat(el.getAttribute('data-plx')) || 0,
+          y: 0,
+        }));
+        rvNodes.forEach((el) => { el.style.willChange = 'opacity, transform'; });
+        this._revealEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]')).filter((el) => {
+          if (el.querySelector('[data-rv]')) { el.style.opacity = '1'; el.style.transform = 'none'; return false; }
+          el.style.willChange = 'opacity, transform';
+          return true;
+        });
+      };
+      this._collectFx();
+      // children stream in async — recollect for a while after mount
+      let colN = 0;
+      this._colT = setInterval(() => {
+        this._collectFx();
+        if (this._applyReveals) this._applyReveals();
+        if (++colN >= 12) clearInterval(this._colT);
+      }, 700);
+      this._applyReveals = () => {
+        const vh = window.innerHeight;
+        const rvs = this._rvEls || [], revs = this._revealEls || [];
+        // PERF: batch all layout reads first, then all writes.
+        const rvRects = rvs.map((r) => r.el.getBoundingClientRect());
+        const revTops = revs.map((el) => el.getBoundingClientRect().top);
+        for (let k = 0; k < rvs.length; k++) {
+          const r = rvs[k], rect = rvRects[k];
+          const baseTop = rect.top - r.y; // untranslated position
+          let t = (vh * 0.92 - baseTop) / (vh * 0.30) - r.n * 0.12;
+          t = t < 0 ? 0 : t > 1 ? 1 : t;
+          const s = t * t * t * (t * (t * 6 - 15) + 10);
+          const plxY = r.plx ? (vh / 2 - (baseTop + rect.height / 2)) * r.plx : 0;
+          let x = 0, y = plxY;
+          if (r.dir === 'left') x = -(1 - s) * 60;
+          else if (r.dir === 'right') x = (1 - s) * 60;
+          else y += (1 - s) * 38;
+          r.y = y;
+          r.el.style.opacity = s.toFixed(3);
+          r.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+        }
+        for (let k = 0; k < revs.length; k++) {
+          let t = (vh * 0.90 - revTops[k]) / (vh * 0.34);   // enters from bottom, settles mid-screen
+          t = t < 0 ? 0 : t > 1 ? 1 : t;
+          const s = t * t * t * (t * (t * 6 - 15) + 10);
+          const el = revs[k];
+          el.style.opacity = s.toFixed(3);
+          el.style.transform = 'translate3d(0,' + ((1 - s) * 40).toFixed(1) + 'px,0)';
+        }
+      };
+      // Diensten — gepinde stage: achtergrond staat stil, onderdelen vliegen in.
+      // Layout wordt pas via JS omgezet (progressive enhancement): zonder JS/reduce
+      // blijft het een normale sectie.
+      this._initDStage = () => {
+        const wrap = document.getElementById('diensten');
+        const stage = wrap && wrap.querySelector('[data-ds-stage]');
+        const train = wrap && wrap.querySelector('[data-ds-train]');
+        if (!stage || !train || this._dsOn) return;
+        this._dsOn = true;
+        // 420vh scrub + 150vh dode reserve aan het einde. De poort houdt de
+        // pagina MIDDEN in die gepinde reserve stil: trackpad-momentum dat
+        // tussen twee frames doorschiet blijft binnen de gepinde zone en is
+        // dus onzichtbaar (geen jitter meer bij agressief scrollen).
+        wrap.style.height = '570vh';
+        // testimonials-laag pint door de hele reserve heen, zodat de wipe op
+        // elk holdpunt een stilstaande laag onthult
+        const pq = document.getElementById('proof-quotes');
+        if (pq) {
+          pq.style.marginTop = '-250vh';
+          const sp = pq.lastElementChild;
+          if (sp && sp !== pq.firstElementChild) sp.style.height = '150vh';
+        }
+        stage.style.position = 'sticky';
+        stage.style.top = '0';
+        stage.style.height = '100vh';
+        stage.style.overflow = 'hidden';
+        train.style.flexWrap = 'nowrap';
+        train.style.willChange = 'transform';
+      };
+      this._applyDStage = () => {
+        if (!this._dsOn) this._initDStage();
+        const wrap = document.getElementById('diensten');
+        const train = wrap && wrap.querySelector('[data-ds-train]');
+        if (!wrap || !train || !this._dsOn) return;
+        const vh = window.innerHeight;
+        const r = wrap.getBoundingClientRect();
+        const total = r.height - vh * 2.5;   // laatste 150vh = dode reserve (poortzone)
+        let q = total > 0 ? -r.top / total : 0;
+        q = q < 0 ? 0 : q > 1 ? 1 : q;
+
+        // trein schuift van start (eerste kaart links) tot einde (laatste kaart in beeld)
+        const holder = train.parentElement;
+        const maxShift = Math.max(0, train.scrollWidth - holder.clientWidth);
+        train.style.transform = 'translate3d(' + (-q * maxShift).toFixed(1) + 'px,0,0)';
+
+        // actieve kaart: uitgelicht met accentrand; rest gedimd
+        // (overgeslagen zolang de entree-choreografie de kaarten bezit)
+        const cards = wrap.querySelectorAll('[data-ds-card]');
+        const act = Math.round(q * (cards.length - 1));
+        if (!this._dsIntroHold) for (let k = 0; k < cards.length; k++) {
+          const on = k === act;
+          const c = cards[k].getAttribute('data-c') || '#ffffff';
+          cards[k].style.opacity = on ? '1' : '0.45';
+          cards[k].style.transform = on ? 'translateY(-7px)' : 'translateY(0)';
+          cards[k].style.borderColor = on ? c : 'rgba(255,255,255,0.08)';
+          cards[k].style.boxShadow = on ? '0 24px 54px rgba(0,0,0,0.45)' : 'none';
+          const cta = cards[k].querySelector('[data-ds-cta]');
+          if (cta) { cta.style.opacity = on ? '1' : '0'; cta.style.pointerEvents = on ? 'auto' : 'none'; }
+        }
+
+        // voortgangslijn + stations
+        const fill = wrap.querySelector('[data-ds-fill]');
+        if (fill) fill.style.width = (q * 100).toFixed(2) + '%';
+        const lbls = wrap.querySelectorAll('[data-ds-lbl]');
+        for (let k = 0; k < lbls.length; k++) {
+          lbls[k].style.color = k === act ? (lbls[k].getAttribute('data-c') || '#ffffff') : 'rgba(255,255,255,0.45)';
+        }
+      };
+
+      this._onScroll = () => {
+        if (this._raf) return;
+        this._startWig();
+        this._raf = requestAnimationFrame(() => { this._raf = null; this._applyReveals(); this._applyFooterSheet(); });
+      };
+      window.addEventListener('scroll', this._onScroll, { passive: true });
+      this._applyReveals();
+
+      const el = document.getElementById('dash-window');
+      if (el && 'IntersectionObserver' in window) {
+        this._io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { this.setState({ dashIn: true }); this._io.disconnect(); }
+          });
+        }, { threshold: 0.12 });
+        this._io.observe(el);
+      } else {
+        this.setState({ dashIn: true });
+      }
+
+      const foot = document.getElementById('site-footer');
+      if (foot && 'IntersectionObserver' in window) {
+        this._iof = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { this.setState({ footIn: true }); this._iof.disconnect(); }
+          });
+        }, { threshold: 0.18 });
+        this._iof.observe(foot);
+      } else {
+        this.setState({ footIn: true });
+      }
+    }
+
+    // slot-CTA verplaatst naar eigen component: Closing CTA.dc.html (silk-canvas ging mee)
+
+    // Diensten -> Testimonials: GSAP ScrollTrigger clip-wipe curtain.
+    // CSS-sticky pin (React-veilig) + ScrollTrigger scrubt de clip-path. De clip
+    // staat NIET in de statische style, zodat DC re-renders hem niet overschrijven;
+    // GSAP schrijft hem imperatief in onUpdate (zelf-herstellend per frame).
+    // Diensten -> Testimonials: horizontale "pulse" clip-wipe (page-transition
+    // gevoel). Het navy diensten-doek dekt de ACHTERLIGGENDE testimonials af en
+    // veegt links->rechts weg; een heldere puls loopt mee op de veeg-rand. CSS-
+    // sticky pin, zodat het NIET als verticaal scrollen voelt; GSAP ScrollTrigger
+    // scrubt de voortgang. Clip/transform staan niet in de statische style, zodat
+    // DC re-renders ze niet overschrijven; zelf-herstellend tot gebonden.
+    {
+      const revealCover = () => {
+        const sec = document.getElementById('proof-quotes');
+        const cover = sec && sec.querySelector('[data-curtain-cover]');
+        if (cover) { cover.style.clipPath = 'inset(0% 0% 0% 100%)'; cover.style.webkitClipPath = 'inset(0% 0% 0% 100%)'; }
+      };
+      if (this.reduce) {
+        setTimeout(revealCover, 60); setTimeout(revealCover, 900);
+      } else {
+        const clamp = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+        const buildCurtain = () => {
+          if (!(window.gsap && window.ScrollTrigger)) return;
+          const sec = document.getElementById('proof-quotes');
+          const pin = sec && sec.querySelector('[data-curtain-pin]');
+          const cover = sec && sec.querySelector('[data-curtain-cover]');
+          const pulse = sec && sec.querySelector('[data-curtain-pulse]');
+          if (!sec || !pin || !cover || !pulse) return;
+          window.gsap.registerPlugin(window.ScrollTrigger);
+          const setP = (p) => {
+            p = clamp(p);
+            const c = 'inset(0% 0% 0% ' + (p * 100).toFixed(2) + '%)';
+            cover.style.clipPath = c; cover.style.webkitClipPath = c;
+            const W = pin.clientWidth || window.innerWidth;
+            pulse.style.transform = 'translateX(' + (p * W).toFixed(1) + 'px)';
+            pulse.style.opacity = Math.sin(p * Math.PI).toFixed(3);
+          };
+          if (this._curtainST) { try { this._curtainST.kill(); } catch (e) {} }
+          setP(0);
+          this._curtainST = window.ScrollTrigger.create({
+            trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 0.7,
+            onUpdate: (self) => setP(self.progress),
+            onRefresh: (self) => setP(self.progress),
+          });
+          try { window.ScrollTrigger.refresh(); } catch (e) {}
+        };
+        const startT = Date.now();
+        const pump = () => {
+          const sec = document.getElementById('proof-quotes');
+          const bound = window.ScrollTrigger && sec && this._curtainST &&
+            window.ScrollTrigger.getAll().indexOf(this._curtainST) !== -1 &&
+            this._curtainST.trigger === sec;
+          if (!bound) buildCurtain();
+          if (Date.now() - startT < 9000) setTimeout(pump, 600);
+          else if (!bound) revealCover();
+        };
+        pump();
+        window.addEventListener('load', () => setTimeout(buildCurtain, 400));
+      }
+    }
+
+    // Herkenbaar → Diensten: scroll-scrubbed push-through zoom (concept 1c)
+    if (this.reduce) {
+      setTimeout(() => {
+        this._dpApply(1);
+        // reduced motion: geen pin/wipe — hero-track inklappen tot één scherm
+        const tr = document.querySelector('[data-hero-track]');
+        const fl = document.querySelector('[data-hero-follow]');
+        if (tr) { tr.style.height = '100vh'; const st = tr.firstElementChild; if (st) st.style.position = 'relative'; }
+        if (fl) fl.style.marginTop = '0';
+        const fog = document.querySelector('[data-dj-fog]');
+        if (fog) fog.style.opacity = '1';
+      }, 60);
+    } else {
+      this._dpApply(0);
+      this._dpFrame = this._dpFrame.bind(this);
+      this._dpRaf = requestAnimationFrame(this._dpFrame);
+    }
+  }
+
+  setupSilk() {
+    if (this.reduce) return;
+    const cv = document.getElementById('cta-silk');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+
+    const DOWN = 0.4; // backing-store downscale (pattern is low-frequency)
+    const fit = () => {
+      const p = cv.parentElement;
+      if (!p) return;
+      const r = p.getBoundingClientRect();
+      cv.width = Math.max(2, Math.round(r.width * DOWN));
+      cv.height = Math.max(2, Math.round(r.height * DOWN));
+    };
+    fit();
+    this._silkFit = fit;
+    window.addEventListener('resize', this._silkFit);
+
+    const noise = (x, y) => {
+      const G = 2.71828;
+      const rx = G * Math.sin(G * x);
+      const ry = G * Math.sin(G * y);
+      return (rx * ry * (1 + x)) % 1;
+    };
+
+    let t = 0;
+    const speed = 0.02;
+    const draw = (now) => {
+      this._silkRaf = requestAnimationFrame(draw);
+      // PERF: cap the per-pixel ImageData loop at ~30fps instead of 60
+      if (now !== undefined && now - (this._silkLast || 0) < 33) return;
+      this._silkLast = now || 0;
+      const w = cv.width, h = cv.height;
+      const img = ctx.createImageData(w, h);
+      const d = img.data;
+      const tOff = speed * t;
+      for (let x = 0; x < w; x++) {
+        for (let y = 0; y < h; y++) {
+          const u = (x / w) * 2, v = (y / h) * 2;
+          const tx = u;
+          const ty = v + 0.03 * Math.sin(8.0 * tx - tOff);
+          const pattern = 0.6 + 0.4 * Math.sin(
+            5.0 * (tx + ty + Math.cos(3.0 * tx + 5.0 * ty) + 0.02 * tOff) +
+            Math.sin(20.0 * (tx + ty - 0.1 * tOff))
+          );
+          const rnd = noise(x, y);
+          const intensity = Math.max(0, pattern - rnd / 15.0 * 0.8);
+          const a = Math.max(0, intensity - 0.5) * 255 * 0.85; // bright silk filaments only
+          const idx = (y * w + x) * 4;
+          d[idx] = 255; d[idx + 1] = 255; d[idx + 2] = 255; d[idx + 3] = a;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      t += 1;
+    };
+
+    // only animate while the panel is on screen
+    const start = () => { if (!this._silkRaf) draw(); };
+    const stop = () => { if (this._silkRaf) { cancelAnimationFrame(this._silkRaf); this._silkRaf = null; } };
+    if ('IntersectionObserver' in window) {
+      this._silkIo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) start(); else stop(); });
+      }, { threshold: 0.05 });
+      this._silkIo.observe(cv);
+    } else {
+      start();
+    }
+  }
+
+  // ============================================================
+  // Diensten — entree-choreografie: strak gestaffeld, niets beweegt
+  // tegelijk. 1) eyebrow-badge rijst in, 2) h2 tikt uit als type-
+  // machine (caret in accentkleur), 3) kaarten één voor één omhoog,
+  // 4) voortgangslijn als laatste. Speelt bij elke binnenkomst van
+  // de gepinde stage; daarna neemt de scroll-scrub de kaarten over.
+  // ============================================================
+  _dsEls() {
+    const wrap = document.getElementById('diensten');
+    if (!wrap) return null;
+    return {
+      wrap: wrap,
+      badge: wrap.querySelector('[data-ds-badge]'),
+      h2: wrap.querySelector('[data-ds-h2]'),
+      cards: wrap.querySelectorAll('[data-ds-card]'),
+      prog: wrap.querySelector('[data-ds-progress]'),
+    };
+  }
+
+  _dsCollectH2() {
+    const o = this._dsEls();
+    if (!o || !o.h2 || this._dsChars) return;
+    // vervang tekstnodes door per-karakter spans: de volledige tekst staat vanaf
+    // frame 1 in zijn definitieve layout (geen herwrap door text-wrap: balance
+    // aan het einde) en de typemachine togglet alleen visibility per karakter
+    const texts = [];
+    const walk = (n) => {
+      Array.prototype.slice.call(n.childNodes).forEach((c) => {
+        if (c.nodeType === 3) texts.push(c);
+        else if (!c.getAttribute || !c.getAttribute('data-ds-caret')) walk(c);
+      });
+    };
+    walk(o.h2);
+    const chars = [];
+    texts.forEach((t) => {
+      const frag = document.createDocumentFragment();
+      const s = t.nodeValue;
+      for (let i = 0; i < s.length; i++) {
+        const sp = document.createElement('span');
+        sp.textContent = s.charAt(i);
+        chars.push(sp);
+        frag.appendChild(sp);
+      }
+      if (t.parentNode) t.parentNode.replaceChild(frag, t);
+    });
+    this._dsChars = chars;
+  }
+
+  _dsRestoreH2() {
+    this._dsCollectH2();
+    (this._dsChars || []).forEach((sp) => { sp.style.visibility = ''; });
+  }
+
+  _dsH2Len() {
+    this._dsCollectH2();
+    return (this._dsChars || []).length;
+  }
+
+  _bindDsIntro() {
+    const stage = document.querySelector('[data-ds-stage]');
+    if (!stage) return;
+    this._dsIntroHold = true;
+    this._dsArmed = true;
+    this._dsPlaying = false;
+    this._dsRearm = false;
+    this._dsT = [];
+    this._dsIntroReset();
+    if (!('IntersectionObserver' in window)) { this._dsIntroFinish(true); return; }
+    this._ioDs = new IntersectionObserver((es) => {
+      es.forEach((en) => {
+        if (en.intersectionRatio >= 0.45) {
+          if (this._dsArmed && !this._dsPlaying) this._dsIntroPlay();
+        } else if (!en.isIntersecting) {
+          if (this._dsPlaying) this._dsRearm = true;
+          else if (!this._dsArmed) { this._dsArmed = true; this._dsIntroHold = true; this._dsIntroReset(); }
+        }
+      });
+    }, { threshold: [0, 0.45] });
+    this._ioDs.observe(stage);
+  }
+
+  _dsIntroReset() {
+    const o = this._dsEls();
+    if (!o) return;
+    (this._dsT || []).forEach(clearTimeout); this._dsT = [];
+    clearTimeout(this._dsTypeT);
+    const caret = o.h2 && o.h2.querySelector('[data-ds-caret]');
+    if (caret) caret.remove();
+    this._dsRestoreH2();
+    if (o.badge) { o.badge.style.transition = 'none'; o.badge.style.opacity = '0'; o.badge.style.transform = 'translateY(14px)'; }
+    if (o.h2) { o.h2.style.transition = 'none'; o.h2.style.opacity = '0'; }
+    o.cards.forEach((c) => {
+      if (this._dsCardTr == null) this._dsCardTr = c.style.transition;   // template-transitie bewaren
+      c.style.transition = 'none'; c.style.opacity = '0'; c.style.transform = 'translateY(28px)';
+    });
+    if (o.prog) { o.prog.style.transition = 'none'; o.prog.style.opacity = '0'; }
+  }
+
+  _dsIntroPlay() {
+    const o = this._dsEls();
+    if (!o) return;
+    this._dsArmed = false; this._dsPlaying = true; this._dsIntroHold = true;
+    const E = 'cubic-bezier(.22,1,.36,1)';
+    const T = (fn, ms) => this._dsT.push(setTimeout(fn, ms));
+    // 1 — eyebrow-badge
+    if (o.badge) {
+      o.badge.style.transition = 'opacity .5s ease, transform .55s ' + E;
+      o.badge.style.opacity = '1';
+      o.badge.style.transform = 'translateY(0)';
+    }
+    // 2 — h2 typemachine (start als de badge staat)
+    T(() => this._dsTypeH2(o.h2), 430);
+    // 3 — kaarten één voor één; eindstand matcht de scrub-stand
+    const vh = window.innerHeight;
+    const r = o.wrap.getBoundingClientRect();
+    const tot = r.height - vh * 2.5;
+    let q = tot > 0 ? -r.top / tot : 0; q = q < 0 ? 0 : q > 1 ? 1 : q;
+    const act = Math.round(q * (o.cards.length - 1));
+    const typeMs = 430 + this._dsH2Len() * 24 + 260;
+    o.cards.forEach((c, i) => {
+      T(() => {
+        c.style.transition = 'opacity .55s ease, transform .6s ' + E;
+        c.style.opacity = i === act ? '1' : '0.45';
+        c.style.transform = i === act ? 'translateY(-7px)' : 'translateY(0)';
+      }, typeMs + i * 170);
+    });
+    // 4 — voortgangslijn als laatste
+    T(() => {
+      if (o.prog) { o.prog.style.transition = 'opacity .6s ease'; o.prog.style.opacity = '1'; }
+    }, typeMs + o.cards.length * 170 + 180);
+    // klaar: kaarten terug aan de scroll-scrub
+    T(() => this._dsIntroFinish(false), typeMs + o.cards.length * 170 + 900);
+  }
+
+  _dsTypeH2(h2) {
+    if (!h2) return;
+    this._dsCollectH2();
+    const chars = this._dsChars || [];
+    chars.forEach((sp) => { sp.style.visibility = 'hidden'; });
+    h2.style.transition = 'none';
+    h2.style.opacity = '1';
+    const caret = document.createElement('span');
+    caret.setAttribute('data-ds-caret', '1');
+    caret.setAttribute('aria-hidden', 'true');
+    // 3px breed met negatieve marge: neemt geen ruimte in, verschuift de wrap niet
+    caret.style.cssText = 'display:inline-block;width:3px;margin-right:-3px;height:0.86em;background:#93c3fd;vertical-align:-0.08em;animation:dsCaret .8s steps(1) infinite;';
+    let i = 0;
+    const step = () => {
+      if (i >= chars.length) { caret.remove(); return; }
+      const sp = chars[i];
+      sp.style.visibility = 'visible';
+      if (sp.parentNode) sp.parentNode.insertBefore(caret, sp.nextSibling);
+      i++;
+      this._dsTypeT = setTimeout(step, 24);
+    };
+    step();
+  }
+
+  _dsIntroFinish(showAll) {
+    const o = this._dsEls();
+    this._dsPlaying = false;
+    this._dsIntroHold = false;
+    if (o) {
+      o.cards.forEach((c) => { c.style.transition = this._dsCardTr || 'opacity .35s ease, transform .45s cubic-bezier(0.22,1,0.36,1), border-color .35s ease, box-shadow .35s ease'; });
+      if (showAll) {
+        if (o.badge) { o.badge.style.opacity = '1'; o.badge.style.transform = 'none'; }
+        if (o.h2) o.h2.style.opacity = '1';
+        o.cards.forEach((c) => { c.style.opacity = '1'; c.style.transform = 'none'; });
+        if (o.prog) o.prog.style.opacity = '1';
+      }
+      if (this._dsRearm) { this._dsRearm = false; this._dsArmed = true; this._dsIntroHold = true; this._dsIntroReset(); return; }
+    }
+    if (this._applyDStage) this._applyDStage();
+  }
+
+  // ============================================================
+  // Diensten → Testimonials: gebaar-getriggerde "curtains clip wipe".
+  // Het charcoal doek (#diensten) wordt met een clip-path van onder
+  // naar boven weggeveegd; de gepinde testimonials-laag eronder zet
+  // zich van 95,5% naar 100% schaal. Zelfde poortmechaniek als de
+  // uitweg-kaart: clampen bij de poort, één gebaar speelt de wipe,
+  // grote sprongen (ankerlinks) passeren vrij met een instant-pose.
+  // ============================================================
+  _cwRb() {
+    const d = document.getElementById('diensten');
+    return d ? d.getBoundingClientRect().bottom - window.innerHeight : null;
+  }
+
+  _cwPose(open, instant) {
+    // clip op de GEPINDE stage (viewport-vast zolang de wrap gepind is): de
+    // wipe is daardoor op elk holdpunt in de reserve viewport-uitgelijnd
+    const st = document.querySelector('[data-ds-stage]');
+    const q = document.getElementById('proof-quotes');
+    const inner = q && q.firstElementChild;
+    if (!st) return;
+    const E = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    const clip = open ? 'inset(0% 0% 100% 0%)' : 'inset(0% 0% 0% 0%)';
+    st.style.willChange = 'clip-path';
+    st.style.transition = instant ? 'none' : 'clip-path 1.3s ' + E + ', -webkit-clip-path 1.3s ' + E;
+    st.style.clipPath = clip;
+    st.style.webkitClipPath = clip;
+    if (inner) {
+      inner.style.transformOrigin = '50% 100%';
+      inner.style.transition = instant ? 'none' : 'transform 1.3s ' + E;
+      inner.style.transform = open ? 'scale(1) translateY(0)' : 'scale(0.955) translateY(18px)';
+    }
+  }
+
+  _cwPlay(target) {
+    const cur = this._cwOpen ? 1 : 0;
+    if (this._cwAnim || target === cur) return;
+    const rb = this._cwRb();
+    if (rb == null) return;
+    this._cwAnim = true;
+    // land exact op het holdpunt midden in de gepinde reserve; doorschietend
+    // momentum tijdens het spelen blijft binnen de gepinde zone (onzichtbaar)
+    const HOLD = window.innerHeight * 0.6;
+    this._cwGateY = (window.scrollY || 0) + rb - HOLD;
+    window.scrollTo(0, this._cwGateY);
+    this._cwPose(target === 1, false);
+    clearTimeout(this._cwT);
+    this._cwT = setTimeout(() => {
+      this._cwOpen = target === 1;
+      this._cwAnim = false;
+      // na openen: sla de rest van de reserve over (visueel identiek punt —
+      // de testimonials-laag is daar nog steeds gepind)
+      window.scrollTo(0, this._cwOpen ? this._cwGateY + HOLD : this._cwGateY);
+      this._cwGateY = null;
+      this._cwArm = this._cwOpen ? 0 : Date.now();
+    }, 1450);
+  }
+
+  _applyCW() {
+    if (this.reduce) return;
+    const rb = this._cwRb();
+    if (rb == null) return;
+    if (!this._cwInit) { this._cwInit = true; this._cwOpen = false; this._cwAnim = false; this._cwArm = 0; this._cwPose(false, true); }
+    const vh = window.innerHeight;
+    const y = window.scrollY || 0;
+    if (this._cwAnim) {
+      if (this._cwGateY != null && Math.abs(y - this._cwGateY) > 1) window.scrollTo(0, this._cwGateY);
+      return;
+    }
+    const RES = vh * 1.5;        // dode reserve aan het einde van de diensten-wrap
+    const HOLD = vh * 0.6;       // holdpunt: in de reserve, gebufferd aan beide kanten
+    const near = vh * 0.45;
+    if (!this._cwOpen) {
+      if (rb <= -near) { this._cwOpen = true; this._cwPose(true, true); }      // bypass: ver voorbij
+      else if (rb < HOLD - 2) { window.scrollTo(0, y + rb - HOLD); if (!this._cwArm) this._cwArm = Date.now(); }
+      else if (rb <= HOLD + 2) { if (!this._cwArm) this._cwArm = Date.now(); }
+      else if (rb > HOLD + 8) this._cwArm = 0;
+    } else {
+      if (rb >= RES + near) { this._cwOpen = false; this._cwPose(false, true); } // bypass: ver erboven
+      else if (rb > 2) window.scrollTo(0, y + rb - HOLD);                        // houd vast op de reverse-poort
+    }
+  }
+
+  _bindCwGate() {
+    const armed = () => this._cwArm && (Date.now() - this._cwArm > 250);
+    const vhF = () => window.innerHeight;
+
+    // Brede vensters: eet ook de momentum-events van harde flicks in de hele
+    // poortzone op, anders vecht de restsnelheid tegen de clamp (jitter).
+    this._onCwWheel = (e) => {
+      const rb = this._cwRb();
+      if (rb == null) return;
+      const vh = vhF();
+      const RES = vh * 1.5, HOLD = vh * 0.6;
+      const near = vh * 0.45;
+      if (this._cwAnim) { if (e.cancelable && rb < RES + near && rb > -vh - 90) e.preventDefault(); return; }
+      if (!this._cwOpen) {
+        if (rb <= HOLD + 2 && rb > -near && e.deltaY > 0) { if (e.cancelable) e.preventDefault(); if (armed()) this._cwPlay(1); }
+      } else if (rb > 2 && rb < RES + near) {
+        if (e.cancelable) e.preventDefault();
+        if (e.deltaY < 0) this._cwPlay(0);
+        else window.scrollTo(0, (window.scrollY || 0) + rb);   // terug omlaag: reserve overslaan
+      } else if (rb <= 2 && rb >= -90 && e.deltaY < 0) { if (e.cancelable) e.preventDefault(); this._cwPlay(0); }
+    };
+    window.addEventListener('wheel', this._onCwWheel, { passive: false });
+
+    this._cwTy = null;
+    this._onCwTS = (e) => { this._cwTy = (e.touches && e.touches[0]) ? e.touches[0].clientY : null; };
+    this._onCwTM = (e) => {
+      if (this._cwTy == null) return;
+      const cy = (e.touches && e.touches[0]) ? e.touches[0].clientY : this._cwTy;
+      const dy = this._cwTy - cy;               // >0 = omhoog vegen = intentie naar beneden
+      const rb = this._cwRb();
+      if (rb == null) return;
+      const vh = vhF();
+      const RES = vh * 1.5, HOLD = vh * 0.6;
+      const near = vh * 0.45;
+      if (this._cwAnim) { if (e.cancelable && rb < RES + near && rb > -vh - 90) e.preventDefault(); return; }
+      if (!this._cwOpen) {
+        if (rb <= HOLD + 2 && rb > -near && dy > 6) { e.preventDefault(); if (armed()) this._cwPlay(1); }
+      } else if (rb > 2 && rb < RES + near) {
+        if (dy < -6) { e.preventDefault(); this._cwPlay(0); }
+        else if (dy > 6) { e.preventDefault(); window.scrollTo(0, (window.scrollY || 0) + rb); }
+      } else if (rb <= 2 && rb >= -90 && dy < -6) { e.preventDefault(); this._cwPlay(0); }
+    };
+    window.addEventListener('touchstart', this._onCwTS, { passive: true });
+    window.addEventListener('touchmove', this._onCwTM, { passive: false });
+
+    this._onCwKey = (e) => {
+      if (this._cwAnim) return;
+      const tag = (e.target && e.target.tagName) || '';
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (e.target && e.target.isContentEditable)) return;
+      const rb = this._cwRb();
+      if (rb == null) return;
+      const vh = vhF();
+      const RES = vh * 1.5, HOLD = vh * 0.6;
+      const near = vh * 0.45;
+      const down = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar';
+      const up = e.key === 'ArrowUp' || e.key === 'PageUp';
+      if (!this._cwOpen) { if (down && rb <= HOLD + 2 && rb > -near) { e.preventDefault(); this._cwPlay(1); } }
+      else if (up && rb >= -90 && rb < RES + near) { e.preventDefault(); this._cwPlay(0); }
+    };
+    window.addEventListener('keydown', this._onCwKey);
+  }
+
+  // ============================================================
+  // ============================================================
+  // Herkenbaar → Diensten: scroll-scrubbed push-through zoom (1c).
+  // Progress = pin-scroll (220vh sectie, sticky 100vh). De kop schaalt
+  // naar de camera en vervaagt; de speler verscherpt erachter. Per-frame
+  // writes → zelfherstellend bij DC re-renders. Geen gebaar-gate: scroll
+  // beweegt altijd iets en terugscrollen keert alles om.
+  // ============================================================
+  _dpEls() {
+    if (this._dpCache && this._dpCache.player && this._dpCache.player.isConnected) return this._dpCache;
+    const sec = document.getElementById('diensten');
+    if (!sec) return {};
+    this._dpCache = {
+      player: sec.querySelector('[data-dp-player]'),
+      head: sec.querySelector('[data-dp-head]'),
+      hint: sec.querySelector('[data-dp-hint]'),
+    };
+    return this._dpCache;
+  }
+
+  _dpApply(p) {
+    const o = this._dpEls();
+    if (!o.player) return;
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    const ease = (x) => 1 - Math.pow(1 - x, 3);
+    const eh = ease(Math.min(1, p / 0.55));
+    if (o.head) {
+      o.head.style.opacity = (1 - eh).toFixed(3);
+      o.head.style.transform = 'scale(' + (1 + eh * 1.9).toFixed(3) + ')';
+      o.head.style.filter = 'blur(' + (eh * 6).toFixed(1) + 'px)';
+      o.head.style.visibility = eh >= 0.999 ? 'hidden' : 'visible';
+    }
+    const eg = ease(Math.min(1, Math.max(0, (p - 0.3) / 0.7)));
+    o.player.style.opacity = eg.toFixed(3);
+    o.player.style.transform = 'scale(' + (0.84 + eg * 0.16).toFixed(4) + ')';
+    o.player.style.filter = eg >= 0.999 ? 'none' : 'blur(' + ((1 - eg) * 8).toFixed(1) + 'px)';
+    o.player.style.pointerEvents = eg > 0.5 ? '' : 'none';
+    if (o.hint) o.hint.style.opacity = p > 0.02 ? '0' : '';
+  }
+
+  _dpFrame() {
+    this._dpRaf = requestAnimationFrame(this._dpFrame);
+    const sec = document.getElementById('diensten');
+    if (!sec) return;
+    const rect = sec.getBoundingClientRect();
+    const pinLen = Math.max(1, rect.height - window.innerHeight);
+    this._dpApply(-rect.top / pinLen);
+    // bottom fog: onzichtbaar op de hero (blokkeerde JAGERS), fade in zodra je eruit scrollt
+    const fog = document.querySelector('[data-dj-fog]');
+    const follow = document.querySelector('[data-hero-follow]');
+    if (fog && follow) {
+      const vh = window.innerHeight;
+      const ft = follow.getBoundingClientRect().top;
+      const heroFactor = Math.min(1, Math.max(0, (vh * 0.6 - ft) / (vh * 0.35)));
+      // footer-factor: fog weg zodra de footer-sheet opkomt (wordmark niet in de blur)
+      let footFactor = 1;
+      const ftrack = document.querySelector('[data-foot-track]');
+      if (ftrack) {
+        const fr = ftrack.getBoundingClientRect();
+        const fp = Math.max(0, Math.min(1, (-fr.top) / Math.max(1, fr.height - vh)));
+        const fe = 1 - Math.pow(1 - fp, 3);
+        footFactor = 1 - Math.min(1, fe * 2);
+      }
+      fog.style.opacity = (heroFactor * footFactor).toFixed(3);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._wwzST) { this._wwzST.kill(); this._wwzST = null; }
+    if (this._dpRaf) cancelAnimationFrame(this._dpRaf);
+    if (this._onCwWheel) window.removeEventListener('wheel', this._onCwWheel);
+    if (this._onCwTS) window.removeEventListener('touchstart', this._onCwTS);
+    if (this._onCwTM) window.removeEventListener('touchmove', this._onCwTM);
+    if (this._onCwKey) window.removeEventListener('keydown', this._onCwKey);
+    clearTimeout(this._cwT);
+    if (this._ioDs) this._ioDs.disconnect();
+    (this._dsT || []).forEach(clearTimeout);
+    clearTimeout(this._dsTypeT);
+    if (this._silkRaf) cancelAnimationFrame(this._silkRaf);
+    if (this._silkIo) this._silkIo.disconnect();
+    if (this._silkFit) window.removeEventListener('resize', this._silkFit);
+    clearInterval(this.timer);
+    window.removeEventListener('resize', this._onResize);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+    if (this._iof) this._iof.disconnect();
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._colT) clearInterval(this._colT);
+  }
+
+  go(n) {
+    clearInterval(this.timer);
+    this.setState({ i: n });
+    this.timer = setInterval(this._tick, 3200);
+  }
+
+  renderVals() {
+    const i = this.state.i;
+    const m = this.metrics[i];
+    const isMobile = this.state.w < 860;
+    const p = this.reduce ? 0 : this.state.prog;
+    const revealed = this.reduce || this.state.dashIn;
+    const fIn = this.reduce || this.state.footIn;
+    const fr = (n) => fIn
+      ? 'opacity:1; transform:translateY(0); transition:opacity .6s ease ' + (this.reduce ? 0 : (n * 0.07)) + 's, transform .65s cubic-bezier(.22,1,.36,1) ' + (this.reduce ? 0 : (n * 0.07)) + 's;'
+      : 'opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .65s cubic-bezier(.22,1,.36,1);';
+    return {
+      dark: this.state.dark,
+      notDark: !this.state.dark,
+      ctaGrad: {
+        preset: 'custom', color1: '#0d253d', color2: '#2f6fd0', color3: '#9dc4f6',
+        rotation: -50, proportion: 100, scale: 0.01, speed: 22, distortion: 0,
+        swirl: 50, swirlIterations: 16, softness: 47, offset: -299, shape: 'Checks', shapeSize: 45,
+      },
+      toggleTheme: this.toggleTheme,
+      ctaLabel: this.props.ctaLabel || 'Plan een gesprek',
+      ctaTarget: this.props.ctaTarget || 'contact.html',
+      footCols: this.state.w >= 980 ? 'repeat(4, 1fr)' : 'repeat(2, 1fr)',
+      gevoelCols: isMobile ? '1fr' : '1.04fr 0.96fr',
+      footBrand: fr(0),
+      footC1: fr(1),
+      footC2: fr(2),
+      footC3: fr(3),
+      footC4: fr(4),
+      footBottom: fr(5),
+      proofMarginTop: '0px',
+      chipsY: (p * 150).toFixed(1) + 'px',
+      chipsOpacity: (1 - p).toFixed(3),
+      dashOpacity: revealed ? 1 : 0,
+      dashShift: revealed ? '0px' : '30px',
+      kpi: {
+        label: m.label,
+        value: m.value,
+        delta: m.delta,
+        arrow: m.up ? '\u25B2' : '\u25BC',
+        deltaColor: m.up ? '#61A6FB' : '#93c3fd',
+      },
+      footStack: fr(0),
+      onSubscribe: (e) => { if (e && e.preventDefault) e.preventDefault(); },
+      next: () => this.go((i + 1) % this.metrics.length),
+      dots: this.metrics.map((_, n) => ({
+        w: n === i ? '18px' : '6px',
+        bg: n === i ? '#ffffff' : 'rgba(255,255,255,0.45)',
+        go: () => this.go(n),
+      })),
+    };
+  }
+}
+</script>
+
+
+
+</body></html>

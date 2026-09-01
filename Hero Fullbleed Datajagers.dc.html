@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Fragment+Mono&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    /* 100svh: op mobiel is 100vh de GROTE viewport — de CTA onderin stond
+       daardoor ~33px achter de Safari-toolbar bij eerste weergave. svh is de
+       kleine viewport (toolbar uitgeklapt); de vh-regel ervoor is de fallback. */
+    [data-ke-hero] { height: 100vh; height: 100svh; }
+    [data-ke-root] { --kek: min(340px, 26vw, calc(40vh * 0.708)); }
+    /* kaartgebonden labels: percentage van de kaartbreedte, met leesbaarheidsondergrens */
+    [data-ke-groot] { font-size: calc(var(--kek) * 0.135); }
+    [data-ke-pill] { font-size: max(11px, calc(var(--kek) * 0.0412)); padding: calc(var(--kek) * 0.0265) calc(var(--kek) * 0.059); }
+    html, body { margin: 0; padding: 0; background: #1D1D1D; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #f2f5f9; text-decoration: none; } a:hover { color: var(--dj-hover,#93c3fd); }
+    /* underline-CTA: identiek hovergedrag als diensten/belofte */
+    @media (prefers-reduced-motion: reduce) { [data-ke-cta] .dc-label, }
+    /* sequence: getimed door één trigger-scroll (ke-driver.js, geladen vanuit de hoofdpagina-helmet) */
+    /* heen: rand leidt, foto volgt (+0.18s). terug: exact gespiegeld — foto leidt, rand volgt (+0.18s) */
+    /* FLIP: de box blijft op zijn plek en op zijn maat staan; alleen transform
+       animeert. Layout-properties (left/top/width/height) dwingen elke frame een
+       herberekening af en dat is de schok die je zag — transform draait op de
+       compositor. Het kind krijgt de omgekeerde schaal zodat de foto niet
+       uitrekt, en de border-radius wordt voorgedeeld door de schaal zodat hij
+       op het eind precies 5px meet. Alle waarden komen uit geom() in
+       ke-driver.js, met transform-origin 0 0 zodat de rekensom affien blijft. */
+    [data-ke-foto] { contain: layout paint; overflow: hidden; transform-origin: 0 0; will-change: transform; transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), border-radius 1s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: 0s; }
+    [data-ke-root].ke-open [data-ke-foto] { transition-delay: 0.18s; }
+    [data-ke-fotolabel] { opacity: 0; transition: opacity 0.5s ease; }
+    [data-ke-root].ke-open [data-ke-fotolabel] { opacity: 1; transition-delay: 0.6s; }
+    [data-ke-root].ke-reduce [data-ke-fotolabel] { display: none; }
+    [data-ke-root].ke-open [data-ke-fotolabel] [data-ke-pill] { pointer-events: auto; cursor: pointer; }
+    [data-ke-img] { transform-origin: 0 0; transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: 0s; will-change: transform; }
+    [data-ke-root].ke-open [data-ke-img] { transition-delay: 0.18s; }
+    [data-ke-frame] { width: min(340px, 26vw); height: calc(min(340px, 26vw) / 0.708); transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s, height 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s, border-radius 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s, opacity 0.3s ease 0.18s; }
+    [data-ke-root].ke-open [data-ke-frame] { width: 100vw; height: 100vh; border-radius: 0px; opacity: 0; transition-delay: 0s, 0s, 0s, 0.6s; }
+    [data-ke-titel] { transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease 0.15s; will-change: transform; }
+    [data-ke-sub] { transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease 0.1s; will-change: transform; }
+    [data-ke-inhoud] { transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, opacity 0.8s ease 0.25s; opacity: 0; transform: translateY(46px) scale(0.97); }
+    [data-ke-root].ke-open [data-ke-inhoud] { opacity: 1; transform: translateY(0) scale(1); }
+    [data-ke-kop] { opacity: 0; transform: translateY(-34px); transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-ke-root].ke-open [data-ke-kop] { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease 0.4s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s; }
+    [data-ke-root].ke-reduce [data-ke-kop] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    [data-ke-kaart="l"] { opacity: 0; transform: translateX(-56px); transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-ke-kaart="r"] { opacity: 0; transform: translateX(56px); transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-ke-root].ke-open [data-ke-kaart="l"], [data-ke-root].ke-open [data-ke-kaart="r"] { opacity: 1; transform: translateX(0); transition: opacity 0.7s ease 0.5s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s; }
+    [data-ke-root].ke-reduce [data-ke-kaart="l"], [data-ke-root].ke-reduce [data-ke-kaart="r"] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    [data-ke-root].ke-open [data-ke-titel] { transform: translateX(-58vw); opacity: 0; }
+    [data-ke-root].ke-open [data-ke-sub] { transform: translateY(34vh); opacity: 0; }
+    /* mobiel + reduced-motion: hero en cijfer-sectie statisch onder elkaar */
+    /* In reduce/mobiel stapelen foto en paneel als gewone secties — maar de
+       hero-doos zelf bleef 100svh met overflow:hidden, waardoor het paneel
+       (deel 2: "In cijfers") onder de kniplijn viel en op mobiel ONBEREIKBAAR
+       was. Zat ook al zo in v1. De doos groeit nu met zijn inhoud mee. */
+    [data-ke-root].ke-reduce [data-ke-hero] { height: auto !important; min-height: 100svh; overflow: visible !important; }
+    /* De copy ankert inline op de heroBODEM; nu de doos meegroeit zou de
+       kop over het paneel schuiven. In reduce ankert hij op het eerste
+       scherm (de foto) en lijnt daarbinnen onder — zelfde beeld als eerst. */
+    [data-ke-root].ke-reduce [data-ke-copy] { top: 0; bottom: auto !important; height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(48px, 9vh, 110px); }
+    [data-ke-root].ke-reduce [data-ke-panel] { position: relative !important; min-height: 100vh; transition: none; }
+    [data-ke-root].ke-reduce [data-ke-foto] { position: relative !important; height: 100vh !important; width: 100% !important; left: 0 !important; top: 0 !important; }
+    [data-ke-root].ke-reduce [data-ke-frame] { display: none; }
+    [data-ke-root].ke-reduce [data-ke-inhoud] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    [data-ke-root].ke-meet [data-ke-inhoud] { transition: none !important; transform: none !important; }
+    @media (max-width: 859px) {
+      /* cover-crop toonde de man half buiten beeld links; 38% houdt hem in kader */
+      [data-ke-foto] img { object-position: 38% 100% !important; }
+      [data-ke-copy] { max-width: none !important; }
+      [data-ke-rij] { flex-wrap: wrap; justify-content: center; }
+      [data-ke-rij] > div { width: min(300px, 78vw) !important; }
+    }
+  </style>
+  <script src="./ke-driver.js"></script>
+</helmet>
+<div data-ke-root="" data-screen-label="Hero" style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;">
+  <div data-ke-hero="" style="position: relative; min-height: 640px; overflow: hidden;">
+    <!-- hero-foto: reizend venster — animeert als box van full-bleed naar exact de kaart-rect -->
+    <div data-ke-foto="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 5;">
+      <div data-ke-img="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0;">
+        <img fetchpriority="high" width="1672" height="941" decoding="async" src="uploads/hero-character-sitting-on-top-of-clouds-692f40c3.jpg" alt="Man zit ontspannen op een stoel boven de wolken" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%;">
+        <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(29,29,29,0.35) 0%, rgba(29,29,29,0) 40%, rgba(29,29,29,0.15) 100%);"></div>
+        <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(29,29,29,0.18);"></div>
+      </div>
+      <!-- kaart-inhoud op het reizende venster: verschijnt bij de landing -->
+      <div data-ke-fotolabel="" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: min(10px, 1.2vh); color: #ffffff; text-align: center; pointer-events: none;">
+        <div data-ke-groot="" style="font-weight: 700; letter-spacing: -0.02em; white-space: nowrap;">Het overzicht</div>
+        <a data-ke-pill="" href="#verhaal" style="display: inline-flex; background: rgba(255,255,255,0.94); color: #1D1D1D; border-radius: 999px; font-weight: 600; margin-top: 4px; transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1);" style-hover="background: #ffffff; color: #1f66c4;">Ontdek verder</a>
+      </div>
+    </div>
+
+    <!-- navbar: boven alle lagen -->
+    <div data-hero-nav="" style="position: absolute; left: 0; right: 0; top: 0; z-index: 8; transition: opacity 0.35s ease;">
+      <dc-import name="Navbar" contact-href="contact.html" founder-href="#verhaal" active="Home" hint-size="100%,118px"></dc-import>
+    </div>
+
+    <!-- hero-copy: wordt door de kader-randen weggeduwd -->
+    <div data-ke-copy="" style="position: absolute; left: clamp(24px, 5vw, 88px); bottom: clamp(48px, 9vh, 110px); z-index: 6; max-width: min(560px, 42vw);">
+      <h1 data-ke-titel="" style="margin: 0; font-size: clamp(48px, 6.4vw, 118px); font-weight: 700; line-height: 0.98; letter-spacing: -0.045em; color: #ffffff; text-wrap: balance;">Data &amp; daarna<span style="color: #93c3fd;">.</span></h1>
+      <div data-ke-sub="">
+        <p style="margin: clamp(18px, 2.6vh, 32px) 0 0; max-width: 38ch; font-size: clamp(15px, 1vw, 18px); line-height: 1.6; color: rgba(255,255,255,0.85);">Begrijpelijke data voor scherpere beslissingen. E&eacute;n versie van de waarheid, elke dag opnieuw.</p>
+        <a data-cta data-ke-cta="" href="contact.html" style="margin-top: clamp(18px, 2.6vh, 30px); display: inline-flex; align-items: baseline; gap: 12px; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.8); padding-bottom: 10px;" style-hover="color: var(--dj-hover,#93c3fd);">
+          <span class="dc-label" style="font-size: clamp(15px, 0.85vw, 16px); letter-spacing: -0.02em;">Plan een gesprek</span>
+          <svg class="dc-arrow" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="flex: none;"><path d="M1 11 11 1M4 1h7v7"></path></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- het kader: de bron van de expansie -->
+    <div data-ke-frame="" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,0.6); border-radius: 5px; z-index: 7; pointer-events: none;"></div>
+
+    <!-- de volgende sectie: leeft fullscreen onder de foto; onthuld terwijl de foto het venster in krimpt -->
+    <div data-ke-panel="" style="position: absolute; inset: 0; z-index: 2; background: #f6f6f4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(18px, 4vh, 48px); padding: clamp(40px, 10vh, 130px) 22px;">
+      <div data-ke-inhoud="" style="display: flex; flex-direction: column; align-items: center; gap: clamp(18px, 4vh, 48px); width: 100%;">
+        <div data-ke-kop="" style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2.4vh, 26px);">
+          <span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #645c66;">(01) (In cijfers)</span>
+          <h2 style="margin: 0; font-size: clamp(30px, 3.2vw, 56px); font-weight: 700; letter-spacing: -0.03em; color: #1D1D1D; text-wrap: balance;">Overzicht geeft rust, <span style="color: #8a828c;">elke dag opnieuw.</span></h2>
+        </div>
+        <div data-ke-rij="" style="display: flex; gap: clamp(14px, 1.8vw, 24px); align-items: center;">
+          <div data-ke-kaart="l" style="width: min(280px, 22vw, 34vh * 0.75); aspect-ratio: 0.75; border-radius: 5px; overflow: hidden; position: relative; background: #2a2a2a;">
+            <img loading="lazy" width="1042" height="1509" decoding="async" src="uploads/coffee.jpg" alt="Koffie to go op een Parijse straathoek" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+            <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(29,29,29,0.18);"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; background: linear-gradient(to top, rgba(29,29,29,0.8), transparent); color: #ffffff;">
+              <div style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 10px; color: rgba(255,255,255,0.7);">KOPPEN KOFFIE</div>
+              <div style="font-size: 26px; font-weight: 700; font-feature-settings: 'tnum';">3.200</div>
+            </div>
+          </div>
+          <div data-ke-doel="" style="width: min(340px, 26vw, 40vh * 0.708); aspect-ratio: 0.708; border-radius: 5px; overflow: hidden; position: relative; background: #aacdf2;">
+            <img loading="lazy" width="1672" height="941" decoding="async" src="uploads/hero-character-sitting-on-top-of-clouds-692f40c3.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%;">
+            <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(29,29,29,0.18);"></div>
+            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: min(10px, 1.2vh); color: #ffffff; text-align: center;">
+              <div data-ke-groot="" style="font-weight: 700; letter-spacing: -0.02em; white-space: nowrap;">Het overzicht</div>
+              <a data-ke-pill="" href="#verhaal" style="display: inline-flex; background: rgba(255,255,255,0.94); color: #1D1D1D; border-radius: 999px; font-weight: 600; margin-top: 4px; transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1);" style-hover="background: #ffffff; color: #1f66c4;">Ontdek verder</a>
+            </div>
+          </div>
+          <div data-ke-kaart="r" style="width: min(280px, 22vw, 34vh * 0.75); aspect-ratio: 0.75; border-radius: 5px; overflow: hidden; position: relative; background: #2a2a2a;">
+            <img loading="lazy" width="760" height="428" decoding="async" src="assets/happy_collegas.jpg" alt="Blije collega&rsquo;s van Datajagers" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+            <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(29,29,29,0.18);"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; background: linear-gradient(to top, rgba(29,29,29,0.8), transparent); color: #ffffff;">
+              <div style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 10px; color: rgba(255,255,255,0.7);">BLIJE COLLEGA&rsquo;S</div>
+              <div style="font-size: 26px; font-weight: 700; font-feature-settings: 'tnum';">99%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

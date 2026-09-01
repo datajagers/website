@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #f6f6f4; overflow-x: clip; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #1D1D1D; }
+    a { color: #1D1D1D; text-decoration: none; } a:hover { color: var(--dj-hover,#1f66c4); }
+    /* underline-CTA: identiek hovergedrag als hero/diensten/belofte */
+    @media (max-width: 859px) {
+      [data-st-grid] { grid-template-columns: 1fr !important; }
+      [data-st-rail] { position: static !important; height: auto !important; padding: 0 0 28px !important; }
+      [data-st-railfoot] { display: none !important; }
+      [data-st-block] { min-height: 0 !important; padding: 40px 0 !important; }
+      /* 380vh gepinde leesbaan is zwaar op een telefoon; 240vh houdt het effect */
+      [data-st-quotetrack] { height: 240vh !important; }
+      [data-st-statements] { padding-bottom: 72px !important; }
+      [data-st-dip] { height: 56vw !important; flex: none !important; }
+      [data-st-cwrap] { width: auto !important; }
+      /* Het uitvullen dient de tweekolomsuitlijning; op mobiel wikkelen de
+         rijen en zou space-between de ontworpen tussenruimtes oprekken. */
+      [data-st-block] [data-st-in] { justify-content: flex-start !important; }
+      [data-st-ghost] { display: none !important; }
+    }
+
+    /* De scroll-gestuurde animaties worden in JS aangehangen aan een echte
+       ViewTimeline (zie _attachScrollTimeline). Dat draait net als CSS op de
+       compositor, maar omzeilt het timeline-scope-hoisten dat hier niet
+       resolvet. Deze regels zetten alleen de uitgangswaarden. */
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-st-word] { color: #1D1D1D !important; }
+      [data-st-in] { opacity: 1 !important; transform: none !important; transition: none !important; }
+      [data-ke-cta] .dc-label,
+      [data-st-quotetrack] { height: 100vh !important; }
+      [data-st-statements] { margin-top: 0 !important; transform: none !important; translate: none !important; }
+      [data-st-statements], [data-st-quotewrap], [data-st-portrait], [data-st-kop] { animation: none !important; }
+    }
+  </style>
+</helmet>
+
+<!-- ===== opening: quote + fullbleed portret (zoals het is) ===== -->
+<div data-st-quotetrack style="position: relative; --dj-rule: #dde7e4; --dj-rule-strong: #c2d1cc; --dj-border: #dde7e4; height: 380vh; background: #f6f6f4;">
+  <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; padding: 24px clamp(24px, 4vw, 64px) 0;">
+    <img loading="lazy" width="609" height="1024" decoding="async" data-st-portrait src="assets/wouter-black-white.jpg" alt="" aria-hidden="true" style="position: absolute; left: 0; top: 0; bottom: 0; height: 100%; width: auto; object-fit: cover; object-position: left center; opacity: 0.16; filter: grayscale(1) contrast(1.05); pointer-events: none; z-index: 0; will-change: transform; -webkit-mask-image: radial-gradient(115% 115% at 0% 50%, #000 38%, transparent 76%), linear-gradient(to bottom, transparent 0%, #000 22%); -webkit-mask-composite: source-in; mask-image: radial-gradient(115% 115% at 0% 50%, #000 38%, transparent 76%), linear-gradient(to bottom, transparent 0%, #000 22%); mask-composite: intersect;">
+    <div data-st-kop>
+      <dc-import name="Sectiekop" num="02" label="Wie we zijn" right="&copy; 2026" tone="light" hint-size="100%,36px"></dc-import>
+    </div>
+    <div data-st-quotewrap style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; width: 100%; will-change: transform;">
+      <p style="margin: 0; max-width: 26ch; font-weight: 700; font-size: clamp(30px, 3.6vw, 68px); line-height: 1.1; letter-spacing: -0.02em; text-wrap: pretty; text-indent: -0.42em;"><span aria-hidden="true" style="color: rgba(29,29,29,0.9);">&ldquo;</span><sc-for list="{{ words }}" as="w" hint-placeholder-count="10"><span data-st-word style="color: rgba(29,29,29,0.22);">{{ w.text }}</span><span> </span></sc-for></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== statements: linker rail sticky, rechts A/ B/ C/ ===== -->
+<section data-st-statements style="position: relative; z-index: 2; margin-top: -100vh; contain: layout paint; --dj-rule: #dde7e4; --dj-rule-strong: #c2d1cc; --dj-border: #dde7e4; background: #f6f6f4; padding: 0 clamp(24px, 4vw, 64px) 200px; will-change: transform, translate;">
+  <div data-st-grid style="display: grid; grid-template-columns: minmax(240px, 380px) minmax(0, max-content); gap: clamp(32px, 6vw, 120px); width: fit-content; max-width: 100%; margin: 0 auto;">
+
+    <!-- linker rail -->
+    <div data-st-rail style="position: sticky; top: 0; height: 100vh; align-self: start; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(56px, 12vh, 130px) 0 clamp(40px, 8vh, 80px);">
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <h2 style="margin: 0; font-size: clamp(24px, 1.8vw, 32px); font-weight: 700; letter-spacing: -0.02em;">Wie we zijn</h2>
+        <span data-st-current style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #645c66; font-feature-settings: 'tnum';">A / C</span>
+      </div>
+      <div data-st-railfoot style="display: flex; flex-direction: column; gap: 34px;">
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.65; letter-spacing: -0.01em; color: #6f6f6f; max-width: 26ch;">Zoek je duidelijkheid in je data, dan bouwen we die samen.</p>
+        <a data-cta data-ke-cta href="contact.html" style="align-self: flex-start; display: inline-flex; align-items: baseline; gap: 12px; color: #1D1D1D; border-bottom: 1px solid rgba(29,29,29,0.7); padding-bottom: 10px;" style-hover="color: var(--dj-hover,#1f66c4);">
+          <span class="dc-label" style="font-size: clamp(15px, 0.85vw, 16px); letter-spacing: -0.02em;">Plan een gesprek</span>
+          <svg class="dc-arrow" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="flex: none;"><path d="M1 11 11 1M4 1h7v7"></path></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- rechter kolom -->
+    <div style="display: flex; flex-direction: column;">
+
+      <!-- A / missie -->
+      <div data-st-block data-st-letter="A" style="min-height: 92vh; display: flex; flex-direction: column; justify-content: center; gap: clamp(32px, 5vh, 56px); padding: clamp(56px, 12vh, 130px) 0; position: relative;">
+        <div style="position: relative;"><span data-st-ghost aria-hidden="true" style="position: absolute; left: clamp(-140px, -9vw, -70px); top: 0; line-height: 1.14; font-size: clamp(40px, 3.4vw, 62px); font-weight: 800; letter-spacing: -0.03em; color: rgba(29,29,29,0.07); user-select: none;">A /</span>
+        <h3 data-st-in style="margin: 0; font-size: clamp(30px, 3.1vw, 58px); font-weight: 700; line-height: 1.14; letter-spacing: -0.028em; max-width: 22ch; text-wrap: pretty; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1), transform .7s cubic-bezier(0.22, 1, 0.36, 1);">Wij maken data begrijpelijk, besluitvorming scherper en teams zekerder van hun keuzes &mdash; nuchter, scherp en zonder ruis.</h3></div>
+        <div data-st-in style="display: flex; flex-wrap: wrap; gap: 12px; width: 100%; justify-content: flex-start; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1) .12s, transform .7s cubic-bezier(0.22, 1, 0.36, 1) .12s;">
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Mensentaal boven jargon</span>
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Duidelijkheid boven dashboardchaos</span>
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Scherpe analyse zonder ego</span>
+        </div>
+      </div>
+
+      <!-- B / verhaal + kenmerken -->
+      <div data-st-block data-st-letter="B" style="min-height: 92vh; display: flex; flex-direction: column; justify-content: center; gap: clamp(32px, 5vh, 56px); padding: clamp(56px, 12vh, 130px) 0; position: relative;">
+        <div style="position: relative;"><span data-st-ghost aria-hidden="true" style="position: absolute; left: clamp(-140px, -9vw, -70px); top: 0; line-height: 1.14; font-size: clamp(40px, 3.4vw, 62px); font-weight: 800; letter-spacing: -0.03em; color: rgba(29,29,29,0.07); user-select: none;">B /</span>
+        <h3 data-st-in style="margin: 0; font-size: clamp(30px, 3.1vw, 58px); font-weight: 700; line-height: 1.14; letter-spacing: -0.028em; max-width: 22ch; text-wrap: pretty; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1), transform .7s cubic-bezier(0.22, 1, 0.36, 1);">Datajagers begon aan de andere kant van de tafel: drie dashboards, twee waarheden, geen besluit. <span style="color: #8a828c;">Cijfers horen een gesprek te openen &mdash; niet te smoren.</span></h3></div>
+        <div data-st-in style="display: flex; flex-wrap: wrap; gap: 12px; width: 100%; justify-content: flex-start; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1) .12s, transform .7s cubic-bezier(0.22, 1, 0.36, 1) .12s;">
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Bewezen ervaring</span>
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Persoonlijke aanpak</span>
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">1-stop-shop</span>
+          <span style="display: inline-flex; align-items: center; background: #e9e9e4; border-radius: 999px; padding: 14px 24px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #1d1d1d;">Doorlopende support</span>
+        </div>
+      </div>
+
+      <!-- C / de belofte -->
+      <div data-st-block data-st-letter="C" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(28px, 4.5vh, 48px); padding: clamp(56px, 12vh, 130px) 0 clamp(40px, 8vh, 80px); position: relative;">
+        <div style="position: relative;"><span data-st-ghost aria-hidden="true" style="position: absolute; left: clamp(-140px, -9vw, -70px); top: 0; line-height: 1.14; font-size: clamp(40px, 3.4vw, 62px); font-weight: 800; letter-spacing: -0.03em; color: rgba(29,29,29,0.07); user-select: none;">C /</span>
+        <h3 data-st-in style="margin: 0; font-size: clamp(30px, 3.1vw, 58px); font-weight: 700; line-height: 1.14; letter-spacing: -0.028em; max-width: 22ch; text-wrap: pretty; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1), transform .7s cubic-bezier(0.22, 1, 0.36, 1);">Voel de rust als je data aan het werk zet <span style="color: #8a828c;">met de juiste tooling.</span></h3></div>
+        <div data-st-cwrap style="flex: 1 1 auto; min-height: 0; width: 100%; display: flex; flex-direction: column; gap: clamp(28px, 4.5vh, 48px); max-width: 100%;">
+        <div data-st-dip data-st-in style="display: flex; gap: 18px; align-items: center; justify-content: space-between; flex: 1 1 auto; min-height: 0; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1) .12s, transform .7s cubic-bezier(0.22, 1, 0.36, 1) .12s;">
+          <div style="position: relative; height: 91%; aspect-ratio: 0.708; flex: none; max-width: calc(52% - 9px); border: 1px solid rgba(29,29,29,0.45); border-radius: 5px; overflow: hidden; background: #e3e3e0;">
+            <img width="1672" height="941" src="uploads/character-windows-xp-9146bdbb.jpg" alt="Werkplek met een computer uit 2005" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.4);">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; background: linear-gradient(to top, rgba(29,29,29,0.8), transparent); color: #ffffff;">
+              <div style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 10px; color: rgba(255,255,255,0.7);">DE MAANDAGOCHTEND</div>
+              <div style="font-size: clamp(14px, 1.3vw, 19px); font-weight: 700; letter-spacing: -0.02em;">Anno 2005</div>
+            </div>
+          </div>
+          <div style="position: relative; height: 100%; aspect-ratio: 0.85; flex: none; max-width: calc(52% - 9px); border-radius: 5px; overflow: hidden; background: #aacdf2;">
+            <img width="1672" height="1576" src="assets/hero-shoes-on-desk-tall.jpg" alt="Man leunt ontspannen achterover met de voeten op het bureau, hoog boven de bergen" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 87% 100%;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; background: linear-gradient(to top, rgba(29,29,29,0.8), transparent); color: #ffffff;">
+              <div style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 10px; color: rgba(255,255,255,0.7);">DE RUST</div>
+              <div style="font-size: clamp(14px, 1.3vw, 19px); font-weight: 700; letter-spacing: -0.02em;">De maandagochtend, nu</div>
+            </div>
+          </div>
+        </div>
+        <div data-st-in style="display: flex; flex-wrap: wrap; gap: clamp(28px, 3.5vw, 56px); width: 100%; justify-content: space-between; border-top: 1px solid var(--dj-rule,#dde7e4); padding-top: 24px; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1) .2s, transform .7s cubic-bezier(0.22, 1, 0.36, 1) .2s;">
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #645c66;">01 / DE RUST</span><span style="font-size: 14px; color: #5c5c5c;">Overzicht zonder ruis</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #645c66;">02 / DE BELOFTE</span><span style="font-size: 14px; color: #5c5c5c;">Vertrouwen in je data</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; color: #1f66c4;">03 / HET RESULTAAT</span><span style="font-size: 14px; color: #1D1D1D;">Vertrouwen in je eigen keuzes</span></div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  QUOTE = "Data is voor mij nooit het doel geweest. Het is de kortste weg naar een eerlijk gesprek over wat er \u00e9cht toe doet.";
+  componentDidMount() {
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    // fase 1: quote lezen (gepind) — fase 2: horizontale wipe die het canvas opschoont
+    //
+    // Deze lus draaide elke frame ~8 querySelectors en las layout (getBoundingClientRect,
+    // offsetWidth) NA het schrijven van styles — dat forceert per frame een synchrone
+    // reflow en dat is precies de schok die je ziet. Nu: lookups gecachet, alle metingen
+    // eerst, daarna pas schrijven, en alleen schrijven wat echt verandert.
+    this._mqMobile = window.matchMedia('(max-width: 859px)');
+    // Waar view-timelines bestaan doet CSS de pin en de wipe op de compositor;
+    // JS houdt dan alleen de leesfase en de reveal over.
+    this._cssDriven = null;   // null = nog onbekend; de fallback wacht tot dit beslist is
+    this._els = null;
+    this._portraitW = 0;
+    this._lastWordAlpha = [];
+    this._revealed = new WeakSet();
+
+    const nodes = () => {
+      const cached = this._els;
+      if (cached && cached.track.isConnected &&
+          (!cached.words.length || cached.words[0].isConnected)) return cached;
+      const track = document.querySelector('[data-st-quotetrack]');
+      if (!track) return null;
+      this._els = {
+        track,
+        stmt: document.querySelector('[data-st-statements]'),
+        qw: track.querySelector('[data-st-quotewrap]'),
+        portrait: track.querySelector('[data-st-portrait]'),
+        kop: track.querySelector('[data-st-kop]'),
+        words: track.querySelectorAll('[data-st-word]'),
+        dip: document.querySelector('[data-st-dip]'),
+        cwrap: document.querySelector('[data-st-cwrap]'),
+        current: document.querySelector('[data-st-current]'),
+      };
+      this._lastWordAlpha = [];
+      this._portraitW = this._els.portrait ? this._els.portrait.offsetWidth : 0;
+      return this._els;
+    };
+
+    this._onResize = () => {
+      if (!this._els) return;
+      if (this._els.portrait) this._portraitW = this._els.portrait.offsetWidth;
+      this._trackTop = null;   // opnieuw meten bij de volgende frame
+    };
+    window.addEventListener('resize', this._onResize, { passive: true });
+
+    this._attachScrollTimeline();
+
+    const tick = () => {
+      this._raf = requestAnimationFrame(tick);
+      if (document.hidden) return;
+      const el = nodes();
+      if (!el) return;
+
+      // ── alle metingen eerst ────────────────────────────────────────────────
+      // Documentpositie van de track verandert alleen bij resize/reflow, dus
+      // meten we die één keer en leiden we de viewport-positie af uit scrollY.
+      // Dat scheelt een geforceerde layout per frame.
+      if (this._trackTop == null) {
+        this._trackTop = el.track.getBoundingClientRect().top + window.scrollY;
+        this._trackH = el.track.offsetHeight;
+      }
+      const vh = window.innerHeight;
+      const r = { top: this._trackTop - window.scrollY, height: this._trackH };
+      r.bottom = r.top + r.height;
+      // vh kan 0 zijn (verborgen/ingeklapte viewport); dan niet wegbail-en
+      if (vh > 0 && (r.bottom < -vh || r.top > vh * 2)) return;
+      const vw = window.innerWidth;
+      const total = r.height - vh;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      this._mFrame = (this._mFrame || 0) + 1;
+      const measurements = (this._mFrame % 4 === 1) ? this._measure(el, vh) : null;
+
+      // ── daarna pas schrijven ───────────────────────────────────────────────
+      if (measurements) this._apply(el, measurements);
+
+      // leesfase: woorden lichten op (0.05–0.5)
+      const pr = Math.min(1, Math.max(0, (p - 0.05) / 0.45));
+      const n = el.words.length;
+      for (let i = 0; i < n; i++) {
+        const span = 1.6 / n, start = (i / n) * (1 - span);
+        const t = Math.min(1, Math.max(0, (pr - start) / span));
+        // op 3 decimalen quantiseren: identiek beeld, maar we schrijven (en
+        // herschilderen) alleen als de waarde daadwerkelijk verandert
+        // Mobiel start de quote op 0.4 i.p.v. 0.22: op een telefoon leest de
+        // beginstand anders als kapot grijs-op-grijs.
+        const F = window.innerWidth < 860 ? 0.4 : 0.22;
+        const a = (F + t * (1 - F)).toFixed(3);
+        if (this._lastWordAlpha[i] !== a) {
+          this._lastWordAlpha[i] = a;
+          el.words[i].style.color = 'rgba(29,29,29,' + a + ')';
+        }
+      }
+
+      // horizontale fase (0.58–1): quote + portret parallaxen weg naar links,
+      // het statement-canvas schuift van rechts in
+      if (this._cssDriven === false) {
+        // Fallback voor browsers zonder view-timelines: dezelfde choreografie,
+        // maar per frame vanuit JS — en dus met de frame vertraging.
+        const ph = Math.min(1, Math.max(0, (p - 0.58) / 0.42));
+        const e = ph < 0.5 ? 2 * ph * ph : 1 - Math.pow(-2 * ph + 2, 2) / 2; // easeInOut
+        if (el.qw) {
+          el.qw.style.transform = 'translateX(' + (-e * 0.6 * vw).toFixed(1) + 'px)';
+          el.qw.style.opacity = (1 - e * 0.9).toFixed(3);
+        }
+        if (el.portrait) {
+          el.portrait.style.transform = 'translateX(' + (-e * 1.3 * this._portraitW).toFixed(1) + 'px)';
+        }
+        if (el.kop) el.kop.style.opacity = (1 - e).toFixed(3);
+        if (el.stmt) {
+          if (p >= 1) {
+            if (el.stmt.style.transform !== '') el.stmt.style.transform = '';
+          } else {
+            // top vastpinnen op de viewport-top zolang de wipe loopt:
+            // stmt-doctop = tracktop + total (door margin-top: -100vh)
+            el.stmt.style.transform = 'translate3d(' + ((1 - e) * vw).toFixed(1) + 'px, ' + (-r.top - total).toFixed(1) + 'px, 0)';
+          }
+        }
+      }
+    };
+    this._raf = requestAnimationFrame(tick);
+  }
+
+  // De pin en de wipe hangen aan een ViewTimeline: de compositor evalueert ze in
+  // hetzelfde ritme als de scroll, dus ze lopen niet meer een frame achter op de
+  // native sticky quote ernaast. `contain 0%` = bovenkant track op bovenkant
+  // viewport, `contain 100%` = onderkant track op onderkant viewport — precies de
+  // oude `p`. De track is 380vh bij een 100vh viewport, dus de scrollruimte is
+  // 280vh en de wipe (58%→100%) beslaat exact 117.6vh.
+  _attachScrollTimeline(tries = 0) {
+    if (typeof ViewTimeline === 'undefined' || typeof CSS === 'undefined' || !CSS.percent) {
+      this._cssDriven = false; return;
+    }
+    const track = document.querySelector('[data-st-quotetrack]');
+    const stmt = document.querySelector('[data-st-statements]');
+    if (!track || !stmt) {
+      if (tries < 12) setTimeout(() => this._attachScrollTimeline(tries + 1), 250);
+      else this._cssDriven = false;
+      return;
+    }
+    const qw = track.querySelector('[data-st-quotewrap]');
+    const portrait = track.querySelector('[data-st-portrait]');
+    const kop = track.querySelector('[data-st-kop]');
+
+    let timeline;
+    try { timeline = new ViewTimeline({ subject: track, axis: 'block' }); }
+    catch (e) { this._cssDriven = false; return; }
+    if (timeline.currentTime == null) {
+      if (tries < 12) setTimeout(() => this._attachScrollTimeline(tries + 1), 250);
+      else this._cssDriven = false;   // timeline komt niet op gang: val terug op JS
+      return;
+    }
+
+    const WIPE = {
+      timeline,
+      rangeStart: { rangeName: 'contain', offset: CSS.percent(58) },
+      rangeEnd: { rangeName: 'contain', offset: CSS.percent(100) },
+      fill: 'both',
+    };
+    const EASE = 'cubic-bezier(0.45, 0, 0.55, 1)';
+    this._anims = [
+      // verticale pin: exacte scrollcompensatie, dus lineair. Eigen property
+      // (translate) zodat de horizontale transform zijn eigen easing houdt.
+      stmt.animate([{ translate: '0 -117.6vh' }, { translate: '0 0' }],
+        Object.assign({ easing: 'linear' }, WIPE)),
+      stmt.animate([{ transform: 'translateX(100vw)' }, { transform: 'translateX(0)' }],
+        Object.assign({ easing: EASE }, WIPE)),
+    ];
+    if (qw) this._anims.push(qw.animate(
+      [{ transform: 'translateX(0)', opacity: 1 }, { transform: 'translateX(-60vw)', opacity: 0.1 }],
+      Object.assign({ easing: EASE }, WIPE)));
+    // 1.3 x de eigen breedte = 130%: geen offsetWidth-meting nodig
+    if (portrait) this._anims.push(portrait.animate(
+      [{ transform: 'translateX(0)' }, { transform: 'translateX(-130%)' }],
+      Object.assign({ easing: EASE }, WIPE)));
+    if (kop) this._anims.push(kop.animate([{ opacity: 1 }, { opacity: 0 }],
+      Object.assign({ easing: EASE }, WIPE)));
+
+    // JS hoeft deze properties nu niet meer per frame te schrijven. Niets
+    // terugzetten: zolang _cssDriven null was heeft de fallback niets
+    // geschreven, dus de inline ontwerpwaarden staan er nog gewoon.
+    this._cssDriven = true;
+  }
+
+  // Alleen lezen — geen enkele style-write, zodat de browser niet halverwege
+  // de frame opnieuw moet layouten.
+  _measure(el, vh) {
+    const blocks = [];
+    const all = el.track.ownerDocument.querySelectorAll('[data-st-block]');
+    for (const b of all) {
+      const rct = b.getBoundingClientRect();
+      if (rct.top < vh * 0.65 && rct.bottom > 0) blocks.push(b);
+    }
+    return { blocks };
+  }
+
+  _apply(el, m) {
+    let current = null;
+    for (const b of m.blocks) {
+      current = b.getAttribute('data-st-letter');
+      // de reveal is eenrichtingsverkeer: één keer zetten volstaat
+      if (!this._revealed.has(b)) {
+        this._revealed.add(b);
+        b.querySelectorAll('[data-st-in]').forEach((n) => {
+          n.style.opacity = '1';
+          n.style.transform = 'none';
+        });
+      }
+      if (current === 'C' && !this._counted) {
+        this._counted = true;
+        const nl = (v) => v.toLocaleString('nl-NL');
+        this._count('vragen', 2190, 2800, nl);
+        this._count('aha', 540, 2400, nl);
+        this._count('happy', 99, 2000, (v) => v + '%');
+      }
+    }
+    if (current && el.current && this._lastLetter !== current) {
+      this._lastLetter = current;
+      el.current.textContent = current + ' / C';
+    }
+  }
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onResize) window.removeEventListener('resize', this._onResize);
+    if (this._anims) this._anims.forEach((a) => a.cancel());
+  }
+  _count(key, target, dur, fmt) {
+    const el = document.querySelector('[data-st-num="' + key + '"]');
+    if (!el) return;
+    const t0 = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      const v = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      el.textContent = fmt ? fmt(v) : String(v);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  renderVals() {
+    return { words: this.QUOTE.split(' ').map(t => ({ text: t })) };
+  }
+}
+</script>
+</body>
+</html>

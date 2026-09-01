@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: inherit; }
+    /* menu-paneel: de navbar-achtergrond komt naar voren en groeit in hoogte (0fr→1fr),
+       links staggeren in; sluit met dezelfde beweging terug */
+    [data-menu-panel] { display: grid; transition: grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease; }
+    [data-menu-link] { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-menu-panel][data-open="true"] [data-menu-link] { opacity: 1; transform: translateY(0); }
+    [data-menu-panel][data-open="true"] [data-menu-link]:nth-child(1) { transition-delay: 0.1s; }
+    [data-menu-panel][data-open="true"] [data-menu-link]:nth-child(2) { transition-delay: 0.145s; }
+    [data-menu-panel][data-open="true"] [data-menu-link]:nth-child(3) { transition-delay: 0.19s; }
+    [data-menu-panel][data-open="true"] [data-menu-link]:nth-child(4) { transition-delay: 0.235s; }
+    [data-menu-panel] [data-founder-card] { opacity: 0; transition: opacity 0.3s ease 0s; }
+    [data-menu-panel][data-open="true"] [data-founder-card] { opacity: 1; transition-delay: 0.26s; }
+    [data-menu-link] .ml-label { transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-menu-link]:hover .ml-label { color: #ffffff; }
+    [data-menu-link] .ml-sweep { transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-menu-link]:hover .ml-sweep { transform: scaleX(1); }
+    /* desktop-nav: zelfde wit-worden + sweep-lijn */
+    [data-nav-link] .nl-label { transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-nav-link]:hover .nl-label { color: #ffffff; }
+    [data-nav-link] .nl-sweep { transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-nav-link]:hover .nl-sweep { transform: scaleX(1); }
+    /* founder-kaart: lichte zoom op de foto + merkteken rolt bij hover omhoog opnieuw in beeld */
+    [data-founder-card] .fc-photo { transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-founder-card]:hover .fc-photo { transform: scale(1.07); }
+    [data-founder-card] .fc-roll { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    [data-founder-card]:hover .fc-roll { transform: translateY(-50%); }
+    @media (prefers-reduced-motion: reduce) { [data-menu-panel], [data-menu-scrim], [data-menu-link], [data-menu-panel] [data-founder-card], [data-menu-link] .ml-label, [data-menu-link] .ml-sweep, [data-nav-link] .nl-label, [data-nav-link] .nl-sweep, [data-founder-card] .fc-photo, [data-founder-card] .fc-roll { animation: none !important; transition: none !important; } }
+  </style>
+</helmet>
+
+<div style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #ffffff;">
+  <!-- scrim — permanent in de DOM zodat hij mee kan faden -->
+  <div data-menu-scrim="" aria-hidden="true" onClick="{{ onMenuClose }}" style="position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.45); opacity: {{ scrimOpacity }}; pointer-events: {{ scrimPE }}; transition: opacity 0.4s ease;"></div>
+
+  <!-- navbar-wortel: de balk + de uitklappende achtergrond zijn één geheel;
+       logo en hamburger verhuizen nooit, dus open/dicht matcht per definitie -->
+  <div data-navroot="" style="position: relative; z-index: 500; margin-bottom: clamp(8px, 3.2vw, 60px);">
+
+    <!-- uitklap-achtergrond: viewport-breed, vult ook boven de balk -->
+    <div data-menu-panel="" data-open="{{ menuExpanded }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 0; background: #111111; border-radius: 0 0 5px 5px; grid-template-rows: {{ panelRows }}; box-shadow: {{ panelShadow }};">
+      <div style="overflow: hidden; min-height: 0;">
+        <div style="padding: calc(clamp(24px, 3vw, 40px) + 98px) clamp(18px, 2vw, 28px) 16px clamp(18px, 2vw, 28px);">
+        <div style="max-width: 1500px; margin: 0 auto; padding: 0 24px;">
+          <nav aria-label="Menu" style="display: flex; flex-direction: column;">
+            <sc-for list="{{ menuLinks }}" as="ml" hint-placeholder-count="4">
+              <a data-menu-link="" href="{{ ml.href }}" onClick="{{ onMenuClose }}" style="position: relative; display: flex; align-items: flex-start; gap: 8px; padding: 18px 2px; border-bottom: 1px solid var(--dj-rule,rgba(242,245,249,0.14)); color: #d4d4d4;">
+                <span class="ml-label" style="font-size: 16px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.2;">{{ ml.label }}</span>
+                <span aria-hidden="true" style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 11px; line-height: 11.2px; color: #7d7d7d; transform: translateY(-2px); font-feature-settings: 'tnum';">{{ ml.num }}</span>
+                <span class="ml-sweep" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: #ffffff;"></span>
+              </a>
+            </sc-for>
+          </nav>
+          <!-- founder-kaart — volle breedte onderin het paneel -->
+          <a data-founder-card="" href="{{ founderHref }}" style="position: relative; display: flex; align-items: stretch; gap: 14px; background: #f2f2f0; border-radius: 5px; padding: 3px; margin-top: clamp(28px, 6vw, 56px);">
+            <span style="display: block; width: 72px; height: 72px; border-radius: 5px; overflow: hidden; flex: none;">
+              <img width="560" height="560" decoding="async" class="fc-photo" src="assets/lanyard_person.jpg" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+            </span>
+            <span style="display: flex; flex-direction: column; justify-content: center; padding: 8px 30px 8px 0; min-width: 0;">
+              <span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #1D1D1D;">Ontmoet de oprichter</span>
+              <span style="margin-top: 8px; font-size: 11px; line-height: 1.35; font-weight: 700; letter-spacing: -0.01em; color: #1D1D1D;">Datajagers</span>
+              <span style="font-size: 11px; line-height: 1.35; font-weight: 400; letter-spacing: -0.01em; color: #5c5c5c;">Oprichter</span>
+            </span>
+            <span aria-hidden="true" style="position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; overflow: hidden; display: block;">
+              <span class="fc-roll" style="display: block;">
+                <span style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 14px; height: 14px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+                <span style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 14px; height: 14px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+              </span>
+            </span>
+          </a>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- topbalk: wordmark + genummerde nav -->
+    <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 70px; padding: 24px;">
+      <a href="{{ homeHref }}" aria-label="Datajagers" style="display: block; width: 98px; flex: none;">
+        <span role="img" aria-hidden="true" style="display: block; width: 100%; height: 18px; -webkit-mask: url('assets/logo_wordmark.svg') left center / contain no-repeat; mask: url('assets/logo_wordmark.svg') left center / contain no-repeat; background: #ffffff;"></span>
+      </a>
+      <nav aria-label="Hoofdmenu" style="position: absolute; left: 50%; top: 24px; transform: translateX(-50%); height: 70px; display: flex; align-items: center; gap: 90px; white-space: nowrap;">
+        <sc-for list="{{ navItems }}" as="nv" hint-placeholder-count="4">
+          <a data-nav-link="" href="{{ nv.href }}" style="position: relative; display: inline-flex; align-items: flex-start; gap: 6px; padding-bottom: 4px; font-size: 12px; line-height: 16.2px; font-weight: 400; letter-spacing: -0.01em; color: {{ nv.color }};">
+            <span class="nl-label" style="position: relative;">{{ nv.label }}<span class="nl-sweep" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: #ffffff;"></span></span>
+            <span aria-hidden="true" style="font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 11px; line-height: 11.2px; letter-spacing: 0.04em; color: #7d7d7d; transform: translateY(-3px); font-feature-settings: 'tnum';">{{ nv.num }}</span>
+          </a>
+        </sc-for>
+      </nav>
+      <!-- founder-kaart — 1:1 met de referentie: 22% breed, 70px hoog -->
+      <a data-founder-card="" href="{{ founderHref }}" style="flex: none; position: relative; display: {{ cardDisplay }}; align-items: stretch; gap: 13px; background: #f2f2f0; border-radius: 5px; padding: 3px; width: 22%; min-width: 264px; height: 70px; box-sizing: border-box;" style-hover="background: #ffffff;">
+        <span style="display: block; width: 64px; height: 64px; border-radius: 5px; overflow: hidden; flex: none;">
+          <img width="560" height="560" decoding="async" class="fc-photo" src="assets/lanyard_person.jpg" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+        </span>
+        <span style="display: flex; flex-direction: column; justify-content: center; padding-right: 26px; min-width: 0;">
+          <span style="font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: #1D1D1D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ontmoet de oprichter</span>
+          <span style="margin-top: 7px; font-size: 11px; line-height: 1.35; font-weight: 700; letter-spacing: -0.01em; color: #1D1D1D; white-space: nowrap;">Datajagers</span>
+          <span style="font-size: 11px; line-height: 1.35; font-weight: 400; letter-spacing: -0.01em; color: #5c5c5c; white-space: nowrap;">Oprichter</span>
+        </span>
+        <span aria-hidden="true" style="position: absolute; top: 10px; right: 10px; width: 18px; height: 18px; overflow: hidden; display: block;">
+          <span class="fc-roll" style="display: block;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 12px; height: 12px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+            <span style="display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 3px; box-sizing: border-box;"><span style="display: block; width: 12px; height: 12px; -webkit-mask: url('assets/logo_mark.svg') center / contain no-repeat; mask: url('assets/logo_mark.svg') center / contain no-repeat; background: #1D1D1D;"></span></span>
+          </span>
+        </span>
+      </a>
+      <!-- hamburger — onder laptop-breakpoint; morfd naar X -->
+      <button type="button" aria-label="Menu" aria-expanded="{{ menuExpanded }}" onClick="{{ onMenuToggle }}" style="display: {{ burgerDisplay }}; align-items: center; justify-content: center; flex-direction: column; gap: 6px; width: 46px; height: 46px; flex: none; background: transparent; border: 0; border-radius: 5px; cursor: pointer; padding: 0;">
+        <span aria-hidden="true" style="display: block; width: 18px; height: 1.5px; background: #ffffff; transform: {{ burgerLine1 }}; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);"></span>
+        <span aria-hidden="true" style="display: block; width: 18px; height: 1.5px; background: #ffffff; transform: {{ burgerLine2 }}; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);"></span>
+      </button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 400 },
+  &quot;home&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; },
+  &quot;contactHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#contact&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; },
+  &quot;founderHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#verhaal&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; },
+  &quot;active&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;&quot;, &quot;options&quot;: [&quot;&quot;, &quot;Home&quot;, &quot;Diensten&quot;, &quot;Wie we zijn&quot;, &quot;Contact&quot;], &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  state = {
+    narrow: (typeof window !== 'undefined' ? window.innerWidth < 1180 : false),
+    menuOpen: false,
+  };
+
+  componentDidMount() {
+    this._mqN = window.matchMedia('(max-width: 1179px)');
+    this._onMqN = (e) => this.setState({ narrow: e.matches, menuOpen: false });
+    this.setState({ narrow: this._mqN.matches });
+    if (this._mqN.addEventListener) this._mqN.addEventListener('change', this._onMqN);
+    this._onKey = (e) => {
+      if (e.key === 'Escape' && this.state.menuOpen) { this.setState({ menuOpen: false }); return; }
+      // focus-trap: Tab blijft binnen het open menu (paneel + hamburger)
+      if (e.key === 'Tab' && this.state.menuOpen) {
+        const panel = document.querySelector('[data-menu-panel]');
+        const burger = document.querySelector('button[aria-label="Menu"]');
+        if (!panel || !burger) return;
+        const items = [burger, ...panel.querySelectorAll('a[href]')];
+        const first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        else if (!items.includes(document.activeElement)) { e.preventDefault(); first.focus(); }
+      }
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() {
+    if (this._mqN && this._mqN.removeEventListener) this._mqN.removeEventListener('change', this._onMqN);
+    window.removeEventListener('keydown', this._onKey);
+    this._setScrollLock(false);
+  }
+  // scroll-lock zonder layout-sprong: compenseer de wegvallende scrollbar
+  _setScrollLock(on) {
+    const b = document.body;
+    if (on && !this._locked) {
+      this._locked = true;
+      this._prevOverflow = b.style.overflow; this._prevPadR = b.style.paddingRight;
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      if (sw > 0) b.style.paddingRight = sw + 'px';
+      b.style.overflow = 'hidden';
+    } else if (!on && this._locked) {
+      this._locked = false;
+      b.style.overflow = this._prevOverflow || '';
+      b.style.paddingRight = this._prevPadR || '';
+    }
+  }
+  componentDidUpdate() { this._setScrollLock(this.state.menuOpen); }
+
+  renderVals() {
+    const home = this.props.home ?? '';
+    const contactHref = this.props.contactHref ?? (home + '#contact');
+    const active = this.props.active ?? '';
+    const items = [
+      { label: 'Home', href: home || '#top', num: '01' },
+      { label: 'Wie we zijn', href: home + '#verhaal', num: '02' },
+      { label: 'Diensten', href: home + '#diensten', num: '03' },
+      { label: 'FAQ', href: home + '#faq', num: '04' },
+      { label: 'Contact', href: contactHref, num: '05' },
+    ];
+    return {
+      homeHref: home || '#top',
+      founderHref: this.props.founderHref ?? (home + '#verhaal'),
+      navItems: this.state.narrow ? [] : items.map((it) => Object.assign({}, it, { color: it.label === active ? '#ffffff' : '#d4d4d4' })),
+      menuLinks: items,
+      cardDisplay: this.state.narrow ? 'none' : 'flex',
+      burgerDisplay: this.state.narrow ? 'inline-flex' : 'none',
+      burgerLine1: this.state.menuOpen ? 'translateY(3.75px) rotate(45deg)' : 'none',
+      burgerLine2: this.state.menuOpen ? 'translateY(-3.75px) rotate(-45deg)' : 'none',
+      menuExpanded: this.state.menuOpen ? 'true' : 'false',
+      panelRows: this.state.menuOpen ? '1fr' : '0fr',
+      panelShadow: this.state.menuOpen ? '0 30px 60px rgba(0,0,0,0.5)' : '0 0 0 rgba(0,0,0,0)',
+      scrimOpacity: this.state.menuOpen ? '1' : '0',
+      scrimPE: this.state.menuOpen ? 'auto' : 'none',
+      onMenuToggle: () => this.setState((s) => ({ menuOpen: !s.menuOpen })),
+      onMenuClose: () => this.setState({ menuOpen: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>

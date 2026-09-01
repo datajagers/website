@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background:var(--dj-card,#ffffff); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+    @keyframes uwDriftA { 0%,100% { transform: translate(-8%,10%) scale(1); } 50% { transform: translate(12%,-6%) scale(1.22); } }
+    @keyframes uwSpark { 0% { transform: translateY(0); opacity: 0; } 14% { opacity: .9; } 100% { transform: translateY(-70px); opacity: 0; } }
+    @keyframes uwNudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+    @media (prefers-reduced-motion: reduce) { [data-uw-anim] { animation: none !important; } }
+  
+    /* Mobiel: de zwevende kaarten bedekken op 375px de sticky kop volledig —
+       de diepte-choreografie werkt alleen breed. Onder 860 lineariseren we:
+       badge → kop → subtitel → kaarten onder elkaar. */
+    @media (max-width: 859px) {
+      [data-hk-hint] { display: none !important; }
+      [data-hk-badge], [data-hk-title], [data-hk-title] + div, [data-hk-sub] { position: static !important; }
+      [data-hk-title] + div { height: auto !important; }
+      [data-hk-sub] { margin-top: 12px !important; }
+      [data-hk-wrap] { margin: 40px auto 0 !important; }
+      [data-hk-wrap] > div { display: block !important; }
+      [data-hk-wrap] > div > div { aspect-ratio: auto !important; padding: 0 !important; }
+      [data-hk-item] { transform: none !important; height: auto !important; margin: 0 0 16px !important; }
+    }
+  </style>
+</helmet>
+
+<div data-hk-root data-screen-label="Herkenbaar / struggles wall" style="position: relative; background: transparent; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; padding-top: clamp(56px, 7vw, 104px);">
+
+  <!-- gedeelde sectiekop -->
+  <div style="position: relative; z-index: 5; padding: 0 clamp(18px, 3vw, 44px); max-width: 1180px; margin: 0 auto;">
+    <dc-import name="Sectiekop" num="03" label="Herkenbaar" right="06 signalen" tone="dark" hint-size="100%,36px"></dc-import>
+  </div>
+
+  <!-- scroll hint — lower-centre of the first screen, fades on scroll -->
+  <div data-hk-hint aria-hidden="true" style="position: absolute; left: 50%; top: 58vh; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; pointer-events: none;">
+    <span style="max-width: 16ch; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: 0em; text-transform: uppercase; line-height: 1.6; color:var(--dj-muted,#8a828c);">Scroll</span>
+    <span style="display: block; width: 1px; height: 64px; background: linear-gradient(to bottom, transparent 0%, rgba(163,163,163,0.45) 100%);"></span>
+  </div>
+
+  <!-- sticky centred title — three sticky siblings; ONLY the h2 carries the blend,
+       so exclusion works (a sticky wrapper would isolate a blended child) -->
+  <!-- spacer: laat de sticky titelstack vanaf de onderkant van het scherm binnenkomen -->
+  <div aria-hidden="true" style="height: max(80px, calc(38vh - clamp(56px, 7vw, 104px) - 36px));"></div>
+
+  <div data-hk-badge style="position: sticky; top: calc(50vh - 112px); z-index: 2; pointer-events: none; display: flex; justify-content: center; padding: 0 22px;">
+    <div style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: 0em; text-transform: uppercase; color: #a3a3a3; white-space: nowrap;">
+      <span style="width: 5px; height: 5px; border-radius: 999px; background: #93c3fd; display: inline-block;"></span>
+      Herkenbaar?
+    </div>
+  </div>
+  <h2 data-hk-title style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif; position: sticky; top: calc(50vh - 66px); z-index: 2; pointer-events: none; margin: 0 auto; max-width: 640px; padding: 0 22px; text-align: center; font-size: clamp(32px, 3.2vw, 60px); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: #FFFFFF; mix-blend-mode: exclusion; text-wrap: balance;">Het zit in je hoofd. Alleen nog niet in je <span style="font-weight: 500;">systeem</span>.</h2>
+  <div style="position: sticky; top: calc(50vh + 74px); z-index: 2; pointer-events: none; margin: 0 auto; width: 100%; max-width: 640px; padding: 0 22px;">
+    <div style="position: relative; height: 30px; text-align: center;">
+      <p data-hk-sub style="position: absolute; left: 0; right: 0; top: 0; margin: 0; font-size: 18px; letter-spacing: -0.02em; font-weight: 400; line-height: 1.5; color:var(--dj-muted,#6f6f6f);">Zes dingen die we elke week horen.</p>
+    </div>
+  </div>
+
+  <!-- scattered card wall -->
+  <div data-hk-wrap style="position: relative; z-index: 20; margin: 50vh auto 0; max-width: 1180px; padding: 0 clamp(18px, 3vw, 44px);">
+    <sc-for list="{{ rows }}" as="row" hint-placeholder-count="4">
+      <div style="display: flex; width: 100%;">
+        <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="4">
+          <div style="{{ cell.cellStyle }}">
+            <div data-hk-item="{{ cell.on }}" style="{{ cell.itemStyle }}">
+              <!-- post header -->
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="{{ cell.avatarStyle }}">{{ cell.initial }}</span>
+                <div style="min-width: 0; flex: 1;">
+                  <p style="margin: 0; font-size: {{ cell.nameSize }}; font-weight: 500; color: #1D1D1D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ cell.name }}</p>
+                  <p style="margin: 1px 0 0; font-size: {{ cell.metaSize }}; font-weight: 400; color: #6f6f6f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ cell.handle }} &middot; {{ cell.role }}</p>
+                </div>
+                <span style="font-size: {{ cell.metaSize }}; font-weight: 300; color: #6f6f6f; flex: none;">{{ cell.time }}</span>
+              </div>
+              <!-- post text -->
+              <p style="margin: auto 0; font-size: {{ cell.quoteSize }}; font-weight: 400; line-height: 1.48; letter-spacing: -0.2px; color: #1D1D1D; text-wrap: pretty;">{{ cell.quote }} <span style="color: #1f66c4; font-weight: 400; white-space: nowrap;">{{ cell.hashtag }}</span></p>
+              <!-- post footer -->
+              <div style="display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--dj-rule,#dde7e4); padding-top: 11px;">
+                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: {{ cell.metaSize }}; color: #6f6f6f;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-.98L3 21l1.98-5.5a8.5 8.5 0 1 1 16.02-4z"></path></svg>{{ cell.comments }}</span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: {{ cell.metaSize }}; color: #1f66c4;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>{{ cell.likes }}</span>
+                <span style="margin-left: auto; font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.6px; color: #a3a3a3;">{{ cell.num }}/06</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+
+    <!-- adempauze verhuisd naar de estafette-scene in de hoofdpagina -->
+    <div aria-hidden="true" style="height: clamp(48px, 7vh, 96px);"></div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 900 },
+  &quot;columns&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 4, &quot;min&quot;: 2, &quot;max&quot;: 5, &quot;tsType&quot;: &quot;number&quot; }
+}">
+class Component extends DCLogic {
+  state = { w: (typeof window !== 'undefined' ? window.innerWidth : 1280) };
+  reduce = !!(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  data = [
+    { name: 'Sanne Bakker',  handle: '@sanne_ops',  role: 'operations manager',    time: '2 u',  comments: 12, likes: 89,  quote: 'Ik zie precies wat ik wil. Ik krijg het alleen niet gebouwd.', hashtag: '#hetzitinmijnhoofd' },
+    { name: 'Ruben Meijer',  handle: '@rubenmeijer', role: 'eigenaar webshop',     time: '5 u',  comments: 23, likes: 154, quote: 'Zoveel data, zoveel tools. Waar begin je?', hashtag: '#waarbeginik' },
+    { name: 'Femke de Wit',  handle: '@femke_mkt',  role: 'teamlead marketing',    time: '1 d',  comments: 31, likes: 208, quote: 'Elke maand hetzelfde rapport. Met de hand.', hashtag: '#copypaste' },
+    { name: 'Jeroen van Dam', handle: '@jeroenvd',  role: 'financieel directeur',  time: '2 d',  comments: 48, likes: 312, quote: 'Vijf dashboards verder, nog steeds geen antwoord. Wie herkent dit?', hashtag: '#datachaos' },
+    { name: 'Anouk Visser',  handle: '@anouk_data', role: 'data-analist',          time: '3 d',  comments: 19, likes: 176, quote: 'Twee rapporten, twee waarheden.', hashtag: '#wieheeftgelijk' },
+    { name: 'Mark de Haan',  handle: '@markdehaan', role: 'algemeen directeur',    time: '1 w',  comments: 27, likes: 243, quote: 'We meten alles. En weten niks.', hashtag: '#metenzonderweten' },
+  ];
+
+  // deterministic scatter: exactly one card per row, spread over ALLE kolommen
+  // (ook de middelste — de kaart mag over de sticky tekst heen voor diepte)
+  buildLayout(count, cols) {
+    const perm = [];
+    for (let k = 0; k < cols; k += 2) perm.push(k);      // 0,2,4…
+    for (let k = 1; k < cols; k += 2) perm.push(k);      // 1,3…
+    const rows = [];
+    for (let i = 0, r = 0; i < count; r++) {
+      const row = new Array(cols).fill(-1);
+      row[perm[r % cols]] = i++;
+      rows.push(row);
+    }
+    return rows;
+  }
+
+  componentDidMount() {
+    this._onResize = () => {
+      this.setState({ w: window.innerWidth });
+      // clip-path poses zijn in vh/vw uitgedrukt — geen px-herberekening nodig
+    };
+    window.addEventListener('resize', this._onResize);
+    if (this.reduce) return;
+
+    this._open = false; this._animating = false; this._armT = 0;
+    this._bindGate();
+
+    const clamp = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+    let lastY = null;
+
+    const frame = () => {
+      this._raf = requestAnimationFrame(frame);
+      const root = document.querySelector('[data-hk-root]');
+      if (!root) return;
+      // runway: maak de kaart-wrap 250vh — de sticky kaart krijgt zo een
+      // gepinde bufferzone rond het holdpunt, waardoor scroll-oscillatie
+      // tijdens trackpad-momentum niets zichtbaars beweegt (geen jitter)
+      if (!this._runwayOn) {
+        const w0 = root.querySelector('[data-hk-ctawrap]');
+        if (w0) { this._runwayOn = true; w0.style.height = '250vh'; }
+      }
+      const y = window.scrollY || window.pageYOffset;
+      if (lastY !== null && Math.abs(y - lastY) < 0.5) return;
+      lastY = y;
+
+      const vh = window.innerHeight;
+      const rect = root.getBoundingClientRect();
+      const total = rect.height - vh;
+      const p = total > 0 ? clamp(-rect.top / total) : 0;
+
+      // hint fades over the first stretch
+      const hint = root.querySelector('[data-hk-hint]');
+      if (hint) hint.style.opacity = (1 - clamp(p / 0.12)).toFixed(3);
+
+      const wrap = root.querySelector('[data-hk-ctawrap]');
+      const rw = wrap ? wrap.getBoundingClientRect() : null;
+
+      // sticky titelstack is volledig weg VOORDAT de CTA-kaart in beeld popt
+      const e4 = rw ? clamp((vh - rw.top) / (vh * 0.45)) : clamp((p - 0.80) / 0.10);
+      const fade = (1 - e4).toFixed(3);
+      const vis = e4 >= 0.999 ? 'hidden' : 'visible';
+      const badge = root.querySelector('[data-hk-badge]');
+      const title = root.querySelector('[data-hk-title]');
+      const sub = root.querySelector('[data-hk-sub]');
+      if (badge) { badge.style.opacity = fade; badge.style.visibility = vis; }
+      if (title) { title.style.opacity = fade; title.style.visibility = vis; }
+      if (sub) { sub.style.opacity = fade; sub.style.visibility = vis; }
+
+      // CTA-kaart: fade-in bij binnenkomst — géén transform, anders breekt de
+      // viewport-fixed achtergrond. De expansie zelf is gebaar-getriggerd (_play).
+      const cta = root.querySelector('[data-hk-cta]');
+      if (wrap && cta && rw) {
+        if (!this._open && !this._animating) {
+          const a = clamp((vh * 0.92 - rw.top) / (vh * 0.5));
+          const fade = (1 - (1 - a) * (1 - a)).toFixed(3);
+          cta.style.opacity = fade;
+          const shadow = root.querySelector('[data-hk-ctashadow]');
+          if (shadow) shadow.style.opacity = fade;
+        }
+        // poort: de pagina kan de gepinde kaart niet passeren vóór de expansie
+        // heeft gespeeld — maar ALLEEN dicht bij de poort. Grote sprongen
+        // (ankerlinks, reload midden op de pagina) passeren vrij en zetten de
+        // kaart direct in de juiste eindstand, anders breekt de navigatie.
+        if (this._animating) {
+          // houd de pagina elke frame op het holdpunt vast terwijl de expansie
+          // speelt — het holdpunt ligt MIDDEN in de gepinde runway, dus zelfs
+          // als momentum tussen twee frames doorschiet blijft de sticky kaart
+          // exact stilstaan (de scroll-oscillatie is onzichtbaar)
+          if (this._gateY != null && Math.abs(y - this._gateY) > 1) window.scrollTo(0, this._gateY);
+        } else {
+          const W = rw.height;                 // 250vh runway
+          const G = -vh * 0.6;                 // holdpunt: 60vh in de gepinde zone
+          const near = vh * 0.6;
+          if (!this._open) {
+            if (rw.top <= -(W - vh * 0.4)) {
+              this._open = true; this._pose(true, true);      // bypass: ver voorbij (ankerlink)
+            } else if (rw.top < G - 2) {
+              window.scrollTo(0, y + rw.top - G);
+              if (!this._armT) this._armT = Date.now();
+            } else if (rw.top <= G + 2) {
+              if (!this._armT) this._armT = Date.now();
+            } else if (rw.top > G + 8) {
+              this._armT = 0;
+            }
+          } else if (rw.top >= near) {
+            this._open = false; this._pose(false, true);      // bypass: ver erboven
+          } else if (rw.top > -W + 2) {
+            // open + terug omhoog: sla de dode kaartzone over en stop direct op
+            // het holdpunt (charcoal→charcoal, onzichtbaar); up-gebaar speelt reverse
+            window.scrollTo(0, y + rw.top - G);
+          }
+        }
+      }
+
+      // each card scrubs scale 0 → 1 → 0 across its pass through the viewport
+      const items = root.querySelectorAll('[data-hk-item="1"]');
+      for (let k = 0; k < items.length; k++) {
+        // measure the untransformed cell, not the scaled card
+        const r2 = (items[k].parentElement || items[k]).getBoundingClientRect();
+        const span = vh + (r2.height || 1);
+        const t = clamp((vh - r2.top) / span);
+        let s;
+        if (t <= 0.5) { const u = t * 2; s = 1 - (1 - u) * (1 - u); }   // power2.out in
+        else { const u = (t - 0.5) * 2; s = 1 - u * u; }                 // power2.in out
+        items[k].style.transform = 'scale(' + Math.max(0, s).toFixed(3) + ')';
+      }
+    };
+    this._raf = requestAnimationFrame(frame);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onWheel) window.removeEventListener('wheel', this._onWheel);
+    if (this._onTS) window.removeEventListener('touchstart', this._onTS);
+    if (this._onTM) window.removeEventListener('touchmove', this._onTM);
+    if (this._onKey) window.removeEventListener('keydown', this._onKey);
+    clearTimeout(this._playT);
+    this._lockScroll(false);
+  }
+
+  _gateRect() {
+    const wrap = document.querySelector('[data-hk-ctawrap]');
+    return wrap ? wrap.getBoundingClientRect() : null;
+  }
+
+  _lockScroll(on) {
+    try {
+      document.body.style.overflow = on ? 'hidden' : '';
+      document.documentElement.style.overflow = on ? 'hidden' : '';
+    } catch (err) {}
+  }
+
+  // scroll-getriggerde, tijdgebaseerde expansie — zelfde mechaniek als het
+  // herogordijn: één gebaar op de poort speelt de hele beweging in eigen cadans
+  _bindGate() {
+    const armed = () => this._armT && (Date.now() - this._armT > 250);
+
+    // Brede vensters: ook alle momentum-events van een harde flick worden
+    // opgegeten zolang we in de poortzone zitten — anders vecht de restsnelheid
+    // frame na frame tegen de clamp (zichtbare jitter).
+    this._onWheel = (e) => {
+      const rw = this._gateRect();
+      if (!rw) return;
+      const vh = window.innerHeight;
+      const W = rw.height, G = -vh * 0.6;
+      const near = vh * 0.6;
+      if (this._animating) { if (e.cancelable && rw.top < near && rw.top > -W - 60) e.preventDefault(); return; }
+      if (!this._open) {
+        if (rw.top <= G + 2 && rw.top > -(W - vh * 0.4) && e.deltaY > 0) { if (e.cancelable) e.preventDefault(); if (armed()) this._play(1); }
+      } else if (rw.top > -W + 2 && rw.top < near) {
+        if (e.cancelable) e.preventDefault();
+        if (e.deltaY < 0) this._play(0);
+        else window.scrollTo(0, (window.scrollY || 0) + rw.top + W);   // terug omlaag: dode zone overslaan
+      }
+    };
+    window.addEventListener('wheel', this._onWheel, { passive: false });
+
+    this._ty = null;
+    this._onTS = (e) => { this._ty = (e.touches && e.touches[0]) ? e.touches[0].clientY : null; };
+    this._onTM = (e) => {
+      if (this._ty == null) return;
+      const cy = (e.touches && e.touches[0]) ? e.touches[0].clientY : this._ty;
+      const dy = this._ty - cy;                 // >0 = omhoog vegen = intentie naar beneden
+      const rw = this._gateRect();
+      if (!rw) return;
+      const vh = window.innerHeight;
+      const W = rw.height, G = -vh * 0.6;
+      const near = vh * 0.6;
+      if (this._animating) { if (e.cancelable && rw.top < near && rw.top > -W - 60) e.preventDefault(); return; }
+      if (!this._open) {
+        if (rw.top <= G + 2 && rw.top > -(W - vh * 0.4) && dy > 6) { e.preventDefault(); if (armed()) this._play(1); }
+      } else if (rw.top > -W + 2 && rw.top < near) {
+        if (dy < -6) { e.preventDefault(); this._play(0); }
+        else if (dy > 6) { e.preventDefault(); window.scrollTo(0, (window.scrollY || 0) + rw.top + W); }
+      }
+    };
+    window.addEventListener('touchstart', this._onTS, { passive: true });
+    window.addEventListener('touchmove', this._onTM, { passive: false });
+
+    this._onKey = (e) => {
+      if (this._animating) return;
+      const tag = (e.target && e.target.tagName) || '';
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (e.target && e.target.isContentEditable)) return;
+      const rw = this._gateRect();
+      if (!rw) return;
+      const vh = window.innerHeight;
+      const W = rw.height, G = -vh * 0.6;
+      const near = vh * 0.6;
+      const down = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar';
+      const up = e.key === 'ArrowUp' || e.key === 'PageUp';
+      if (!this._open) { if (down && rw.top <= G + 2 && rw.top > -(W - vh * 0.4)) { e.preventDefault(); this._play(1); } }
+      else if (up && rw.top > -W + 2 && rw.top < near) { e.preventDefault(); this._play(0); }
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+
+  _play(target) {
+    const cur = this._open ? 1 : 0;
+    if (this._animating || target === cur) return;
+    this._animating = true;
+    // land exact op het holdpunt midden in de gepinde runway; de rAF-loop houdt
+    // de pagina daar vast tijdens het spelen — doorschietend momentum blijft
+    // binnen de gepinde zone en is dus onzichtbaar (geen jitter)
+    const rw = this._gateRect();
+    this._gateY = (window.scrollY || 0) + (rw ? rw.top + window.innerHeight * 0.6 : 0);
+    window.scrollTo(0, this._gateY);
+    this._pose(target === 1);
+    clearTimeout(this._playT);
+    this._playT = setTimeout(() => {
+      this._open = target === 1;
+      this._animating = false;
+      // na de expansie: land direct op de volgende sectie (pixel-identiek — de
+      // fullscreen kaart en de nog lege Diensten-stage zijn hetzelfde charcoal),
+      // zodat de Diensten-entree meteen vanzelf start zonder extra scroll
+      const rw2 = this._gateRect();
+      const vh2 = window.innerHeight;
+      const W2 = rw2 ? rw2.height : vh2 * 2.5;
+      window.scrollTo(0, this._open ? this._gateY + W2 - vh2 * 0.6 : this._gateY);
+      this._gateY = null;
+      this._armT = this._open ? 0 : Date.now();
+    }, 1450);
+  }
+
+  _pose(open, instant) {
+    const E = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    const cta = document.querySelector('[data-hk-cta]');
+    if (!cta) return;
+    const d = open ? '.15s' : '0s';
+    // alleen clip-path animeren: paint-only, geen layout/reflow per frame
+    // (width/height + fixed background gaf zware jitter)
+    const clipClosed = 'inset(calc(50vh - 125px) calc(50vw - min(280px, 46vw)) round 20px)';
+    const clipOpen = 'inset(0px round 0px)';
+    cta.style.transition = instant ? 'none' : 'clip-path 1.2s ' + E + ' ' + d + ',-webkit-clip-path 1.2s ' + E + ' ' + d;
+    cta.style.opacity = '1';
+    cta.style.clipPath = open ? clipOpen : clipClosed;
+    cta.style.webkitClipPath = open ? clipOpen : clipClosed;
+    const shadow = document.querySelector('[data-hk-ctashadow]');
+    if (shadow) {
+      shadow.style.transition = instant ? 'none' : 'opacity .6s ease ' + d;
+      shadow.style.opacity = open ? '0' : '1';
+    }
+    // sterrenveld-decor: alleen opacity (transform draagt de centrering)
+    const decor = cta.querySelector('[data-hk-decor]');
+    if (decor) {
+      decor.style.transition = instant ? 'none' : 'opacity .5s ease ' + d;
+      decor.style.opacity = open ? '0' : '1';
+    }
+    // tekstcascade — gespiegeld bij reverse, zoals de hero-exitcascade
+    const kids = [cta.querySelector('[data-hk-ctatxt]'), cta.querySelector('[data-hk-ctatitle]'), cta.querySelector('[data-hk-ctatxt2]')];
+    kids.forEach((el, i) => {
+      if (!el) return;
+      const kd = open ? (i * 0.06) : (0.5 + (kids.length - 1 - i) * 0.06);
+      el.style.transition = instant ? 'none' : 'opacity .5s ease ' + kd + 's,transform .6s ' + E + ' ' + kd + 's';
+      el.style.opacity = open ? '0' : '1';
+      el.style.transform = open ? 'translateY(-18px)' : 'translateY(0)';
+    });
+  }
+
+  renderVals() {
+    const reduce = this.reduce;
+    const w = this.state.w;
+    const desired = Math.max(2, Math.min(5, Math.round(this.props.columns ?? 4)));
+    const cols = w < 640 ? 2 : (w < 1024 ? Math.min(desired, 3) : desired);
+    const compact = w < 640 || cols >= 4;
+    const quoteSize = compact ? 'clamp(13.5px, 1.15vw, 16px)' : '16.5px';
+    const nameSize = compact ? '12.5px' : '14px';
+    const metaSize = compact ? '11px' : '12.5px';
+    const avatar = compact ? 32 : 40;
+    const layout = this.buildLayout(this.data.length, cols);
+
+    const rows = layout.map((row) => ({
+      cells: row.map((idx, ci) => {
+        const filled = idx !== -1;
+        const origin = ci < cols / 2 ? 'right bottom' : 'left bottom';
+        const d = filled ? this.data[idx] : null;
+        return {
+          on: filled ? '1' : '0',
+          num: filled ? '0' + (idx + 1) : '',
+          name: filled ? d.name : '',
+          handle: filled ? d.handle : '',
+          role: filled ? d.role : '',
+          time: filled ? d.time : '',
+          comments: filled ? String(d.comments) : '',
+          likes: filled ? String(d.likes) : '',
+          quote: filled ? d.quote : '',
+          hashtag: filled ? d.hashtag : '',
+          initial: filled ? d.name.charAt(0) : '',
+          quoteSize: quoteSize,
+          nameSize: nameSize,
+          metaSize: metaSize,
+          avatarStyle: 'width: ' + avatar + 'px; height: ' + avatar + 'px; border-radius: 999px; background: linear-gradient(135deg, #93c3fd 0%, #1f66c4 100%); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: ' + (compact ? 12 : 14) + 'px; font-weight: 600; flex: none;',
+          cellStyle: 'flex: 1 1 0; min-width: 0; aspect-ratio: 1 / 1; padding: clamp(6px, 1vw, 12px); display: flex;',
+          itemStyle: filled
+            ? 'width: 100%; height: 100%; display: flex; flex-direction: column; gap: 12px; border-radius: 5px; background: #ffffff; box-shadow: 0 22px 48px rgba(0,0,0,0.38); padding: clamp(14px, 1.6vw, 22px); transform-origin: ' + origin + '; transform: scale(' + (reduce ? 1 : 0) + ');'
+            : 'display: none;',
+        };
+      }),
+    }));
+
+    return { rows: rows, ctaOpacity: reduce ? '1' : '0' };
+  }
+}
+
+</script>
+</body>
+</html>

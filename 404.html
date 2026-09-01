@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagina niet gevonden — Datajagers</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo_mark.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1D1D1D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Fragment+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #1D1D1D; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 560px; }
+  .home-mark { display: inline-flex; align-items: center; min-height: 44px; }
+  .mark {
+    display: block;
+    width: 190px;
+    height: 21px;
+    background: #ffffff;
+    -webkit-mask: url("assets/logo_wordmark.svg") left center / contain no-repeat;
+    mask: url("assets/logo_wordmark.svg") left center / contain no-repeat;
+  }
+  .code {
+    margin: 56px 0 0;
+    font-family: 'Fragment Mono', ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #a3a3a3;
+  }
+  h1 {
+    margin: 18px 0 0;
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  p {
+    margin: 18px 0 0;
+    max-width: 44ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #a3a3a3;
+  }
+  .links { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px 28px; }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+  }
+  .links a:hover { color: #93c3fd; border-bottom-color: #93c3fd; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="home-mark" href="index.html" aria-label="Naar de homepage"><span class="mark" role="img" aria-label="Datajagers"></span></a>
+    <p class="code">Fout 404</p>
+    <h1>Deze pagina bestaat niet.</h1>
+    <p>De link klopt niet meer, of de pagina is verplaatst. Ga terug naar de homepage of stuur ons een bericht — dan zoeken we het samen uit.</p>
+    <div class="links">
+      <a href="index.html">Naar de homepage</a>
+      <a href="contact.html">Neem contact op</a>
+    </div>
+  </main>
+</body>
+</html>

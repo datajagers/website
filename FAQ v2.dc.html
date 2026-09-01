@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--dj-surface,#f8f8f8); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: inherit; }
+  </style>
+</helmet>
+
+<section style="position: relative; background: transparent; color: var(--dj-ink,#1D1D1D); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; padding: clamp(56px, 7vw, 104px) 22px clamp(64px, 8vw, 116px) 22px;">
+  <div style="max-width: 1180px; margin: 0 auto;">
+
+    <!-- kopregel op de hairline — editorial index -->
+    <div style="width: 100%;"><dc-import name="Sectiekop" num="07" label="Veelgestelde vragen" hint-size="100%,36px"></dc-import></div>
+
+    <div style="display: grid; grid-template-columns: {{ cols }}; gap: clamp(28px, 4vw, 76px); align-items: start; margin-top: clamp(28px, 3.5vw, 48px);">
+
+      <!-- Links: mediakaart — wrapper strekt over de hele kolomhoogte zodat de sticky tot de onderste vraag meereist -->
+      <div style="align-self: stretch;">
+      <div style="position: {{ stickyPos }}; top: 96px;">
+        <a data-rv="0" href="{{ ctaHref }}" style="display: block; width: min(400px, 100%); margin-top: clamp(10px, 1.2vw, 20px); background: var(--dj-card,#ffffff); border: 1px solid var(--dj-border,#dde7e4); border-radius: 5px; overflow: hidden;" style-hover="border-color: color-mix(in srgb, var(--dj-hover,#1f66c4) 55%, var(--dj-border,#dde7e4));">
+          <span style="display: block; padding: 12px;">
+            <img loading="lazy" decoding="async" src="assets/floating_cocktail.jpg" alt="Man drijft ontspannen op het water met een cocktail" style="display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 5px;">
+          </span>
+          <span style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 4px 16px 14px 16px; font-size: 15px; letter-spacing: -0.01em;">
+            <span style="display: inline-flex; align-items: center; gap: 9px; font-weight: 500; color: var(--dj-ink,#1D1D1D);">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true" style="flex: none;"><path d="M0 0L10 6L0 12Z"></path></svg>
+              {{ ctaLabel }}
+            </span>
+            <span style="color: var(--dj-muted,#6f6f6f);">30 min — gratis</span>
+          </span>
+        </a>
+        <p data-rv="1" style="margin: 22px 0 0 2px; max-width: 340px; font-size: clamp(15px, 0.9vw, 17px); letter-spacing: -0.02em; font-weight: 400; line-height: 1.6; color: var(--dj-muted,#6f6f6f);">Geen verkooppraatje — gewoon eerlijke antwoorden. Staat je vraag er niet bij? Stel hem direct.</p>
+      </div>
+      </div>
+
+      <!-- Rechts: accordeon met de vijf micro-animaties -->
+      <div data-rv="1">
+        <sc-for list="{{ items }}" as="item" hint-placeholder-count="6">
+          <div>
+            <button type="button" id="{{ item.btnId }}" aria-expanded="{{ item.expanded }}" aria-controls="{{ item.panelId }}" onClick="{{ item.onToggle }}" onMouseEnter="{{ item.onEnter }}" onMouseLeave="{{ item.onLeave }}" style="position: relative; width: 100%; display: flex; align-items: center; gap: clamp(16px, 1.6vw, 24px); text-align: left; background: transparent; border: 0; cursor: pointer; font-family: inherit; padding: clamp(22px, 2.4vw, 32px) 2px;">
+
+              <!-- 1 + 2: nummercirkel met spring-in en kleuromslag -->
+              <span aria-hidden="true" style="position: relative; flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;">
+                <span style="position: absolute; inset: 0; border-radius: 999px; background: var(--dj-ink,#1D1D1D); transform: scale({{ item.circleScale }}); opacity: {{ item.circleOpacity }}; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;"></span>
+                <span style="position: relative; z-index: 1; font-size: 14px; font-weight: 500; color: {{ item.numColor }}; font-feature-settings: 'tnum'; transition: color 0.25s ease;">{{ item.number }}</span>
+              </span>
+
+              <!-- 3: vraag kleurt bij en stapt naar rechts -->
+              <span style="flex: 1; min-width: 0; font-size: clamp(19px, 1.4vw, 27px); font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; color: {{ item.titleColor }}; transform: translateX({{ item.titleX }}); transition: color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);">{{ item.q }}</span>
+
+              <!-- 5a: plus roteert naar kruis -->
+              <span aria-hidden="true" style="margin-left: auto; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; transform: rotate({{ item.plusRot }}); opacity: {{ item.plusOpacity }}; transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;">
+                <svg width="17" height="17" viewBox="0 0 16 16" fill="none" style="display: block; color: var(--dj-ink,#1D1D1D);">
+                  <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                </svg>
+              </span>
+
+              <!-- 4: hairline + accentlijn die vanaf links veegt -->
+              <span aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--dj-border,#dde7e4);"></span>
+              <span aria-hidden="true" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: {{ accent }}; transform-origin: left; transform: scaleX({{ item.lineScale }}); transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);"></span>
+            </button>
+
+            <!-- 5b: grid 0fr→1fr met vertraagde tekst-fade -->
+            <div id="{{ item.panelId }}" role="region" aria-labelledby="{{ item.btnId }}" style="display: grid; grid-template-rows: {{ item.rows }}; transition: grid-template-rows 0.46s cubic-bezier(0.22, 1, 0.36, 1);">
+              <div style="overflow: hidden; min-height: 0;">
+                <p style="margin: 0; padding: clamp(4px,0.6vw,8px) clamp(20px,3vw,48px) clamp(24px,2.6vw,32px) clamp(56px,5vw,64px); max-width: 620px; font-size: clamp(15px, 0.9vw, 17px); letter-spacing: -0.02em; font-weight: 400; line-height: 1.65; color: var(--dj-muted,#575757); opacity: {{ item.pOpacity }}; transform: translateY({{ item.pY }}); transition: opacity 0.35s ease 0.08s, transform 0.4s ease 0.06s;">{{ item.a }}</p>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1180, &quot;height&quot;: 760 },
+  &quot;accentColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#1D1D1D&quot;, &quot;options&quot;: [&quot;#1D1D1D&quot;, &quot;#2f7fd6&quot;, &quot;#1f66c4&quot;, &quot;#1f8a5b&quot;], &quot;tsType&quot;: &quot;string&quot; },
+  &quot;ctaLabel&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Plan een gesprek&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;ctaHref&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#contact&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  state = { open: -1, hover: -1, mobile: (typeof window !== 'undefined' ? window.innerWidth < 860 : false) };
+
+  data = [
+    { q: 'Met wat voor bedrijven werken jullie?', a: 'Kleine tot middelgrote teams die generieke tools ontgroeid zijn of vastlopen in ineffici\u00ebnte workflows. De rode draad: volop data, maar geen duidelijke richting \u2014 of een heldere richting, maar niet de tools om er te komen.' },
+    { q: 'Hoe ziet een typisch traject eruit?', a: 'Elk project begint met The Sparring Session \u2014 een eerlijk gesprek over het \u2018waarom\u2019. Daarna varieert de looptijd van een gerichte sprint van \u00e9\u00e9n week tot een partnerschap van meerdere maanden, afhankelijk van scope en complexiteit.' },
+    { q: 'Waarin verschilt dit van een gewone consultant inhuren?', a: 'Je krijgt een strategische sparringpartner, geen rapportschrijver. Het doel is nooit een document in de la \u2014 maar een werkende oplossing die vanaf dag \u00e9\u00e9n echte waarde cre\u00ebert. Een halve zin is meestal genoeg om te weten wat er nodig is.' },
+    { q: 'Welke tools en technologie\u00ebn gebruiken jullie?', a: 'Wat past bij de klus. Excel en Power BI voor datawerk, Python en SQL voor zwaardere analyses, OpenAI-API\u2019s voor AI-integraties en Lean Six Sigma voor procesvraagstukken. De tool volgt het probleem, niet andersom.' },
+    { q: 'Werken jullie remote of on-site?', a: 'Voornamelijk remote, met de optie voor on-site sessies wanneer het werk daarom vraagt \u2014 zeker bij complexe data-architectuurworkshops of strategische sparringsessies waar samen in \u00e9\u00e9n ruimte zijn het verschil maakt.' },
+    { q: 'Hoe gaan we van start?', a: 'Plan een gratis sparringsessie. In 30 minuten bepalen we of er een match is en wat de eerste concrete stap is. Geen pitchdeck, geen poespas \u2014 gewoon een eerlijk gesprek over jouw uitdaging.' },
+  ];
+
+  componentDidMount() {
+    this._mq = window.matchMedia('(max-width: 859px)');
+    this._onMq = (e) => this.setState({ mobile: e.matches });
+    this.setState({ mobile: this._mq.matches });
+    if (this._mq.addEventListener) this._mq.addEventListener('change', this._onMq);
+  }
+  componentWillUnmount() { if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq); }
+
+  renderVals() {
+    const accent = this.props.accentColor || '#1D1D1D';
+    const ink = 'var(--dj-ink,#1D1D1D)';
+    const items = this.data.map((d, i) => {
+      const open = this.state.open === i;
+      const hov = this.state.hover === i && !open;
+      const active = open || hov;
+      return {
+        q: d.q, a: d.a,
+        number: ('0' + (i + 1)).slice(-2),
+        panelId: 'faq-panel-' + i,
+        btnId: 'faq-vraag-' + i,
+        expanded: open ? 'true' : 'false',
+        circleScale: open ? '1' : (hov ? '0.85' : '0'),
+        circleOpacity: open ? '1' : (hov ? '0.08' : '0'),
+        numColor: open ? '#ffffff' : (hov ? ink : '#726A71'),
+        titleColor: active ? ink : '#6f6f6f',
+        titleX: active ? '4px' : '0px',
+        lineScale: open ? '1' : (hov ? '0.3' : '0'),
+        plusRot: open ? '45deg' : '0deg',
+        plusOpacity: active ? '1' : '0.4',
+        rows: open ? '1fr' : '0fr',
+        pOpacity: open ? '1' : '0',
+        pY: open ? '0px' : '-8px',
+        onToggle: () => this.setState((s) => ({ open: s.open === i ? -1 : i })),
+        onEnter: () => this.setState({ hover: i }),
+        onLeave: () => this.setState({ hover: -1 }),
+      };
+    });
+    return {
+      items, accent,
+      cols: this.state.mobile ? '1fr' : '0.72fr 1.28fr',
+      stickyPos: this.state.mobile ? 'static' : 'sticky',
+      ctaHref: this.props.ctaHref || '#contact',
+      ctaLabel: this.props.ctaLabel || 'Plan een gesprek',
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+/* site.css — production layer shared by every page.
+   Loaded from disk (like the drivers), linked from each page template's <head>.
+   The dc components inject their own <style> blocks after this file, so rules
+   here must either target selectors the components never set (focus state) or
+   carry enough weight to survive. */
+
+/* ── Focus visibility ────────────────────────────────────────────────────────
+   The components style hover exhaustively and focus not at all, so keyboard
+   users had no indicator anywhere (WCAG 2.4.7). One ring, defined once, on the
+   two backgrounds the site actually uses. :focus-visible keeps it off mouse
+   clicks. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid #93c3fd;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+/* On the light bands the pale blue ring is too low-contrast against #f6f6f4,
+   so the ink colour takes over there. */
+[style*="#f6f6f4"] :where(a, button, input, select, textarea, [tabindex]):focus-visible,
+[style*="#ffffff"] :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline-color: #1f66c4;
+}
+
+/* Never remove the ring without replacing it. */
+:where(a, button, input, select, textarea):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Skip link ───────────────────────────────────────────────────────────────
+   First tab stop on every page; off-screen until focused. */
+.dj-skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 4000;
+  display: inline-block;
+  padding: 10px 18px;
+  min-height: 44px;
+  box-sizing: border-box;
+  font: 500 15px/1.5 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: #1d1d1d;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+  transition: top 0.2s ease;
+}
+.dj-skip:focus {
+  top: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dj-skip { transition: none; }
+}
+
+/* ── Touch targets ───────────────────────────────────────────────────────────
+   Six controls sat under 44px on mobile, the hero's "Plan een gesprek" among
+   them. They are underlined text links whose padding carries the underline, so
+   growing the box would move the rule away from the text. Instead an invisible
+   overlay carries the extra touch surface: the visual design is untouched and
+   the tap area reaches 44px. No component uses ::before, so this is free. */
+
+  [data-foot-social] a,
+  [data-foot-link] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  [data-ke-cta],
+  [data-ke-pill],
+  [data-dl-cta],
+  [data-tm-cta],
+  [data-foot-cta],
+  [data-dl-row],
+  [data-nav-link],
+  [data-foot-social] a,
+  [data-mn-bar] button,
+  a[href="#top"],
+  a[href^="mailto:"] {
+    position: relative;
+  }
+
+  [data-ke-cta]::before,
+  [data-ke-pill]::before,
+  [data-dl-cta]::before,
+  [data-tm-cta]::before,
+  [data-foot-cta]::before,
+  [data-dl-row]::before,
+  [data-nav-link]::before,
+  [data-foot-social] a::before,
+  [data-mn-bar] button::before,
+  a[href="#top"]::before,
+  a[href^="mailto:"]::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+/* ── Hover & focus system ────────────────────────────────────────────────────
+   The audit found four blues, eight timings and five behaviours — including one
+   hover whose circle and arrow moved on different curves. One accent per band,
+   one curve, one duration, and every hover mirrored on :focus-visible so a
+   keyboard reaches the same affordance a mouse does. */
+:root {
+  --dj-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dj-dur: 0.5s;
+  --dj-hover: #93c3fd;          /* the site is dark by default */
+}
+/* Light bands pin their own accent — #93c3fd is unreadable on #f6f6f4 */
+[data-st-statements],
+section#faq {
+  --dj-hover: #1f66c4;
+}
+
+/* ── The underline CTA ───────────────────────────────────────────────────────
+   Every CTA already carried a static border-bottom that sat still while the
+   label slid away from it. The nav already owned a better idiom — a scaleX
+   sweep — so this extends that same gesture to the five CTAs instead of
+   inventing a sixth pattern.
+
+   The origin flip is what makes it read as direction rather than a fade: the
+   line draws in from the left on enter, and retreats to the right on leave. */
+[data-ke-cta],
+[data-dl-cta],
+[data-foot-cta],
+[data-tm-cta] {
+  position: relative;
+}
+[data-ke-cta]::after,
+[data-dl-cta]::after,
+[data-foot-cta]::after,
+[data-tm-cta]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;                 /* sits on the existing border, not beside it */
+  height: 1px;
+  background: var(--dj-hover);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dj-dur) var(--dj-ease);
+  pointer-events: none;
+}
+[data-ke-cta]:hover::after,   [data-ke-cta]:focus-visible::after,
+[data-dl-cta]:hover::after,   [data-dl-cta]:focus-visible::after,
+[data-foot-cta]:hover::after, [data-foot-cta]:focus-visible::after,
+[data-tm-cta]:hover::after,   [data-tm-cta]:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Focus parity ────────────────────────────────────────────────────────────
+   The components declare these gestures on :hover only. Mirroring them here
+   means tabbing through the page produces the same motion as pointing at it. */
+[data-ke-cta]:focus-visible   .dc-label,
+[data-dl-cta]:focus-visible   .dc-label,
+[data-foot-cta]:focus-visible .fc-label,
+[data-tm-cta]:focus-visible   .tc-label { transform: translateX(4px); }
+
+[data-ke-cta]:focus-visible   .dc-arrow,
+[data-dl-cta]:focus-visible   .dc-arrow,
+[data-foot-cta]:focus-visible .fc-arrow,
+[data-tm-cta]:focus-visible   .tc-arrow { transform: translate(3px, -3px) rotate(0deg); }
+
+[data-dl-row]:focus-visible  .dl-circ,
+[data-foot-link]:focus-visible .fl-circ { transform: scale(1); opacity: 1; }
+[data-dl-row]:focus-visible  .dl-titel,
+[data-foot-link]:focus-visible .fl-label { transform: translateX(8px); color: #ffffff; }
+[data-dl-row]:focus-visible  .dl-arrow { transform: translate(3px, -3px) rotate(0deg); opacity: 1; }
+
+[data-menu-link]:focus-visible .ml-sweep,
+[data-mn-link]:focus-visible   .ml-sweep,
+[data-nav-link]:focus-visible  .nl-sweep { transform: scaleX(1); }
+[data-menu-link]:focus-visible .ml-label,
+[data-mn-link]:focus-visible   .ml-label,
+[data-nav-link]:focus-visible  .nl-label { color: #ffffff; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-ke-cta]::after, [data-dl-cta]::after,
+  [data-foot-cta]::after, [data-tm-cta]::after { transition: none; }
+}
+
+/* The FAQ media card is a link, so it joins the hover system. It had no
+   transition at all — the border snapped while every other hover eased. */
+[data-rv] {
+  transition: border-color var(--dj-dur) var(--dj-ease);
+}
+[data-rv]:focus-visible {
+  border-color: color-mix(in srgb, var(--dj-hover, #1f66c4) 55%, var(--dj-border, #dde7e4));
+}
+
+/* ── The CTA, defined once ───────────────────────────────────────────────────
+   Five copies of this existed under four marker names, each with its own CSS —
+   which is how one of them drifted to a 25px underline gap and two never got a
+   hover colour. [data-cta] is now the single hook; the old markers stay on the
+   elements so existing selectors keep working. */
+[data-cta] .dc-label,
+[data-cta] .tc-label,
+[data-cta] .fc-label {
+  display: inline-block;
+  transition: transform var(--dj-dur) var(--dj-ease);
+}
+[data-cta] .dc-arrow,
+[data-cta] .tc-arrow,
+[data-cta] .fc-arrow {
+  transform: rotate(45deg);
+  transition: transform var(--dj-dur) var(--dj-ease);
+}
+[data-cta]:hover .dc-label, [data-cta]:focus-visible .dc-label,
+[data-cta]:hover .tc-label, [data-cta]:focus-visible .tc-label,
+[data-cta]:hover .fc-label, [data-cta]:focus-visible .fc-label {
+  transform: translateX(4px);
+}
+[data-cta]:hover .dc-arrow, [data-cta]:focus-visible .dc-arrow,
+[data-cta]:hover .tc-arrow, [data-cta]:focus-visible .tc-arrow,
+[data-cta]:hover .fc-arrow, [data-cta]:focus-visible .fc-arrow {
+  transform: translate(3px, -3px) rotate(0deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-cta] .dc-label, [data-cta] .tc-label, [data-cta] .fc-label,
+  [data-cta] .dc-arrow, [data-cta] .tc-arrow, [data-cta] .fc-arrow {
+    transition: none;
+  }
+}
+
+/* Landingsregel: na een overgang mag de vorige sectie nooit in beeld staan.
+   De minibalk is doorzichtig, dus dat betekent: sectietop op de viewporttop —
+   precies wat een native hash-sprong al doet (scroll-margin 0). Geen regel
+   nodig; dit comment bewaakt dat er geen scroll-margin terugsluipt. */
