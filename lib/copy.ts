@@ -98,7 +98,7 @@ export const DIENSTEN = {
       kort: "Minder verspilling, meer resultaat volgens bewezen Lean Six Sigma-principes.",
       deliverables: [
         "Proces in kaart & knelpuntanalyse",
-        "Verspillingsscan met euro-impact",
+        "Businesscase: euro's in, euro's uit",
         "Verbeterroadmap, geprioriteerd",
         "Borging: meetplan & werkafspraken",
       ],
