@@ -150,10 +150,9 @@ Server starten: preview_start met naam `datajagers-v3`.
 - **Contactformulier: Formspark (besluit Wouter, teruggedraaid t.o.v. eerder
   mailto-besluit diezelfde dag).** v4 POST't naar submit-form.com
   (`lib/formspark.ts`, honeypot `_honeypot`, statussen bezig/verstuurd/
-  mislukt; foutpad getest). Zolang `FORMSPARK_FORM_ID` leeg is valt de
-  submit terug op de geverifieerde mailto-flow. WACHT OP: het form-ID uit
-  Wouters Formspark-dashboard — daarna één constante vullen + echte
-  inzending testen.
+  mislukt; foutpad getest). Form-ID `npnD5QsQn` staat erin en is LIVE
+  getest: echte inzending geaccepteerd (commit `721e984`). Het
+  mailto-vangnet blijft in de code voor als het ID ooit leeg raakt.
 
 ## 6. Huidige fase: inhoudsoptimalisatie
 
