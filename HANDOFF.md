@@ -3,8 +3,14 @@
 Laatst bijgewerkt: 2026-09-02. Dit document brengt een nieuwe sessie op het
 kennisniveau van de vorige. Lees het volledig vóór de eerste wijziging.
 
-**Huidige fase: inhoudsoptimalisatie** — zie §6. De techniek staat; het werk
-verschuift naar copy, boodschap en SEO-inhoud.
+**Huidige fase: Next.js-migratie (besluit Wouter, 2026-09-02) + inhoudsoptimalisatie.**
+De site migreert naar Next.js/SSR: map `../datajagers-website-v4`, branch
+`v4-next` op dezelfde repo, poort 4490 (launch.json-entry `datajagers-v4`,
+copy centraal in `lib/copy.ts`). Fase 1 (alle inhoud server-rendered, huisstijl-
+tokens 1-op-1, mailto-formulier, sitemap/robots schoon) staat en is geverifieerd
+op 1440 én 375. Fase 2 = motion-pariteit (Vizier, gordijnen, hero-FLIP, scrubs).
+Main blijft deze statische v3 tot v4 pariteit heeft. De copy-audit (§6) loopt
+door; akkoorden landen in v4.
 
 ## 1. Wat dit is
 
@@ -115,7 +121,9 @@ Server starten: preview_start met naam `datajagers-v3`.
   `origin/main` — gewoon committen en pushen vanuit deze map.
 - **Netlify-deploy gefixt (2026-09-02)**: de UI stond op `npm run build`
   (faalde: geen package.json). `netlify.toml` heeft nu een expliciet no-op
-  `command` — toml overschrijft de UI. Elke push naar main deployt direct.
+  `command` — toml overschrijft de UI. LET OP: www.datajagers.nl serveerde
+  ook ná die fix nog de oude React-versie (gemonitord, ~8 min) — deploy-log
+  in het Netlify-dashboard checken, of het domein hangt aan een andere site.
 - **Besluit Wouter (2026-09-02): contactformulier blijft mailto.** Formspark
   is afgewezen; er komt geen extern endpoint. De mailto-flow is functioneel
   geverifieerd (validatie, foutmeldingen, focus, statusregel, mail-body).
