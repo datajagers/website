@@ -22,8 +22,9 @@ export default function ContactPage() {
           <Navbar active="Contact" solid />
           <div className="grid">
             <div className="beeld">
+              {/* origineel v3-portret (zat als webp in de contactbundel) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/lanyard_person.jpg" alt="" loading="lazy" decoding="async" />
+              <img src="/uploads/contact-portret.webp" alt="" width={609} height={1024} loading="lazy" decoding="async" />
               <span className="merk" aria-hidden="true" />
             </div>
             <div>
