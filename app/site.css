@@ -1241,10 +1241,10 @@ html.js .proces[data-on="true"] .pg-in { opacity: 1; transform: none; }
   html.js .kehero .ke-heroscherm img.bg, html.js .kehero .ke-heroscherm .scrim { display: none; }
   html.js .kehero .ke-heroscherm .nav { pointer-events: auto; }
   html.js .kehero[data-open="false"] .ke-heroscherm .copy { pointer-events: auto; }
-  /* fotolaag: full-bleed, start ingezoomd (P5/Revolut-ruststand); GSAP
-     animeert de scale naar 1 tijdens het gebaar */
+  /* fotolaag: full-bleed op normale stand (besluit Wouter: geen zoom —
+     alleen het kader/de rand beweegt, zoals v3) */
   html.js .kehero .ke-foto { display: block; position: absolute; inset: 0; z-index: 4; overflow: hidden; }
-  html.js .kehero .ke-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%; transform: scale(1.75); transform-origin: 50% 30%; will-change: transform; }
+  html.js .kehero .ke-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
   html.js .kehero .ke-foto .scrim { position: absolute; inset: 0; }
   /* het vaste venster: dun wit lijntje; de rand (box-shadow-spread) dijt uit */
   html.js .kehero .ke-venster { display: block; position: absolute; z-index: 5; border-radius: 5px; pointer-events: none; will-change: box-shadow; }

@@ -17,7 +17,7 @@ import { ArrowCta } from "@/components/ArrowCta";
 import { Navbar } from "@/components/Navbar";
 import { Wig } from "@/components/motion/Wig";
 
-const RAND_START = 4; // px — de dunne witte lijn in ruststand
+const RAND_START = 1; // px — de dunne witte lijn in ruststand (v3-kader was ook 1px)
 
 export function HeroFlip() {
   const stageRef = useRef<HTMLElement>(null);
@@ -66,7 +66,7 @@ export function HeroFlip() {
           onComplete: () => { s.open = true; s.anim = false; s.openedAt = Date.now(); },
           onReverseComplete: () => { s.open = false; s.anim = false; },
         });
-        tl.fromTo(foto, { scale: 1.75 }, { scale: 1 }, 0);
+        // besluit Wouter: geen foto-zoom — alleen de rand dijt uit
         tl.to(proxy, { rand: maxSpread(r), onUpdate: () => zetRand(proxy.rand) }, 0);
       } else if (tl) {
         tl.reverse();
@@ -111,13 +111,14 @@ export function HeroFlip() {
       if (!stageMode()) {
         stage.setAttribute("data-open", "false");
         tl?.kill(); tl = null;
-        gsap.set(foto, { clearProps: "transform" });
         zetRand(RAND_START);
         s.open = false; s.anim = false;
         return;
       }
       const r = plaats();
-      if (s.open && !s.anim) zetRand(maxSpread(r));
+      // ook de gesloten stand herstellen — na een resize de 860-grens over
+      // was het 1px-kader anders onzichtbaar tot het eerste gebaar
+      if (!s.anim) zetRand(s.open ? maxSpread(r) : RAND_START);
     };
 
     // ruststand: venster op de slotplek met het dunne lijntje
