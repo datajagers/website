@@ -12,6 +12,7 @@ import Link from "next/link";
 import { HERO, IN_CIJFERS } from "@/lib/copy";
 import { ArrowCta } from "@/components/ArrowCta";
 import { Navbar } from "@/components/Navbar";
+import { Wig } from "@/components/motion/Wig";
 
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const OPEN_MS = 1100;
@@ -185,6 +186,11 @@ export function HeroFlip() {
           {stat(rechts, "0.6s")}
         </div>
       </div>
+
+      {/* hero→verhaal-wig: op de stagebodem, ónder de fotolaag (z3 < z5) —
+          met de hero dicht dekt de foto hem af, open is hij licht-op-licht
+          onzichtbaar; hij veegt pas in beeld als #verhaal nadert (v3) */}
+      <Wig kleur="#f6f6f4" sectieId="verhaal" binnen />
 
       {/* reislaag: dezelfde hero-foto, krimpt als venster tot de middenkaart */}
       <div ref={fotoRef} className="ke-foto" aria-hidden="true">

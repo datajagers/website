@@ -14,7 +14,6 @@ import { WIE_WE_ZIJN } from "@/lib/copy";
 import { Sectiekop } from "@/components/Sectiekop";
 import { ArrowCta } from "@/components/ArrowCta";
 import { Reveal } from "@/components/motion/Reveal";
-import { Wig } from "@/components/motion/Wig";
 
 export function WieWeZijn() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -173,7 +172,8 @@ export function WieWeZijn() {
 
   return (
     <section id="verhaal" className="band-light wwz">
-      <Wig kleur="#f6f6f4" />
+      {/* de hero→verhaal-wig leeft in de HeroFlip-stage (onder de fotolaag,
+          zoals v3) — hier geen eigen wig */}
       {/* fase 1: gepinde quote-baan */}
       <div className="st-track" ref={trackRef}>
         <div className="st-sticky">

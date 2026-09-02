@@ -7,12 +7,26 @@
 
 import { useEffect, useRef } from "react";
 
-export function Wig({ boog = false, kleur }: { boog?: boolean; kleur: string }) {
+export function Wig({
+  boog = false,
+  kleur,
+  sectieId,
+  binnen = false,
+}: {
+  boog?: boolean;
+  kleur: string;
+  /** meet de voortgang op deze sectie i.p.v. de ouder (voor een wig die
+      in de vórige sectie leeft, zoals de hero-wig in v3) */
+  sectieId?: string;
+  /** positioneer op de bodem van de ouder (bottom 0, onder diens fotolagen)
+      i.p.v. boven de eigen sectierand */
+  binnen?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const wig = ref.current;
-    const sec = wig?.parentElement;
+    const sec = sectieId ? document.getElementById(sectieId) : wig?.parentElement;
     if (!wig || !sec) return;
     const reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -55,7 +69,7 @@ export function Wig({ boog = false, kleur }: { boog?: boolean; kleur: string }) 
       window.removeEventListener("resize", kick);
       if (raf !== null) cancelAnimationFrame(raf);
     };
-  }, [boog]);
+  }, [boog, sectieId]);
 
   return (
     <div
@@ -69,10 +83,11 @@ export function Wig({ boog = false, kleur }: { boog?: boolean; kleur: string }) 
               pointerEvents: "none", zIndex: 1,
             }
           : {
-              position: "absolute", left: 0, right: 0, bottom: "calc(100% - 1px)",
+              position: "absolute", left: 0, right: 0,
+              bottom: binnen ? 0 : "calc(100% - 1px)",
               height: "clamp(70px, 9vw, 150px)", background: kleur,
               clipPath: "polygon(0 100%, 100% 100%, 100% 100%)",
-              pointerEvents: "none", zIndex: 1,
+              pointerEvents: "none", zIndex: binnen ? 3 : 1,
             }
       }
     />
