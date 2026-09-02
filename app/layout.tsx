@@ -4,6 +4,7 @@ import "./globals.css";
 import "./site.css";
 import { Preloader } from "@/components/motion/Preloader";
 import { Curtains } from "@/components/motion/Curtains";
+import { OrganizationLd } from "@/components/JsonLd";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="nl" className={`${jakarta.variable} ${fragment.variable}`}>
       <body>
+        <OrganizationLd />
         <a className="dj-skip" href="#hoofdinhoud">
           Naar hoofdinhoud
         </a>

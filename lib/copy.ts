@@ -11,7 +11,7 @@ export const NAV = [
 
 export const HERO = {
   titel: "Data & daarna",
-  sub: "Begrijpelijke data voor scherpere beslissingen. Eén versie van de waarheid, elke dag opnieuw.",
+  sub: "Begrijpelijke data voor scherpere beslissingen. Eén versie van de waarheid.",
   cta: "Plan een gesprek",
 };
 
@@ -38,7 +38,7 @@ export const WIE_WE_ZIJN = {
     {
       letter: "A",
       tekst:
-        "Wij maken data begrijpelijk, besluitvorming scherper en teams zekerder van hun keuzes — nuchter, scherp en zonder ruis.",
+        "Wij maken data begrijpelijk, besluitvorming scherper en teams zekerder van hun keuzes — nuchter, helder en zonder ruis.",
       grijs: "",
       chips: ["Mensentaal boven jargon", "Duidelijkheid boven dashboardchaos", "Scherpe analyse zonder ego"],
     },
@@ -47,12 +47,12 @@ export const WIE_WE_ZIJN = {
       tekst:
         "Datajagers begon aan de andere kant van de tafel: drie dashboards, twee waarheden, geen besluit.",
       grijs: "Cijfers horen een gesprek te openen — niet te smoren.",
-      chips: ["Bewezen ervaring", "Persoonlijke aanpak", "1-stop-shop", "Doorlopende support"],
+      chips: ["Bewezen ervaring", "Persoonlijke aanpak", "Alles onder één dak", "Doorlopende support"],
     },
     {
       letter: "C",
-      tekst: "Voel de rust als je data aan het werk zet",
-      grijs: "met de juiste tooling.",
+      tekst: "Ervaar de rust",
+      grijs: "van data die voor je werkt.",
       chips: [],
     },
   ],
@@ -73,7 +73,7 @@ export const HERKENBAAR = {
     { name: "Sanne Bakker", handle: "@sanne_ops", role: "operations manager", time: "2 u", comments: 12, likes: 89, quote: "Ik zie precies wat ik wil. Ik krijg het alleen niet gebouwd.", hashtag: "#hetzitinmijnhoofd" },
     { name: "Ruben Meijer", handle: "@rubenmeijer", role: "eigenaar webshop", time: "5 u", comments: 23, likes: 154, quote: "Zoveel data, zoveel tools. Waar begin je?", hashtag: "#waarbeginik" },
     { name: "Femke de Wit", handle: "@femke_mkt", role: "teamlead marketing", time: "1 d", comments: 31, likes: 208, quote: "Elke maand hetzelfde rapport. Met de hand.", hashtag: "#copypaste" },
-    { name: "Jeroen van Dam", handle: "@jeroenvd", role: "financieel directeur", time: "2 d", comments: 48, likes: 312, quote: "Vijf dashboards verder, nog steeds geen antwoord. Wie herkent dit?", hashtag: "#datachaos" },
+    { name: "Jeroen van Dam", handle: "@jeroenvd", role: "financieel directeur", time: "2 d", comments: 48, likes: 312, quote: "Vijf dashboards verder, nog steeds geen antwoord.", hashtag: "#datachaos" },
     { name: "Anouk Visser", handle: "@anouk_data", role: "data-analist", time: "3 d", comments: 19, likes: 176, quote: "Twee rapporten, twee waarheden.", hashtag: "#wieheeftgelijk" },
     { name: "Mark de Haan", handle: "@markdehaan", role: "algemeen directeur", time: "1 w", comments: 27, likes: 243, quote: "We meten alles. En weten niks.", hashtag: "#metenzonderweten" },
   ],
@@ -100,19 +100,19 @@ export const DIENSTEN = {
     {
       num: "02",
       titel: "Data & Dashboards",
-      kort: "Zet jouw rommelige data om in beslissingen die je écht kunt gebruiken.",
+      kort: "Zet jouw rommelige data om in inzichten die je écht gebruikt.",
       deliverables: ["Power BI dashboards", "KPI-definities", "Datamodel", "Rapportage-automatisering"],
     },
     {
       num: "03",
-      titel: "AI-Enablement & Maatwerk",
+      titel: "AI-integratie & Maatwerk",
       kort: "Breng AI in je dagelijkse workflow — praktisch, niet theoretisch.",
       deliverables: ["Workflow-scan", "Prompt- & toolkeuze", "Maatwerk-automatisering", "Team-training"],
     },
     {
       num: "04",
       titel: "1-op-1 AI-Coaching",
-      kort: "90 minuten. Één workflow getransformeerd — je gaat weg met iets dat werkt.",
+      kort: "90 minuten. Eén workflow, werkend gemaakt — je gaat weg met iets dat werkt.",
       deliverables: ["Intake & doelbepaling", "Live sessie — 90 min", "Werkende workflow", "Opname & naslag"],
     },
   ],
@@ -142,7 +142,7 @@ export const TESTIMONIALS = {
   kopGrijs: "Echte verhalen.",
   intro: "Ongefilterde woorden van de mensen met wie we dagelijks aan data, dashboards en AI werken.",
   meetlat: "./ ECHTE MENSEN, ECHTE SAMENWERKING",
-  cta: "Ik wil dit ook",
+  cta: "Werk met ons samen",
   quotes: [
     {
       quote:
@@ -183,10 +183,10 @@ export const FAQ = {
     },
     {
       q: "Hoe ziet een typisch traject eruit?",
-      a: "Elk project begint met The Sparring Session — een eerlijk gesprek over het ‘waarom’. Daarna varieert de looptijd van een gerichte sprint van één week tot een partnerschap van meerdere maanden, afhankelijk van scope en complexiteit.",
+      a: "Elk project begint met de sparringsessie — een eerlijk gesprek over het ‘waarom’. Daarna varieert de looptijd van een gerichte sprint van één week tot een partnerschap van meerdere maanden, afhankelijk van scope en complexiteit.",
     },
     {
-      q: "Waarin verschilt dit van een gewone consultant inhuren?",
+      q: "Hoe verschilt dit van een gewone consultant?",
       a: "Je krijgt een strategische sparringpartner, geen rapportschrijver. Het doel is nooit een document in de la — maar een werkende oplossing die vanaf dag één echte waarde creëert. Een halve zin is meestal genoeg om te weten wat er nodig is.",
     },
     {
@@ -217,13 +217,14 @@ export const FOOTER = {
 
 export const CONTACT = {
   titel: "Neem contact op",
-  sub: "Kies een onderwerp, laat je vraag achter en je traject start binnen 24 uur.",
+  sub: "Kies een onderwerp, laat je vraag achter en je hoort binnen 24 uur van ons.",
+  // opties spiegelen de vier diensten (DIENSTEN.rows) + "Iets anders"
   onderwerpen: [
     { value: "", label: "Selecteer" },
-    { value: "scan", label: "Data Clarity Scan" },
-    { value: "dashboards", label: "Dashboards & rapportage" },
-    { value: "automatisering", label: "Automatisering" },
-    { value: "ai", label: "AI-integratie" },
+    { value: "procesoptimalisatie", label: "Procesoptimalisatie" },
+    { value: "dashboards", label: "Data & Dashboards" },
+    { value: "ai", label: "AI-integratie & Maatwerk" },
+    { value: "coaching", label: "1-op-1 AI-Coaching" },
     { value: "anders", label: "Iets anders" },
   ],
 };

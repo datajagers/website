@@ -94,7 +94,7 @@ export function ContactForm() {
             <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </label>
-        {veld("email", "E-mail*", { type: "email", autoComplete: "email", placeholder: "info@datajagers.nl", required: true })}
+        {veld("email", "E-mail*", { type: "email", autoComplete: "email", placeholder: "naam@bedrijf.nl", required: true })}
         <label style={{ gridColumn: "1 / -1" }}>
           <span className="lbl">Bericht*</span>
           <textarea
@@ -102,7 +102,7 @@ export function ContactForm() {
             rows={4}
             value={form.bericht}
             onChange={zet("bericht")}
-            placeholder="Typ je bericht....."
+            placeholder="Typ je bericht…"
             aria-required="true"
             aria-invalid={fouten.bericht ? "true" : "false"}
             aria-describedby="err-bericht"

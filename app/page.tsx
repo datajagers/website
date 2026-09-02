@@ -7,10 +7,12 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/Footer";
 import { PageHold } from "@/components/motion/PageHold";
+import { FaqLd } from "@/components/JsonLd";
 
 export default function Home() {
   return (
     <>
+      <FaqLd />
       <PageHold>
         <main id="hoofdinhoud">
           <HeroFlip />
