@@ -182,8 +182,9 @@ Regels voor inhoudswerk:
 
 ## 7. Open beslissingen (aan Wouter voorleggen, niet zelf beslissen)
 
-- Stockfoto's: founder-kaart toont een stock-persoon (lanyard_person.jpg),
-  happy-person-2.jpg achter testimonials op 8%.
+- Stockfoto's: happy-person-2.jpg achter testimonials op 8% (founder-kaart
+  met lanyard_person.jpg is per besluit Wouter 2026-09-02 definitief; het
+  originele contactportret is in v4 hersteld uit de bundel, commit `f141e7a`).
 - Social-URL's zijn placeholders (linkedin.com / instagram.com kaal).
 - Domein/ORIGIN bevestigen (build.mjs).
 - Aankomst-Vizier speelt volledig (~2,2s) bij elke interne paginawissel —
