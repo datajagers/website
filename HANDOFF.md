@@ -1,6 +1,8 @@
 # HANDOFF — Datajagers eigen website
 
-**LET OP (2026-09-02): main = v4 (Next.js).** Deze repo-root is de Next-app;
+**LIVE sinds 2026-09-02: www.datajagers.nl serveert v4** (geverifieerd:
+homepage, contact, sitemap, NL-404, JSON-LD; Netlify bouwt via netlify.toml).
+**main = v4 (Next.js).** Deze repo-root is de Next-app;
 de statische v3 leeft in de git-historie en lokaal in
 `../datajagers-website-v3` (bevroren vangnet). Copy leeft centraal in
 `lib/copy.ts`. De v3-details hieronder blijven staan als naslag; het
