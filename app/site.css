@@ -48,6 +48,17 @@
   transform: translateY(-3px);
 }
 .nav a.navlink[aria-current="page"] { color: #ffffff; }
+/* desktop: nav-links exact op het viewportmidden (v3: absolute centrering) —
+   space-between trok ze 100px+ scheef door woordmerk vs founder-kaart */
+@media (min-width: 860px) {
+  .nav nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+}
 @media (max-width: 859px) {
   .nav { flex-direction: column; align-items: flex-start; gap: 18px; }
   .nav nav { gap: 18px 22px; }
@@ -141,7 +152,7 @@
   position: relative;
   z-index: 6;
   padding: 0 clamp(24px, 5vw, 88px) clamp(48px, 9vh, 110px);
-  max-width: min(680px, 60vw);
+  max-width: min(560px, 42vw); /* v3-maat */
   color: #ffffff;
 }
 .hero h1 {
@@ -173,6 +184,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* v3: paneelinhoud in het verticale midden */
   gap: clamp(24px, 4vh, 48px);
   text-align: center;
 }
@@ -323,9 +335,12 @@
 }
 .wwz .grid {
   display: grid;
-  grid-template-columns: minmax(240px, 380px) minmax(0, 1fr);
+  grid-template-columns: minmax(240px, 380px) minmax(0, max-content);
   gap: clamp(32px, 6vw, 120px);
   align-items: start;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto; /* v3: compositie als geheel gecentreerd */
 }
 .wwz .rail h2 { margin: 0 0 18px; font-size: clamp(24px, 1.8vw, 32px); font-weight: 700; letter-spacing: -0.02em; }
 .wwz .rail p { margin: 26px 0 34px; font-size: 15.5px; line-height: 1.65; color: var(--dj-muted); max-width: 26ch; }
@@ -388,6 +403,7 @@
 
 /* ---------- herkenbaar ---------- */
 .herkenbaar { padding: clamp(56px, 7vw, 104px) 0 clamp(64px, 8vw, 116px); }
+.herkenbaar .kopwrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 3vw, 44px); }
 .herkenbaar .kophold { text-align: center; max-width: 640px; margin: clamp(48px, 8vh, 90px) auto 0; padding: 0 22px; }
 .herkenbaar .badge {
   display: inline-flex;
@@ -593,8 +609,14 @@
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 34%);
   mask-image: linear-gradient(to right, transparent 0%, #000 34%);
 }
+.tm .koprij {
+  margin-top: clamp(36px, 4.5vw, 64px);
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 96px);
+}
 .tm h2 {
-  margin: clamp(36px, 4.5vw, 64px) 0 0;
+  margin: 0;
   font-size: clamp(44px, 6vw, 110px);
   font-weight: 700;
   line-height: 0.98;
@@ -651,6 +673,8 @@
 @media (max-width: 1023px) {
   .tm .podium { grid-template-columns: 1fr; }
   .tm .pijlen { order: 3; }
+  .tm .koprij { grid-template-columns: 1fr; }
+  .tm .koprij > div[aria-hidden] { display: none; }
 }
 
 /* ---------- faq ---------- */

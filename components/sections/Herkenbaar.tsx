@@ -7,7 +7,8 @@ export function Herkenbaar() {
   return (
     <section id="herkenbaar" className="band-dark herkenbaar">
       <Wig boog kleur="#1D1D1D" />
-      <div className="wrap">
+      {/* zelfde kolom als de kaartenmuur (1180), zodat de hairline spoort */}
+      <div className="kopwrap">
         <Sectiekop num={HERKENBAAR.num} label={HERKENBAAR.label} rechts={HERKENBAAR.rechts} />
       </div>
       <Reveal>

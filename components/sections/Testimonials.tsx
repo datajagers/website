@@ -108,12 +108,18 @@ export function Testimonials() {
           label={TESTIMONIALS.label}
           rechts={`${TESTIMONIALS.quotes[actief].num} / 0${n}`}
         />
-        <h2>
-          {TESTIMONIALS.kop}
-          <br />
-          <span className="grijs">{TESTIMONIALS.kopGrijs}</span>
-        </h2>
-        <p className="intro">{TESTIMONIALS.intro}</p>
+        {/* v3: kop en intro lijnen uit op de quotekolom (108px-offset) */}
+        <div className="koprij">
+          <div aria-hidden="true" />
+          <div>
+            <h2>
+              {TESTIMONIALS.kop}
+              <br />
+              <span className="grijs">{TESTIMONIALS.kopGrijs}</span>
+            </h2>
+            <p className="intro">{TESTIMONIALS.intro}</p>
+          </div>
+        </div>
         <div className="podium">
           <div className="pijlen">
             <button type="button" aria-label="Vorige quote" onClick={() => stap(-1)}>
