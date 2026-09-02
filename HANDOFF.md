@@ -8,9 +8,17 @@ De site migreert naar Next.js/SSR: map `../datajagers-website-v4`, branch
 `v4-next` op dezelfde repo, poort 4490 (launch.json-entry `datajagers-v4`,
 copy centraal in `lib/copy.ts`). Fase 1 (alle inhoud server-rendered, huisstijl-
 tokens 1-op-1, mailto-formulier, sitemap/robots schoon) staat en is geverifieerd
-op 1440 én 375. Fase 2 = motion-pariteit (Vizier, gordijnen, hero-FLIP, scrubs).
-Main blijft deze statische v3 tot v4 pariteit heeft. De copy-audit (§6) loopt
-door; akkoorden landen in v4.
+op 1440 én 375. **Fase 2 (motion) staat ook** (commit `5a137ba`): Vizier-
+preloader, gordijn-navigatie met landingsregel (capture-fase interceptor —
+Next Link won anders; beide scrollrichtingen flush geverifieerd), reveal-engine,
+wig-wipes + boogkap, footer sheet-reveal + page-hold, testimonial-rotatie,
+FAQ-micro-animaties, gantt-entree. Interne paginawissels kregen de VERKORTE
+reveal (slats dekken, route wisselt, slats liften) i.p.v. het volledige
+aankomst-Vizier — dat was in v3 een open punt; expliciet aan Wouter voorleggen.
+Nog niet geport: de hero-FLIP (wheel-gebaar opent In cijfers) en de
+gebaar-poorten (Herkenbaar-CTA-expansie, diensten-wipe). Main blijft de
+statische v3 tot v4 pariteit heeft. De copy-audit (§6) loopt door; akkoorden
+landen in v4 (`lib/copy.ts`).
 
 ## 1. Wat dit is
 
