@@ -94,6 +94,23 @@ export function HeroFlip() {
       else if (s.open && omhoog) { e.preventDefault(); speel(false); }
     };
 
+    // Warm-up onder de Vizier: het paneel ligt achter de fotolaag en wordt
+    // pas gerasterd (en de kaartfoto's pas gedecodeerd) bij de eerste FLIP —
+    // dat was de hapering bij het allereerste gebaar. Twee frames met de
+    // clip open, terwijl de preloader nog dekt, laat de browser alles alvast
+    // schilderen; daarna staat het in de cache.
+    const pl = document.getElementById("dj-preloader");
+    if (stageMode() && pl) {
+      const { clip } = slotClip();
+      foto.style.clipPath = clip;
+      stage.querySelectorAll("img").forEach((im) => {
+        try { im.decode?.().catch(() => {}); } catch { /* decode is best-effort */ }
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (!s.open && !s.anim) foto.style.clipPath = "";
+      }));
+    }
+
     const onResize = () => {
       if (!s.open) return;
       foto.getAnimations().forEach((a) => a.cancel());
@@ -127,7 +144,7 @@ export function HeroFlip() {
   const stat = (k: typeof links, delay: string) => (
     <div className="kaart ke-in" style={{ transitionDelay: delay }} key={k.label}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={k.foto} alt={k.alt} loading="lazy" decoding="async" />
+      <img src={k.foto} alt={k.alt} decoding="async" />
       <div className="tint" aria-hidden="true" />
       <div className="voet">
         <div className="lbl mono">{k.label}</div>
@@ -176,7 +193,7 @@ export function HeroFlip() {
           {stat(links, "0.5s")}
           <Link ref={slotRef} className="kaart midden" href={midden.href ?? "/#verhaal"}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={midden.foto} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <img src={midden.foto} alt="" aria-hidden="true" decoding="async" />
             <div className="tint" aria-hidden="true" />
             <div className="center">
               <div className="groot">Het overzicht</div>
