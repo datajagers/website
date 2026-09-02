@@ -1,5 +1,6 @@
 import { DIENSTEN } from "@/lib/copy";
 import { ArrowCta } from "@/components/ArrowCta";
+import { FounderCard } from "@/components/FounderCard";
 import { Reveal } from "@/components/motion/Reveal";
 
 export function Diensten() {
@@ -47,7 +48,10 @@ export function Diensten() {
         </div>
         <div className="onder">
           <ArrowCta href="/contact" label={DIENSTEN.cta} />
-          <span className="meetlat mono">{DIENSTEN.meetlat}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "clamp(18px, 3vw, 40px)", flexWrap: "wrap" }}>
+            <span className="meetlat mono">{DIENSTEN.meetlat}</span>
+            <FounderCard />
+          </div>
         </div>
       </div>
     </section>

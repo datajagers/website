@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NAV } from "@/lib/copy";
+import { FounderCard } from "@/components/FounderCard";
 
 export function Navbar({ active, solid = false }: { active?: string; solid?: boolean }) {
   return (
@@ -22,6 +23,7 @@ export function Navbar({ active, solid = false }: { active?: string; solid?: boo
           </Link>
         ))}
       </nav>
+      <FounderCard />
     </header>
   );
 }
