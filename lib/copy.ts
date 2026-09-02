@@ -96,7 +96,12 @@ export const DIENSTEN = {
       num: "01",
       titel: "Procesoptimalisatie",
       kort: "Minder verspilling, meer resultaat volgens bewezen Lean Six Sigma-principes.",
-      deliverables: ["Procesanalyse & value stream map", "Verspillingsscan", "Verbeterroadmap", "Borging & meetplan"],
+      deliverables: [
+        "Proces in kaart & knelpuntanalyse",
+        "Verspillingsscan met euro-impact",
+        "Verbeterroadmap, geprioriteerd",
+        "Borging: meetplan & werkafspraken",
+      ],
     },
     {
       num: "02",
@@ -113,13 +118,23 @@ export const DIENSTEN = {
       num: "03",
       titel: "AI-integratie & Maatwerk",
       kort: "Breng AI in je dagelijkse workflow — praktisch, niet theoretisch.",
-      deliverables: ["Workflow-scan", "Prompt- & toolkeuze", "Maatwerk-automatisering", "Team-training"],
+      deliverables: [
+        "Workflow-scan: waar AI écht loont",
+        "Prompt- & toolkeuze op maat",
+        "Automatisering, werkend opgeleverd",
+        "Training: je team kan zelf verder",
+      ],
     },
     {
       num: "04",
       titel: "1-op-1 AI-Coaching",
       kort: "90 minuten. Eén workflow, werkend gemaakt — je gaat weg met iets dat werkt.",
-      deliverables: ["Intake & doelbepaling", "Live sessie — 90 min", "Werkende workflow", "Opname & naslag"],
+      deliverables: [
+        "Intake: jouw workflow als doel",
+        "90 minuten live, hands-on",
+        "Eén workflow, werkend opgeleverd",
+        "Opname + naslag om te herhalen",
+      ],
     },
   ],
 };
