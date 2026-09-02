@@ -933,6 +933,44 @@ html.js .proces .pg-in {
 }
 html.js .proces[data-on="true"] .pg-in { opacity: 1; transform: none; }
 
+/* ---------- hero-FLIP (kalm): stage-modus alleen met JS, desktop, zonder reduce ---------- */
+.kehero { position: relative; z-index: 1; }
+.ke-foto, .ke-fotolabel { display: none; }
+@media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
+  html.js .kehero { height: 100svh; min-height: 640px; overflow: hidden; }
+  html.js .kehero .ke-panel { position: absolute; inset: 0; z-index: 2; }
+  html.js .kehero .ke-panel .kaart { width: min(280px, 22vw, calc(34vh * 0.75)); }
+  html.js .kehero .ke-panel .kaart.midden { width: min(340px, 26vw, calc(40vh * 0.708)); }
+  html.js .kehero .ke-heroscherm { position: absolute; inset: 0; z-index: 6; height: auto; min-height: 0; background: transparent; pointer-events: none; }
+  html.js .kehero .ke-heroscherm img.bg, html.js .kehero .ke-heroscherm .scrim { display: none; }
+  html.js .kehero .ke-heroscherm .nav { pointer-events: auto; }
+  html.js .kehero[data-open="false"] .ke-heroscherm .copy { pointer-events: auto; }
+  /* reislaag: dezelfde foto, alleen clip-path beweegt (compositor-only) */
+  html.js .kehero .ke-foto { display: block; position: absolute; inset: 0; z-index: 5; clip-path: inset(0px 0px 0px 0px round 0px); will-change: clip-path; }
+  html.js .kehero .ke-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
+  html.js .kehero .ke-foto .scrim { position: absolute; inset: 0; }
+  /* kaartlabel op de reislaag */
+  html.js .kehero .ke-fotolabel { display: flex; position: absolute; z-index: 7; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #ffffff; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+  html.js .kehero[data-open="true"] .ke-fotolabel { opacity: 1; transition-delay: 0.75s; pointer-events: auto; }
+  html.js .kehero .ke-fotolabel .groot { font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; font-size: clamp(24px, 2.2vw, 40px); }
+  html.js .kehero .ke-fotolabel .pill { display: inline-flex; background: rgba(255, 255, 255, 0.94); color: #1d1d1d; border-radius: 999px; font-weight: 600; font-size: max(11px, 0.9vw); padding: 9px 20px; margin-top: 4px; transition: background var(--dj-dur) var(--dj-ease), color var(--dj-dur) var(--dj-ease); }
+  html.js .kehero .ke-fotolabel .pill:hover { background: #ffffff; color: var(--dj-accent-light); }
+  /* hero-copy: kalm weg — fade + lichte lift, geen slinger */
+  html.js .kehero .copy { transition: opacity 0.45s ease, transform 0.6s var(--dj-ease); }
+  html.js .kehero[data-open="true"] .copy { opacity: 0; transform: translateY(-14px); pointer-events: none !important; }
+  /* nav kleurt om boven het lichte paneel */
+  html.js .kehero .nav .wordmark { transition: background-color 0.35s ease; }
+  html.js .kehero[data-open="true"] .nav .wordmark { background: #1d1d1d; }
+  html.js .kehero[data-open="true"] .nav a.navlink { color: #5c5c5c; }
+  html.js .kehero[data-open="true"] .nav a.navlink:hover,
+  html.js .kehero[data-open="true"] .nav a.navlink[aria-current="page"] { color: #1d1d1d; }
+  html.js .kehero[data-open="true"] .nav a.navlink .num { color: #8a828c; }
+  /* paneelinhoud: rustige binnenkomst — fade + 10px, geen zijwaarts vliegwerk */
+  html.js .kehero .ke-panel .ke-in { opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.7s var(--dj-ease); }
+  html.js .kehero[data-open="true"] .ke-panel .ke-in { opacity: 1; transform: none; }
+  html.js .kehero[data-open="false"] .ke-panel .ke-in { transition-delay: 0s !important; }
+}
+
 /* wig-stapeling: elke sectie met een wig schildert boven zijn voorganger */
 .hero { z-index: 1; }
 .wwz { position: relative; z-index: 2; }

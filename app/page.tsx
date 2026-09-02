@@ -1,5 +1,4 @@
-import { Hero } from "@/components/sections/Hero";
-import { InCijfers } from "@/components/sections/InCijfers";
+import { HeroFlip } from "@/components/sections/HeroFlip";
 import { WieWeZijn } from "@/components/sections/WieWeZijn";
 import { Herkenbaar } from "@/components/sections/Herkenbaar";
 import { Diensten } from "@/components/sections/Diensten";
@@ -14,8 +13,7 @@ export default function Home() {
     <>
       <PageHold>
         <main id="hoofdinhoud">
-          <Hero />
-          <InCijfers />
+          <HeroFlip />
           <WieWeZijn />
           <Herkenbaar />
           <Diensten />
