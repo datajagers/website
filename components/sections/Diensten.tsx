@@ -1,13 +1,16 @@
 import { DIENSTEN } from "@/lib/copy";
 import { ArrowCta } from "@/components/ArrowCta";
+import { Reveal } from "@/components/motion/Reveal";
 
 export function Diensten() {
   return (
     <section id="diensten" className="band-dark diensten">
       <div className="brug">
-        <h2>
-          {DIENSTEN.brug.wit} <span className="grijs">{DIENSTEN.brug.grijs}</span>
-        </h2>
+        <Reveal>
+          <h2>
+            {DIENSTEN.brug.wit} <span className="grijs">{DIENSTEN.brug.grijs}</span>
+          </h2>
+        </Reveal>
       </div>
       <div className="wrap">
         <div className="sectiekop">
@@ -26,7 +29,8 @@ export function Diensten() {
         </div>
         <div className="rijen">
           {DIENSTEN.rows.map((d) => (
-            <div className="rij" key={d.num}>
+            <Reveal key={d.num}>
+            <div className="rij">
               <div style={{ minWidth: 0 }}>
                 <span className="nr mono">{d.num}</span>
                 <h3>{d.titel}</h3>
@@ -38,6 +42,7 @@ export function Diensten() {
                 ))}
               </ul>
             </div>
+            </Reveal>
           ))}
         </div>
         <div className="onder">

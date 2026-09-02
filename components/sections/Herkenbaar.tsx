@@ -1,23 +1,29 @@
 import { HERKENBAAR } from "@/lib/copy";
 import { Sectiekop } from "@/components/Sectiekop";
+import { Reveal } from "@/components/motion/Reveal";
+import { Wig } from "@/components/motion/Wig";
 
 export function Herkenbaar() {
   return (
     <section id="herkenbaar" className="band-dark herkenbaar">
+      <Wig boog kleur="#1D1D1D" />
       <div className="wrap">
         <Sectiekop num={HERKENBAAR.num} label={HERKENBAAR.label} rechts={HERKENBAAR.rechts} />
       </div>
-      <div className="kophold">
-        <span className="badge mono">
-          <span className="dot" aria-hidden="true" />
-          Herkenbaar?
-        </span>
-        <h2>{HERKENBAAR.kop}</h2>
-        <p className="sub">{HERKENBAAR.sub}</p>
-      </div>
+      <Reveal>
+        <div className="kophold">
+          <span className="badge mono">
+            <span className="dot" aria-hidden="true" />
+            Herkenbaar?
+          </span>
+          <h2>{HERKENBAAR.kop}</h2>
+          <p className="sub">{HERKENBAAR.sub}</p>
+        </div>
+      </Reveal>
       <div className="muur">
         {HERKENBAAR.posts.map((p, i) => (
-          <article className="post" key={p.handle}>
+          <Reveal key={p.handle} delay={i % 2}>
+          <article className="post">
             <div className="kop">
               <span className="avatar" aria-hidden="true">
                 {p.name.charAt(0)}
@@ -49,6 +55,7 @@ export function Herkenbaar() {
               <span className="num mono">0{i + 1}/06</span>
             </div>
           </article>
+          </Reveal>
         ))}
       </div>
     </section>

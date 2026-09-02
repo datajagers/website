@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Fragment_Mono } from "next/font/google";
 import "./globals.css";
 import "./site.css";
+import { Preloader } from "@/components/motion/Preloader";
+import { Curtains } from "@/components/motion/Curtains";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -37,6 +39,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="dj-skip" href="#hoofdinhoud">
           Naar hoofdinhoud
         </a>
+        <Preloader />
+        <Curtains />
         {children}
       </body>
     </html>

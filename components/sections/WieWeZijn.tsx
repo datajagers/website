@@ -1,23 +1,29 @@
 import { WIE_WE_ZIJN } from "@/lib/copy";
 import { Sectiekop } from "@/components/Sectiekop";
 import { ArrowCta } from "@/components/ArrowCta";
+import { Reveal } from "@/components/motion/Reveal";
+import { Wig } from "@/components/motion/Wig";
 
 export function WieWeZijn() {
   const [a, b, c] = WIE_WE_ZIJN.statements;
   const blok = (s: typeof a, children?: React.ReactNode) => (
     <div className="blok" key={s.letter}>
-      <span className="letter mono">{s.letter} /</span>
-      <h3>
-        {s.tekst} {s.grijs ? <span className="grijs">{s.grijs}</span> : null}
-      </h3>
+      <Reveal>
+        <span className="letter mono">{s.letter} /</span>
+        <h3>
+          {s.tekst} {s.grijs ? <span className="grijs">{s.grijs}</span> : null}
+        </h3>
+      </Reveal>
       {s.chips.length > 0 ? (
-        <div className="chips">
-          {s.chips.map((chip) => (
-            <span className="chip" key={chip}>
-              {chip}
-            </span>
-          ))}
-        </div>
+        <Reveal delay={1}>
+          <div className="chips">
+            {s.chips.map((chip) => (
+              <span className="chip" key={chip}>
+                {chip}
+              </span>
+            ))}
+          </div>
+        </Reveal>
       ) : null}
       {children}
     </div>
@@ -25,6 +31,7 @@ export function WieWeZijn() {
 
   return (
     <section id="verhaal" className="band-light wwz">
+      <Wig kleur="#f6f6f4" />
       <div className="wrap">
         <Sectiekop num={WIE_WE_ZIJN.num} label={WIE_WE_ZIJN.label} rechts="© 2026" />
       </div>

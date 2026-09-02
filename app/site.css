@@ -582,40 +582,96 @@
 .faq .mediakaart .regel { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 4px 16px 14px; font-size: 15px; }
 .faq .mediakaart .regel .duur { color: var(--dj-muted); }
 .faq .zijtekst { margin: 22px 0 0 2px; max-width: 340px; font-size: clamp(15px, 0.9vw, 17px); line-height: 1.6; color: var(--dj-muted); }
-.faq details { border-bottom: 1px solid var(--dj-rule); }
-.faq summary {
-  list-style: none;
-  cursor: pointer;
+.faq-item button {
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: clamp(16px, 1.6vw, 24px);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
   padding: clamp(22px, 2.4vw, 32px) 2px;
-  font-size: clamp(19px, 1.4vw, 27px);
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: -0.02em;
-  color: #6f6f6f;
-  transition: color 0.3s ease;
 }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary:hover, .faq details[open] summary { color: var(--dj-ink); }
-.faq summary .nr {
+.faq-item .nrhold {
+  position: relative;
   flex: none;
   width: 40px;
   height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+.faq-item .cirkel {
+  position: absolute;
+  inset: 0;
   border-radius: 999px;
+  background: var(--dj-ink);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.4s var(--dj-ease), opacity 0.35s ease;
+}
+.faq-item:hover:not(.open) .cirkel { transform: scale(0.85); opacity: 0.08; }
+.faq-item.open .cirkel { transform: scale(1); opacity: 1; }
+.faq-item .cijfer {
+  position: relative;
+  z-index: 1;
   font-size: 14px;
   font-weight: 500;
-  font-family: var(--font-fragment), ui-monospace, monospace;
   color: #726a71;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: color 0.25s ease;
 }
-.faq details[open] summary .nr { background: var(--dj-ink); color: #ffffff; }
-.faq summary .plus { margin-left: auto; flex: none; transition: transform 0.42s var(--dj-ease); opacity: 0.4; }
-.faq details[open] summary .plus { transform: rotate(45deg); opacity: 1; }
+.faq-item:hover:not(.open) .cijfer { color: var(--dj-ink); }
+.faq-item.open .cijfer { color: #ffffff; }
+.faq-item .vraag {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(19px, 1.4vw, 27px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #6f6f6f;
+  transform: translateX(0);
+  transition: color 0.3s ease, transform 0.4s var(--dj-ease);
+}
+.faq-item:hover .vraag, .faq-item.open .vraag { color: var(--dj-ink); transform: translateX(4px); }
+.faq-item .plus {
+  margin-left: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--dj-ink);
+  opacity: 0.4;
+  transition: transform 0.42s var(--dj-ease), opacity 0.25s ease;
+}
+.faq-item:hover .plus { opacity: 1; }
+.faq-item.open .plus { transform: rotate(45deg); opacity: 1; }
+.faq-item .hairline { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--dj-rule); }
+.faq-item .accentlijn {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--dj-ink);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.5s var(--dj-ease);
+}
+.faq-item:hover:not(.open) .accentlijn { transform: scaleX(0.3); }
+.faq-item.open .accentlijn { transform: scaleX(1); }
+.faq-item .paneel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.46s var(--dj-ease);
+}
+.faq-item.open .paneel { grid-template-rows: 1fr; }
+.faq-item .paneel-in { overflow: hidden; min-height: 0; }
 .faq .antwoord {
   margin: 0;
   padding: 4px clamp(20px, 3vw, 48px) clamp(24px, 2.6vw, 32px) clamp(56px, 5vw, 64px);
@@ -623,18 +679,55 @@
   font-size: clamp(15px, 0.9vw, 17px);
   line-height: 1.65;
   color: #575757;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.35s ease 0.08s, transform 0.4s ease 0.06s;
 }
+.faq-item.open .antwoord { opacity: 1; transform: translateY(0); }
 @media (max-width: 859px) {
   .faq .grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- footer ---------- */
+/* ---------- footer (sheet-reveal) ---------- */
+.foot-track {
+  position: relative;
+  z-index: 10;
+  height: 220vh;
+  margin-top: -100vh;
+  pointer-events: none;
+}
+.foot-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
 .footer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
   background: var(--dj-coal);
   color: #f2f5f9;
   border-radius: 5px 5px 0 0;
+  transform: translateY(101%);
+  will-change: transform;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
   padding-top: clamp(16px, 2vw, 28px);
 }
+.footer .foot-inner {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: clamp(16px, 2vw, 28px);
+}
+.footer .foot-inner .grid { flex: 1; min-height: 0; align-content: center; }
 .footer .grid {
   border-top: 1px solid rgba(242, 245, 249, 0.14);
   padding: clamp(32px, 5vw, 64px) 0;
@@ -796,4 +889,75 @@
   .contact .grid { grid-template-columns: 1fr; }
   .contact form .velden { grid-template-columns: 1fr; }
   .contact h1 { white-space: normal; }
+}
+
+/* ============================================================
+   Motion (fase 2) — reveal-engine, keyframes, gantt-entree,
+   wig-stapeling, reduced-motion.
+   ============================================================ */
+
+/* reveal: verborgen beginstand alleen mét JS, zodat no-JS en crawlers
+   alles direct zien */
+html.js .rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--dj-ease), transform 0.7s var(--dj-ease);
+}
+html.js .rv.rv-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes tmWord {
+  from { opacity: 0; transform: translateY(0.18em); filter: blur(5px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes tmMeta {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* gantt-entree: balken vegen vanaf links in, labels en uitleg faden mee */
+html.js .proces .bar {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s var(--dj-ease);
+}
+html.js .proces[data-on="true"] .bar { transform: scaleX(1); }
+html.js .proces .bar span { opacity: 0; transition: opacity 0.4s ease 0.5s; }
+html.js .proces[data-on="true"] .bar span { opacity: 1; }
+html.js .proces .pg-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.7s var(--dj-ease);
+}
+html.js .proces[data-on="true"] .pg-in { opacity: 1; transform: none; }
+
+/* wig-stapeling: elke sectie met een wig schildert boven zijn voorganger */
+.hero { z-index: 1; }
+.wwz { position: relative; z-index: 2; }
+.herkenbaar { position: relative; z-index: 3; }
+.diensten { position: relative; z-index: 2; }
+.proces { position: relative; z-index: 2; }
+.tm { z-index: 4; }
+.faq { position: relative; z-index: 5; }
+
+/* mobiel: footer-sheet is 100vh — compacter zodat alles past */
+@media (max-width: 859px) {
+  .footer .foot-inner .grid { gap: 24px; padding: 16px 0; }
+  .footer .uitnodiging, .footer .mail { font-size: clamp(20px, 6vw, 28px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .rv,
+  html.js .proces .bar,
+  html.js .proces .bar span,
+  html.js .proces .pg-in,
+  .faq .antwoord {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .foot-track { height: auto; margin-top: 0; }
+  .foot-sticky { position: static; height: auto; }
+  .footer { transform: none; height: auto; min-height: 60vh; }
 }

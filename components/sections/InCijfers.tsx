@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IN_CIJFERS } from "@/lib/copy";
+import { Reveal } from "@/components/motion/Reveal";
 
 export function InCijfers() {
   const [links, midden, rechts] = IN_CIJFERS.kaarten;
@@ -16,12 +17,14 @@ export function InCijfers() {
   );
   return (
     <section className="band-light cijfers">
-      <span className="eyebrow mono">
-        ({IN_CIJFERS.num}) ({IN_CIJFERS.label})
-      </span>
-      <h2>
-        {IN_CIJFERS.kop} <span className="grijs">{IN_CIJFERS.kopGrijs}</span>
-      </h2>
+      <Reveal>
+        <span className="eyebrow mono" style={{ display: "block", marginBottom: "clamp(16px, 2.4vh, 26px)" }}>
+          ({IN_CIJFERS.num}) ({IN_CIJFERS.label})
+        </span>
+        <h2>
+          {IN_CIJFERS.kop} <span className="grijs">{IN_CIJFERS.kopGrijs}</span>
+        </h2>
+      </Reveal>
       <div className="rij">
         {stat(links)}
         <Link className="kaart midden" href={midden.href ?? "/#verhaal"}>

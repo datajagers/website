@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Faq } from "@/components/sections/Faq";
 import { ContactForm } from "@/components/ContactForm";
+import { PageHold } from "@/components/motion/PageHold";
 import { CONTACT } from "@/lib/copy";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <PageHold>
       <main id="hoofdinhoud">
         <section className="band-dark contact" id="contact">
           <Navbar active="Contact" solid />
@@ -32,7 +34,9 @@ export default function ContactPage() {
           </div>
         </section>
         <Faq ctaHref="#contact" />
+        <div aria-hidden="true" style={{ height: "clamp(200px, 38vh, 420px)", background: "var(--dj-surface, #f6f6f4)" }} />
       </main>
+      </PageHold>
       <Footer />
     </>
   );
