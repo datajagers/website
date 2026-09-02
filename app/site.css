@@ -1222,21 +1222,33 @@ html.js .proces[data-on="true"] .pg-in { opacity: 1; transform: none; }
 
 /* ---------- hero-FLIP (kalm): stage-modus alleen met JS, desktop, zonder reduce ---------- */
 .kehero { position: relative; z-index: 1; }
-.ke-foto, .ke-fotolabel { display: none; }
+.ke-foto, .ke-fotolabel, .ke-venster { display: none; }
 @media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
   html.js .kehero { height: 100svh; min-height: 640px; overflow: hidden; }
-  html.js .kehero .ke-panel { position: absolute; inset: 0; z-index: 2; }
+  /* paneel boven de witte rand (z6 > venster z5): verschijnt op het wit */
+  html.js .kehero .ke-panel { position: absolute; inset: 0; z-index: 6; background: transparent; opacity: 0; pointer-events: none; transition: opacity 0.6s ease 0.5s; }
+  html.js .kehero[data-open="true"] .ke-panel { opacity: 1; pointer-events: auto; transition-delay: 0.5s; }
+  html.js .kehero[data-open="false"] .ke-panel { transition-delay: 0s; }
   html.js .kehero .ke-panel .kaart { width: min(280px, 22vw, calc(34vh * 0.75)); }
   html.js .kehero .ke-panel .kaart.midden { width: min(340px, 26vw, calc(40vh * 0.708)); }
-  html.js .kehero .ke-heroscherm { position: absolute; inset: 0; z-index: 6; height: auto; min-height: 0; background: transparent; pointer-events: none; }
+  /* de middenkaart is in stage-modus een open venster: de echte foto
+     schijnt erdoorheen; het label leeft op .ke-fotolabel */
+  html.js .kehero .ke-panel .kaart.midden { background: transparent; }
+  html.js .kehero .ke-panel .kaart.midden img,
+  html.js .kehero .ke-panel .kaart.midden .tint,
+  html.js .kehero .ke-panel .kaart.midden .center { display: none; }
+  html.js .kehero .ke-heroscherm { position: absolute; inset: 0; z-index: 8; height: auto; min-height: 0; background: transparent; pointer-events: none; }
   html.js .kehero .ke-heroscherm img.bg, html.js .kehero .ke-heroscherm .scrim { display: none; }
   html.js .kehero .ke-heroscherm .nav { pointer-events: auto; }
   html.js .kehero[data-open="false"] .ke-heroscherm .copy { pointer-events: auto; }
-  /* reislaag: dezelfde foto, alleen clip-path beweegt (compositor-only) */
-  html.js .kehero .ke-foto { display: block; position: absolute; inset: 0; z-index: 5; clip-path: inset(0px 0px 0px 0px round 0px); will-change: clip-path; }
-  html.js .kehero .ke-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
+  /* fotolaag: full-bleed, start ingezoomd (P5/Revolut-ruststand); GSAP
+     animeert de scale naar 1 tijdens het gebaar */
+  html.js .kehero .ke-foto { display: block; position: absolute; inset: 0; z-index: 4; overflow: hidden; }
+  html.js .kehero .ke-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%; transform: scale(1.75); transform-origin: 50% 30%; will-change: transform; }
   html.js .kehero .ke-foto .scrim { position: absolute; inset: 0; }
-  /* kaartlabel op de reislaag */
+  /* het vaste venster: dun wit lijntje; de rand (box-shadow-spread) dijt uit */
+  html.js .kehero .ke-venster { display: block; position: absolute; z-index: 5; border-radius: 5px; pointer-events: none; will-change: box-shadow; }
+  /* kaartlabel op het venster */
   html.js .kehero .ke-fotolabel { display: flex; position: absolute; z-index: 7; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #ffffff; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
   html.js .kehero[data-open="true"] .ke-fotolabel { opacity: 1; transition-delay: 0.75s; pointer-events: auto; }
   html.js .kehero .ke-fotolabel .groot { font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; font-size: clamp(24px, 2.2vw, 40px); }
@@ -1252,10 +1264,6 @@ html.js .proces[data-on="true"] .pg-in { opacity: 1; transform: none; }
   html.js .kehero[data-open="true"] .nav a.navlink:hover,
   html.js .kehero[data-open="true"] .nav a.navlink[aria-current="page"] { color: #1d1d1d; }
   html.js .kehero[data-open="true"] .nav a.navlink .num { color: #8a828c; }
-  /* paneelinhoud: rustige binnenkomst — fade + 10px, geen zijwaarts vliegwerk */
-  html.js .kehero .ke-panel .ke-in { opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.7s var(--dj-ease); }
-  html.js .kehero[data-open="true"] .ke-panel .ke-in { opacity: 1; transform: none; }
-  html.js .kehero[data-open="false"] .ke-panel .ke-in { transition-delay: 0s !important; }
 }
 
 /* wig-stapeling: elke sectie met een wig schildert boven zijn voorganger */

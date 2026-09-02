@@ -1,65 +1,78 @@
 "use client";
 
-// Hero-FLIP, kalme herinterpretatie (besluit Wouter 2026-09-02: wél de FLIP,
-// significant kalmer dan v3). Eén wheel-gebaar bovenaan laat de hero-foto als
-// venster krimpen tot exact de middelste cijfers-kaart (clip-path, één
-// beweging); de copy fadet rustig weg, het paneel komt zacht op. Terug-gebaar
-// bovenaan speelt het omgekeerde. Mobiel (<860), reduced motion en no-JS:
-// hero en paneel als gewone gestapelde secties.
+// Hero — P5-mechaniek (besluit Wouter): het venster op de middenkaart-plek
+// staat vast; bij één scroll-gebaar bovenaan dijt de witte RAND uit van 4px
+// tot voorbij de schermranden (box-shadow-spread, GSAP-timeline) terwijl de
+// foto uitzoomt van 1.75 naar 1.0 (de gemeten Revolut-zoom). Wat overblijft
+// is de foto ín de kaart, midden op het paneel. Terug-gebaar bovenaan speelt
+// de timeline omgekeerd; ná de animatie scrollt de pagina gewoon door.
+// Copy/nav/paneel/label-fades lopen via CSS op [data-open]. Mobiel (<860),
+// reduced motion en no-JS: hero en paneel als gewone gestapelde secties.
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import gsap from "gsap";
 import { HERO, IN_CIJFERS } from "@/lib/copy";
 import { ArrowCta } from "@/components/ArrowCta";
 import { Navbar } from "@/components/Navbar";
 import { Wig } from "@/components/motion/Wig";
 
-const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const OPEN_MS = 1100;
-const CLOSE_MS = 900;
-const DICHT_CLIP = "inset(0px 0px 0px 0px round 0px)";
+const RAND_START = 4; // px — de dunne witte lijn in ruststand
 
 export function HeroFlip() {
   const stageRef = useRef<HTMLElement>(null);
-  const fotoRef = useRef<HTMLDivElement>(null);
+  const fotoRef = useRef<HTMLImageElement>(null);
+  const vensterRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const stage = stageRef.current, foto = fotoRef.current, label = labelRef.current, slot = slotRef.current;
-    if (!stage || !foto || !label || !slot) return;
+    const stage = stageRef.current, foto = fotoRef.current;
+    const venster = vensterRef.current, label = labelRef.current, slot = slotRef.current;
+    if (!stage || !foto || !venster || !label || !slot) return;
     const reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     // per gebeurtenis herbevestigen, niet cachen — frozen-breakpoint-les uit v3
     const stageMode = () => !reduce && window.matchMedia("(min-width: 860px)").matches;
     const s = { open: false, anim: false, openedAt: 0, ty: null as number | null };
+    let tl: gsap.core.Timeline | null = null;
 
-    const slotClip = () => {
+    const plaats = () => {
       const r = slot.getBoundingClientRect();
-      return {
-        clip: `inset(${r.top.toFixed(1)}px ${(window.innerWidth - r.right).toFixed(1)}px ${(window.innerHeight - r.bottom).toFixed(1)}px ${r.left.toFixed(1)}px round 5px)`,
-        rect: r,
-      };
+      [venster, label].forEach((el) => {
+        el.style.left = `${r.left.toFixed(1)}px`;
+        el.style.top = `${r.top.toFixed(1)}px`;
+        el.style.width = `${r.width.toFixed(1)}px`;
+        el.style.height = `${r.height.toFixed(1)}px`;
+      });
+      return r;
     };
-    const plaatsLabel = (r: DOMRect) => {
-      label.style.left = `${r.left.toFixed(1)}px`;
-      label.style.top = `${r.top.toFixed(1)}px`;
-      label.style.width = `${r.width.toFixed(1)}px`;
-      label.style.height = `${r.height.toFixed(1)}px`;
+    const maxSpread = (r: DOMRect) =>
+      Math.max((window.innerWidth - r.width) / 2, (window.innerHeight - r.height) / 2) + 60;
+
+    const zetRand = (px: number) => {
+      venster.style.boxShadow = `0 0 0 ${px.toFixed(1)}px #f6f6f4`;
     };
 
     const speel = (open: boolean) => {
       if (s.anim || s.open === open) return;
       s.anim = true;
-      const { clip, rect } = slotClip();
-      plaatsLabel(rect);
       stage.setAttribute("data-open", open ? "true" : "false");
-      const a = foto.animate(
-        open ? [{ clipPath: DICHT_CLIP }, { clipPath: clip }] : [{ clipPath: clip }, { clipPath: DICHT_CLIP }],
-        { duration: open ? OPEN_MS : CLOSE_MS, easing: EASE, fill: "forwards" }
-      );
-      const done = () => { s.open = open; s.anim = false; if (open) s.openedAt = Date.now(); };
-      if (a.finished?.then) a.finished.then(done).catch(done);
-      else setTimeout(done, (open ? OPEN_MS : CLOSE_MS) + 60);
+      if (open) {
+        const r = plaats();
+        const proxy = { rand: RAND_START };
+        tl?.kill();
+        tl = gsap.timeline({
+          defaults: { ease: "power3.inOut", duration: 1.15 },
+          onComplete: () => { s.open = true; s.anim = false; s.openedAt = Date.now(); },
+          onReverseComplete: () => { s.open = false; s.anim = false; },
+        });
+        tl.fromTo(foto, { scale: 1.75 }, { scale: 1 }, 0);
+        tl.to(proxy, { rand: maxSpread(r), onUpdate: () => zetRand(proxy.rand) }, 0);
+      } else if (tl) {
+        tl.reverse();
+      } else {
+        s.anim = false;
+      }
     };
 
     const bovenaan = () => (window.scrollY || 0) <= 2;
@@ -94,37 +107,30 @@ export function HeroFlip() {
       else if (s.open && omhoog) { e.preventDefault(); speel(false); }
     };
 
-    // Warm-up onder de Vizier: het paneel ligt achter de fotolaag en wordt
-    // pas gerasterd (en de kaartfoto's pas gedecodeerd) bij de eerste FLIP —
-    // dat was de hapering bij het allereerste gebaar. Twee frames met de
-    // clip open, terwijl de preloader nog dekt, laat de browser alles alvast
-    // schilderen; daarna staat het in de cache.
-    const pl = document.getElementById("dj-preloader");
-    if (stageMode() && pl) {
-      const { clip } = slotClip();
-      foto.style.clipPath = clip;
-      stage.querySelectorAll("img").forEach((im) => {
-        try { im.decode?.().catch(() => {}); } catch { /* decode is best-effort */ }
-      });
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        if (!s.open && !s.anim) foto.style.clipPath = "";
-      }));
-    }
-
     const onResize = () => {
-      if (!s.open) return;
-      foto.getAnimations().forEach((a) => a.cancel());
       if (!stageMode()) {
-        // teruggevallen naar gestapeld: stage resetten
         stage.setAttribute("data-open", "false");
-        foto.style.clipPath = "";
+        tl?.kill(); tl = null;
+        gsap.set(foto, { clearProps: "transform" });
+        zetRand(RAND_START);
         s.open = false; s.anim = false;
         return;
       }
-      const { clip, rect } = slotClip();
-      foto.style.clipPath = clip;
-      plaatsLabel(rect);
+      const r = plaats();
+      if (s.open && !s.anim) zetRand(maxSpread(r));
     };
+
+    // ruststand: venster op de slotplek met het dunne lijntje
+    if (stageMode()) { plaats(); zetRand(RAND_START); }
+
+    // warm-up onder de Vizier: paneelfoto's alvast decoderen tegen
+    // first-run jank (het paneel zelf blijft gerasterd via opacity, niet
+    // display/visibility)
+    if (document.getElementById("dj-preloader")) {
+      stage.querySelectorAll("img").forEach((im) => {
+        try { im.decode?.().catch(() => {}); } catch { /* best-effort */ }
+      });
+    }
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTS, { passive: true });
@@ -137,12 +143,13 @@ export function HeroFlip() {
       window.removeEventListener("touchmove", onTM);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
+      tl?.kill();
     };
   }, []);
 
   const [links, midden, rechts] = IN_CIJFERS.kaarten;
-  const stat = (k: typeof links, delay: string) => (
-    <div className="kaart ke-in" style={{ transitionDelay: delay }} key={k.label}>
+  const stat = (k: typeof links) => (
+    <div className="kaart" key={k.label}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={k.foto} alt={k.alt} decoding="async" />
       <div className="tint" aria-hidden="true" />
@@ -179,9 +186,9 @@ export function HeroFlip() {
         </div>
       </div>
 
-      {/* In cijfers — fullscreen paneel in stage-modus, gewone sectie gestapeld */}
+      {/* In cijfers — paneel dat op het uitgedijde wit verschijnt; gestapeld een gewone sectie */}
       <div className="band-light cijfers ke-panel">
-        <div className="ke-in" style={{ transitionDelay: "0.35s" }}>
+        <div>
           <span className="eyebrow mono" style={{ display: "block", marginBottom: "clamp(16px, 2.4vh, 26px)" }}>
             ({IN_CIJFERS.num}) ({IN_CIJFERS.label})
           </span>
@@ -190,7 +197,7 @@ export function HeroFlip() {
           </h2>
         </div>
         <div className="rij">
-          {stat(links, "0.5s")}
+          {stat(links)}
           <Link ref={slotRef} className="kaart midden" href={midden.href ?? "/#verhaal"}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={midden.foto} alt="" aria-hidden="true" decoding="async" />
@@ -200,22 +207,22 @@ export function HeroFlip() {
               <span className="pill">Ontdek verder</span>
             </div>
           </Link>
-          {stat(rechts, "0.6s")}
+          {stat(rechts)}
         </div>
       </div>
 
-      {/* hero→verhaal-wig: op de stagebodem, ónder de fotolaag (z3 < z5) —
-          met de hero dicht dekt de foto hem af, open is hij licht-op-licht
-          onzichtbaar; hij veegt pas in beeld als #verhaal nadert (v3) */}
+      {/* hero→verhaal-wig: onder de fotolaag, zoals v3 */}
       <Wig kleur="#f6f6f4" sectieId="verhaal" binnen />
 
-      {/* reislaag: dezelfde hero-foto, krimpt als venster tot de middenkaart */}
-      <div ref={fotoRef} className="ke-foto" aria-hidden="true">
+      {/* reislaag: de zichtbare herofoto (start ingezoomd op 1.75) */}
+      <div className="ke-foto" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/uploads/hero-character-sitting-on-top-of-clouds-692f40c3.jpg" alt="" decoding="async" />
+        <img ref={fotoRef} src="/uploads/hero-character-sitting-on-top-of-clouds-692f40c3.jpg" alt="" decoding="async" />
         <div className="scrim" aria-hidden="true" />
       </div>
-      {/* kaartlabel op de reislaag — verschijnt bij de landing */}
+      {/* het vaste venster: dun wit lijntje in rust, de rand dijt uit bij het gebaar */}
+      <div ref={vensterRef} className="ke-venster" aria-hidden="true" />
+      {/* kaartlabel op het venster — verschijnt bij de landing */}
       <div ref={labelRef} className="ke-fotolabel">
         <div className="groot">Het overzicht</div>
         <Link href="/#verhaal" className="pill">
