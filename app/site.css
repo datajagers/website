@@ -255,18 +255,45 @@
 }
 
 /* ---------- wie we zijn ---------- */
-/* padding-top blokkeert margin-collapse van de sectiekop: zonder deze
-   padding valt diens marge buiten de sectie en toont de coal-body als
-   donkere wig boven de sectietop (v3 had 24px padding op de quotetrack) */
-.wwz { padding-top: 24px; padding-bottom: clamp(80px, 12vh, 200px); }
-.wwz .quotevlak {
-  position: relative;
-  min-height: 70vh;
+.wwz { padding-bottom: 0; }
+/* statische basis (no-JS, reduced motion): baan is één scherm, geen wipe */
+.wwz .st-track { position: relative; }
+.wwz .st-sticky {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 24px clamp(24px, 4vw, 64px) 0;
+}
+.wwz .quotewrap {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding: clamp(40px, 8vh, 90px) clamp(24px, 4vw, 64px);
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 60vh;
+}
+.wwz .st-statements {
+  position: relative;
+  z-index: 2;
+  background: var(--dj-surface, #f6f6f4);
+  padding-bottom: clamp(80px, 12vh, 200px);
+}
+/* choreografie alleen mét JS en zonder reduced motion — v3-waarden */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .wwz .st-track { height: 380vh; }
+  html.js .wwz .st-sticky { position: sticky; top: 0; height: 100vh; }
+  html.js .wwz .quotewrap { min-height: 0; will-change: transform; }
+  html.js .wwz .st-statements { margin-top: -100vh; contain: layout paint; will-change: transform, translate; }
+  html.js .wwz .st-woord { color: rgba(29, 29, 29, 0.22); }
+  html.js .wwz .portret { will-change: transform; }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 859px) {
+  /* 380vh gepinde leesbaan is zwaar op een telefoon; 240vh houdt het effect */
+  html.js .wwz .st-track { height: 240vh; }
 }
 .wwz .portret {
   position: absolute;
