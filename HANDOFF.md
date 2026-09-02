@@ -29,7 +29,9 @@ de estafette ("tooling" reist naar de dienstenkop; commit `24108f1` —
 diensten-sectiekop/intro leven weer in de scene), en de sectiepins +
 tm-wig + sticky FAQ-kaart (commit `15b06ff`; StickyPin = port van
 _fitPageHold; LET OP: overflow:hidden op een sectie knipt zijn wig weg —
-clip hoort op een binnenlaag). Bewust niet geport: de
+clip hoort op een binnenlaag. LET OP 2: de hero→verhaal-wig hoort ÍN de
+herostage op z3 ónder de fotolaag (z5), niet aan #verhaal — anders piekt
+hij als lichte snede over de herofoto; commit `16fcdf8`). Bewust niet geport: de
 v3-gebaar-poorten (Herkenbaar-CTA-expansie, diensten-wipe) en de
 dienst-rijen als links met pijl/hovercirkel. LET OP bij verifiëren: een
 verborgen browser-pane pauzeert rAF — drivers lijken dan dood (§8.5).
