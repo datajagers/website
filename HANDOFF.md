@@ -24,9 +24,12 @@ De Wie-we-zijn-choreografie (gepinde quote + woord-oplichting + horizontale
 wipe) is alsnog geport (commit `124651f`, ViewTimeline + JS-fallback), net
 als het v3-CTA-hoversysteem (pijl 45°→0° + nudge) en de margin-collapse-fix
 boven #verhaal. Later alsnog geport op verzoek Wouter: de sticky wwz-rail + ghost-letters +
-A/C-teller, de Herkenbaar-kaartenmuur (sticky titelstack + schaal-scrub) en
+A/C-teller, de Herkenbaar-kaartenmuur (sticky titelstack + schaal-scrub),
 de estafette ("tooling" reist naar de dienstenkop; commit `24108f1` —
-diensten-sectiekop/intro leven weer in de scene). Bewust niet geport: de
+diensten-sectiekop/intro leven weer in de scene), en de sectiepins +
+tm-wig + sticky FAQ-kaart (commit `15b06ff`; StickyPin = port van
+_fitPageHold; LET OP: overflow:hidden op een sectie knipt zijn wig weg —
+clip hoort op een binnenlaag). Bewust niet geport: de
 v3-gebaar-poorten (Herkenbaar-CTA-expansie, diensten-wipe) en de
 dienst-rijen als links met pijl/hovercirkel. LET OP bij verifiëren: een
 verborgen browser-pane pauzeert rAF — drivers lijken dan dood (§8.5).
