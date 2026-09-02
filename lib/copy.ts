@@ -128,12 +128,12 @@ export const DIENSTEN = {
     {
       num: "04",
       titel: "1-op-1 AI-Coaching",
-      kort: "90 minuten. Eén workflow, werkend gemaakt — je gaat weg met iets dat werkt.",
+      kort: "Jij bouwt, ik begeleid — je gaat weg met iets dat werkt.",
       deliverables: [
-        "Intake: jouw workflow als doel",
-        "90 minuten live, hands-on",
-        "Eén workflow, werkend opgeleverd",
-        "Opname + naslag om te herhalen",
+        "Echte use case uit jouw werk",
+        "Op je eigen laptop, hands-on",
+        "Efficiënt werken met AI én skills",
+        "Plus: je resultaat presenteren",
       ],
     },
   ],
