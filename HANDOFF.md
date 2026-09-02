@@ -110,13 +110,15 @@ Server starten: preview_start met naam `datajagers-v3`.
 - Middelste cijfers-kaart: "RUST" weg, fotolabel-tegenschaal (mini-artefacten
   weg), "Ontdek verder" is nu een echte link → `#verhaal`, 44px tap-overlay.
 - **Gepubliceerd naar GitHub**: v3 staat op `github.com/datajagers/website`,
-  branch `main`, commit `e8ab194` (2026-09-02). De oude React/Vite-versie zit
-  in de historie eronder. `netlify.toml` is statisch (publish "."); als de
-  repo nog aan Netlify hangt, deployt elke push naar main direct. LET OP: de
-  lokale v3-map heeft zelf GEEN git — de push liep via een tijdelijke kloon.
-  Eerste klusje voor een nieuwe sessie die wil pushen: `git init` in de
-  v3-map + remote koppelen + `git pull origin main` (inhoud is identiek),
-  óf vers klonen en daarin werken.
+  branch `main`. De oude React/Vite-versie zit in de historie eronder.
+  De lokale v3-map heeft sinds 2026-09-02 een eigen git, gekoppeld aan
+  `origin/main` — gewoon committen en pushen vanuit deze map.
+- **Netlify-deploy gefixt (2026-09-02)**: de UI stond op `npm run build`
+  (faalde: geen package.json). `netlify.toml` heeft nu een expliciet no-op
+  `command` — toml overschrijft de UI. Elke push naar main deployt direct.
+- **Besluit Wouter (2026-09-02): contactformulier blijft mailto.** Formspark
+  is afgewezen; er komt geen extern endpoint. De mailto-flow is functioneel
+  geverifieerd (validatie, foutmeldingen, focus, statusregel, mail-body).
 
 ## 6. Huidige fase: inhoudsoptimalisatie
 
@@ -152,13 +154,10 @@ Regels voor inhoudswerk:
 - Stockfoto's: founder-kaart toont een stock-persoon (lanyard_person.jpg),
   happy-person-2.jpg achter testimonials op 8%.
 - Social-URL's zijn placeholders (linkedin.com / instagram.com kaal).
-- Contactformulier submit = mailto; echte endpoint nodig voor productie.
 - Domein/ORIGIN bevestigen (build.mjs).
 - Aankomst-Vizier speelt volledig (~2,2s) bij elke interne paginawissel —
   optie aangeboden om interne hops een verkorte reveal te geven; geen besluit.
 - "Ontdek verder" → `#verhaal` is een aanname; expliciet akkoord vragen kan.
-- Netlify-koppeling van de repo is onbevestigd; uitzoeken vóór er live-impact
-  aan een push wordt toegeschreven.
 
 ## 8. Verificatieprotocol (hard geleerd — niet overslaan)
 

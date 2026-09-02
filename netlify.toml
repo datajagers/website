@@ -1,4 +1,7 @@
 # Statische site — geen buildstap; de repo-root is de publicatiemap.
 # 404.html wordt door Netlify automatisch als not-found-pagina gebruikt.
+# `command` staat hier expliciet: netlify.toml overschrijft het build-command
+# uit de Netlify-UI (dat op `npm run build` stond en faalde zonder package.json).
 [build]
   publish = "."
+  command = "echo 'Statische site: geen buildstap'"
