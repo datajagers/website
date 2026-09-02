@@ -225,16 +225,16 @@ export function WieWeZijn() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/uploads/character-windows-xp-9146bdbb.jpg" alt="Werkplek met een computer uit 2005" loading="lazy" decoding="async" style={{ filter: "grayscale(0.4)" }} />
                       <div className="voet">
-                        <div className="lbl mono">DE MAANDAGOCHTEND</div>
-                        <div className="val">Anno 2005</div>
+                        <div className="lbl mono">HERKENBAAR?</div>
+                        <div className="val">Zo werk jij misschien nog</div>
                       </div>
                     </div>
                     <div className="kaart">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/assets/hero-shoes-on-desk-tall.jpg" alt="Man leunt ontspannen achterover met de voeten op het bureau, hoog boven de bergen" loading="lazy" decoding="async" style={{ objectPosition: "87% 100%" }} />
                       <div className="voet">
-                        <div className="lbl mono">DE RUST</div>
-                        <div className="val">De maandagochtend, nu</div>
+                        <div className="lbl mono">HET KAN ANDERS</div>
+                        <div className="val">Zo voelt de maandag met overzicht</div>
                       </div>
                     </div>
                   </div>
