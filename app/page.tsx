@@ -1,6 +1,7 @@
 import { HeroFlip } from "@/components/sections/HeroFlip";
 import { WieWeZijn } from "@/components/sections/WieWeZijn";
 import { Herkenbaar } from "@/components/sections/Herkenbaar";
+import { Estafette } from "@/components/sections/Estafette";
 import { Diensten } from "@/components/sections/Diensten";
 import { Proces } from "@/components/sections/Proces";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -18,6 +19,7 @@ export default function Home() {
           <HeroFlip />
           <WieWeZijn />
           <Herkenbaar />
+          <Estafette />
           <Diensten />
           <Proces />
           <Testimonials />

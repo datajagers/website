@@ -83,6 +83,7 @@ export const DIENSTEN = {
   num: "04",
   label: "Diensten",
   rechts: "04 — TRAJECTEN",
+  woord: "tooling", // de estafette-loper: reist van scene 1 naar de dienstenkop
   brug: { wit: "Niet je mensen zitten vast.", grijs: "Je tooling zit vast." },
   kop: "tooling die wél meewerkt.",
   kopGrijs: "En training die je team meeneemt.",

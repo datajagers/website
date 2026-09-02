@@ -578,35 +578,79 @@
 }
 .post .voet .num { margin-left: auto; font-family: var(--font-fragment), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.6px; color: #a3a3a3; }
 
+/* ---------- estafette: adempauze wordt in-place de dienstenkop ---------- */
+.estafette .eyebrow { font-size: 12px; color: #8a828c; }
+.es-h2 {
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(30px, 3.4vw, 60px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+.es-h2 .grijs { color: #8a828c; }
+.es-scene1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 4vw, 44px);
+  text-align: center;
+  padding: 0 22px;
+  will-change: transform, opacity;
+}
+.es-scene1 .es-h2 { margin: 0 auto; }
+.es-scene2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(24px, 4vw, 64px);
+  will-change: transform, opacity;
+}
+.es-scene2 .binnen { max-width: 1320px; margin: 0 auto; width: 100%; }
+.es-kopregel {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  border-bottom: 1px solid var(--dj-rule);
+  padding-bottom: 14px;
+  font-size: 12px;
+  color: #8a828c;
+}
+.es-kopregel .rechts { margin-left: auto; }
+.es-scene2 .es-h2 { margin: 32px 0 0; }
+.es-intro { margin: 18px 0 0; max-width: 46ch; font-size: clamp(15px, 0.85vw, 16px); line-height: 1.6; color: var(--dj-muted); }
+.es-woord {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+  transform-origin: left top;
+  will-change: transform;
+  pointer-events: none;
+  opacity: 0;
+}
+/* statische basis (mobiel, reduced motion, no-JS): scenes onder elkaar */
+.estafette { position: relative; }
+.es-scene1, .es-scene2 { position: relative; padding-top: clamp(80px, 14vh, 140px); padding-bottom: clamp(40px, 7vh, 80px); }
+.es-woord { display: none; }
+@media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
+  html.js .estafette { height: 220vh; }
+  html.js .estafette .es-stage { position: sticky; top: 0; height: 62vh; overflow: hidden; }
+  html.js .es-scene1 { position: absolute; inset: 0; padding: 0 22px; }
+  html.js .es-scene2 { position: absolute; inset: 0; padding: 0 clamp(24px, 4vw, 64px); opacity: 0; }
+  html.js .es-woord { display: block; }
+  html.js .estafette .es-slot { visibility: hidden; }
+}
+
 /* ---------- diensten ---------- */
 .diensten { padding: clamp(56px, 7vw, 104px) 0 0; }
-.diensten .brug {
-  text-align: center;
-  padding: clamp(48px, 9vh, 110px) 22px;
-}
-.diensten .brug h2 {
-  margin: 0 auto;
-  max-width: 22ch;
-  font-size: clamp(30px, 3.4vw, 60px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: #ffffff;
-  text-wrap: balance;
-}
-.diensten .brug .grijs { color: #8a828c; }
-.diensten .intro h2 {
-  margin: 32px 0 0;
-  max-width: 22ch;
-  font-size: clamp(30px, 3.4vw, 60px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: #ffffff;
-  text-wrap: balance;
-}
-.diensten .intro p { margin: 18px 0 0; max-width: 46ch; font-size: clamp(15px, 0.85vw, 16px); line-height: 1.6; color: var(--dj-muted); }
-.diensten .rijen { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 120px); margin-top: clamp(48px, 7vh, 96px); }
+.diensten .rijen { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 120px); }
 .diensten .rij { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: clamp(28px, 6vw, 140px); align-items: start; }
 .diensten .rij .nr {
   display: inline-flex;

@@ -6,28 +6,8 @@ import { Reveal } from "@/components/motion/Reveal";
 export function Diensten() {
   return (
     <section id="diensten" className="band-dark diensten">
-      <div className="brug">
-        <Reveal>
-          <h2>
-            {DIENSTEN.brug.wit} <span className="grijs">{DIENSTEN.brug.grijs}</span>
-          </h2>
-        </Reveal>
-      </div>
+      {/* sectiekop + intro leven in de estafette-scène (zoals v3) */}
       <div className="wrap">
-        <div className="sectiekop">
-          <span style={{ display: "inline-flex", alignItems: "center", whiteSpace: "nowrap" }}>
-            <span className="ruit" aria-hidden="true" />
-            <span>({DIENSTEN.num})</span>
-          </span>
-          <span style={{ whiteSpace: "nowrap" }}>({DIENSTEN.label})</span>
-          <span className="rechts">{DIENSTEN.rechts}</span>
-        </div>
-        <div className="intro">
-          <h2>
-            {DIENSTEN.kop} <span className="grijs" style={{ color: "#8a828c" }}>{DIENSTEN.kopGrijs}</span>
-          </h2>
-          <p>{DIENSTEN.intro}</p>
-        </div>
         <div className="rijen">
           {DIENSTEN.rows.map((d) => (
             <Reveal key={d.num}>
