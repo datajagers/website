@@ -20,8 +20,12 @@ kalme vorm** (besluit Wouter: wél de FLIP, significant kalmer; commit
 exact de middelste cijfers-kaart, copy fadet, paneel komt met 10px fade-up,
 nav kleurt om; terug-gebaar speelt het omgekeerde; mobiel/reduce/no-JS
 gestapeld. Zit in `HeroFlip.tsx` (Hero/InCijfers zijn erin opgegaan).
-Bewust niet geport: de v3-gebaar-poorten (Herkenbaar-CTA-expansie,
-diensten-wipe). Main blijft de statische v3 tot v4 pariteit heeft.
+De Wie-we-zijn-choreografie (gepinde quote + woord-oplichting + horizontale
+wipe) is alsnog geport (commit `124651f`, ViewTimeline + JS-fallback), net
+als het v3-CTA-hoversysteem (pijl 45°→0° + nudge) en de margin-collapse-fix
+boven #verhaal. Bewust niet geport: de v3-gebaar-poorten (Herkenbaar-CTA-
+expansie, diensten-wipe) en de dienst-rijen als links met pijl/hovercirkel.
+Main blijft de statische v3 tot v4 pariteit heeft.
 **Copy-akkoorden A–G zijn goedgekeurd en doorgevoerd in v4** (commit
 `fa579c1`, alles in `lib/copy.ts` + JSON-LD Organization/FAQPage): o.a.
 24-uursbelofte gelijkgetrokken, contactonderwerpen = de vier diensten,
