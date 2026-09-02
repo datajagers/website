@@ -102,7 +102,12 @@ export const DIENSTEN = {
       num: "02",
       titel: "Data & Dashboards",
       kort: "Zet jouw rommelige data om in inzichten die je écht gebruikt.",
-      deliverables: ["Power BI dashboards", "KPI-definities", "Datamodel", "Rapportage-automatisering"],
+      deliverables: [
+        "Custom dashboards, gebouwd in Python",
+        "Analytics: het verhaal achter de cijfers",
+        "Robuust datamodel als fundament",
+        "Rapportages die zichzelf verversen",
+      ],
     },
     {
       num: "03",
