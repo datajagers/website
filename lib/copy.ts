@@ -119,10 +119,10 @@ export const DIENSTEN = {
       titel: "AI-integratie & Maatwerk",
       kort: "Breng AI in je dagelijkse workflow — praktisch, niet theoretisch.",
       deliverables: [
-        "Workflow-scan: waar AI écht loont",
-        "Prompt- & toolkeuze op maat",
-        "Automatisering, werkend opgeleverd",
-        "Training: je team kan zelf verder",
+        "Centraal kennismanagement, goud waard",
+        "Custom AI-tooling: van service tot SEO",
+        "Audit: website & kennis in sync",
+        "Echte workflow-automatisering",
       ],
     },
     {
