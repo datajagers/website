@@ -294,18 +294,20 @@
   background: var(--dj-surface, #f6f6f4);
   padding-bottom: clamp(80px, 12vh, 200px);
 }
-/* choreografie alleen mét JS en zonder reduced motion — v3-waarden */
+/* choreografie alleen mét JS en zonder reduced motion — v3-waarden.
+   Mobiel (<860): alleen de leesbaan (oplichtende woorden); de horizontale
+   wipe vervalt daar — op 375px stond de statementtekst de halve overgang
+   buiten beeld (besluit Wouter: leesbaarheid boven effect). */
 @media (prefers-reduced-motion: no-preference) {
-  html.js .wwz .st-track { height: 380vh; }
+  html.js .wwz .st-track { height: 240vh; }
   html.js .wwz .st-sticky { position: sticky; top: 0; height: 100vh; }
   html.js .wwz .quotewrap { min-height: 0; will-change: transform; }
-  html.js .wwz .st-statements { margin-top: -100vh; contain: layout paint; will-change: transform, translate; }
   html.js .wwz .st-woord { color: rgba(29, 29, 29, 0.22); }
-  html.js .wwz .portret { will-change: transform; }
 }
-@media (prefers-reduced-motion: no-preference) and (max-width: 859px) {
-  /* 380vh gepinde leesbaan is zwaar op een telefoon; 240vh houdt het effect */
-  html.js .wwz .st-track { height: 240vh; }
+@media (prefers-reduced-motion: no-preference) and (min-width: 860px) {
+  html.js .wwz .st-track { height: 380vh; }
+  html.js .wwz .st-statements { margin-top: -100vh; contain: layout paint; will-change: transform, translate; }
+  html.js .wwz .portret { will-change: transform; }
 }
 .wwz .portret {
   position: absolute;

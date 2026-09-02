@@ -41,6 +41,7 @@ export function WieWeZijn() {
     //    exact v3 — de verticale pin is lineair (scrollcompensatie), de rest
     //    veegt met easeInOut. JS houdt alleen de woord-oplichting over.
     const bindTimeline = () => {
+      if (window.innerWidth < 860) return false; // mobiel: geen wipe (leesbaarheid)
       const VT = (window as unknown as { ViewTimeline?: new (o: object) => AnimationTimeline }).ViewTimeline;
       if (!VT || typeof CSS === "undefined" || !CSS.percent) return false;
       let timeline: AnimationTimeline;
@@ -112,7 +113,7 @@ export function WieWeZijn() {
         }
       }
 
-      if (cssDriven) return;
+      if (cssDriven || window.innerWidth < 860) return;
       // fallback-wipe zonder ViewTimeline — zelfde choreografie, per frame
       const ph = Math.min(1, Math.max(0, (p - 0.58) / 0.42));
       const e = ph < 0.5 ? 2 * ph * ph : 1 - Math.pow(-2 * ph + 2, 2) / 2;
@@ -128,7 +129,23 @@ export function WieWeZijn() {
     };
 
     const kick = () => { if (raf === null) raf = requestAnimationFrame(stap); };
-    const onResize = () => { trackTop = null; kick(); };
+    const onResize = () => {
+      trackTop = null;
+      if (window.innerWidth < 860) {
+        // de 860-grens over: wipe opruimen, inline transforms wissen
+        anims.forEach((a) => a.cancel());
+        anims = [];
+        cssDriven = false;
+        [stmt, qw, portret, kop].forEach((el) => {
+          if (!el) return;
+          el.style.transform = "";
+          el.style.opacity = "";
+        });
+      } else if (!cssDriven && anims.length === 0) {
+        cssDriven = bindTimeline();
+      }
+      kick();
+    };
     kick();
     window.addEventListener("scroll", kick, { passive: true });
     window.addEventListener("resize", onResize);
