@@ -12,6 +12,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HERO, IN_CIJFERS } from "@/lib/copy";
 import { ArrowCta } from "@/components/ArrowCta";
 import { Navbar } from "@/components/Navbar";
@@ -33,8 +34,38 @@ export function HeroFlip() {
     const reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     // per gebeurtenis herbevestigen, niet cachen — frozen-breakpoint-les uit v3
     const stageMode = () => !reduce && window.matchMedia("(min-width: 860px)").matches;
+    gsap.registerPlugin(ScrollTrigger);
     const s = { open: false, anim: false, openedAt: 0, ty: null as number | null };
     let tl: gsap.core.Timeline | null = null;
+    let exit: gsap.core.Timeline | null = null;
+
+    // parallax-exit: terwijl de (geopende) stage uit beeld scrollt, bewegen
+    // nav, paneelinhoud en foto op eigen snelheid weg — gescrubd, omkeerbaar
+    const exitDoelen = () => ({
+      nav: stage.querySelector<HTMLElement>(".ke-heroscherm .nav"),
+      kop: stage.querySelector<HTMLElement>(".ke-panel > div:first-child"),
+      rij: stage.querySelector<HTMLElement>(".ke-panel .rij"),
+      laag: stage.querySelector<HTMLElement>(".ke-foto"),
+    });
+    const maakExit = () => {
+      exit?.scrollTrigger?.kill();
+      exit?.kill();
+      const d = exitDoelen();
+      exit = gsap.timeline({
+        scrollTrigger: { trigger: stage, start: "top top", end: "bottom top", scrub: 0.4 },
+      });
+      if (d.nav) exit.to(d.nav, { y: -50, autoAlpha: 0, duration: 0.5, ease: "none" }, 0);
+      if (d.kop) exit.to(d.kop, { y: () => window.innerHeight * 0.12, duration: 1, ease: "none" }, 0);
+      if (d.rij) exit.to(d.rij, { y: () => window.innerHeight * 0.06, duration: 1, ease: "none" }, 0);
+      if (d.laag) exit.to(d.laag, { y: () => window.innerHeight * 0.1, duration: 1, ease: "none" }, 0);
+    };
+    const ruimExitOp = () => {
+      exit?.scrollTrigger?.kill();
+      exit?.kill();
+      exit = null;
+      const d = exitDoelen();
+      gsap.set([d.nav, d.kop, d.rij, d.laag].filter(Boolean) as HTMLElement[], { clearProps: "all" });
+    };
 
     const plaats = () => {
       const r = slot.getBoundingClientRect();
@@ -66,8 +97,12 @@ export function HeroFlip() {
           onComplete: () => { s.open = true; s.anim = false; s.openedAt = Date.now(); },
           onReverseComplete: () => { s.open = false; s.anim = false; },
         });
-        // besluit Wouter: geen foto-zoom — alleen de rand dijt uit
         tl.to(proxy, { rand: maxSpread(r), onUpdate: () => zetRand(proxy.rand) }, 0);
+        // de foto leeft mee met het gebaar: subtiele zoom (1 -> 1.12) verankerd
+        // op het venstermidden; ruststand blijft de normale stand
+        const ox = (((r.left + r.width / 2) / window.innerWidth) * 100).toFixed(1);
+        const oy = (((r.top + r.height / 2) / window.innerHeight) * 100).toFixed(1);
+        tl.fromTo(foto, { scale: 1, transformOrigin: `${ox}% ${oy}%` }, { scale: 1.12 }, 0);
       } else if (tl) {
         tl.reverse();
       } else {
@@ -111,6 +146,8 @@ export function HeroFlip() {
       if (!stageMode()) {
         stage.setAttribute("data-open", "false");
         tl?.kill(); tl = null;
+        gsap.set(foto, { clearProps: "transform" });
+        ruimExitOp();
         zetRand(RAND_START);
         s.open = false; s.anim = false;
         return;
@@ -119,10 +156,12 @@ export function HeroFlip() {
       // ook de gesloten stand herstellen — na een resize de 860-grens over
       // was het 1px-kader anders onzichtbaar tot het eerste gebaar
       if (!s.anim) zetRand(s.open ? maxSpread(r) : RAND_START);
+      if (!exit) maakExit();
+      ScrollTrigger.refresh();
     };
 
-    // ruststand: venster op de slotplek met het dunne lijntje
-    if (stageMode()) { plaats(); zetRand(RAND_START); }
+    // ruststand: venster op de slotplek met het dunne lijntje + parallax-exit
+    if (stageMode()) { plaats(); zetRand(RAND_START); maakExit(); }
 
     // warm-up onder de Vizier: paneelfoto's alvast decoderen tegen
     // first-run jank (het paneel zelf blijft gerasterd via opacity, niet
@@ -145,6 +184,8 @@ export function HeroFlip() {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
       tl?.kill();
+      exit?.scrollTrigger?.kill();
+      exit?.kill();
     };
   }, []);
 
