@@ -342,16 +342,42 @@
   max-width: 100%;
   margin: 0 auto; /* v3: compositie als geheel gecentreerd */
 }
-.wwz .rail h2 { margin: 0 0 18px; font-size: clamp(24px, 1.8vw, 32px); font-weight: 700; letter-spacing: -0.02em; }
-.wwz .rail p { margin: 26px 0 34px; font-size: 15.5px; line-height: 1.65; color: var(--dj-muted); max-width: 26ch; }
-.wwz .blok { padding: clamp(40px, 8vh, 90px) 0; }
-.wwz .blok .letter {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--dj-mono-muted);
+/* sticky rail — v3: pint een vol scherm, kop boven, uitnodiging + CTA onder */
+.wwz .rail h2 { margin: 0; font-size: clamp(24px, 1.8vw, 32px); font-weight: 700; letter-spacing: -0.02em; }
+.wwz .rail .current { display: block; margin-top: 26px; font-size: 12px; color: var(--dj-mono-muted); }
+.wwz .railfoot { display: flex; flex-direction: column; gap: 34px; }
+.wwz .railfoot p { margin: 0; font-size: 15.5px; line-height: 1.65; letter-spacing: -0.01em; color: var(--dj-muted); max-width: 26ch; }
+.wwz .railfoot .cta-line { align-self: flex-start; color: var(--dj-ink); }
+@media (min-width: 860px) {
+  .wwz .rail {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(56px, 12vh, 130px) 0 clamp(40px, 8vh, 80px);
+  }
+  /* statements: elk (bijna) een vol scherm, verticaal gecentreerd */
+  .wwz .blok { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; gap: clamp(32px, 5vh, 56px); padding: clamp(56px, 12vh, 130px) 0; }
+  .wwz .blok[data-letter="C"] { min-height: 100vh; }
+}
+.wwz .blok { position: relative; padding: 40px 0; }
+.wwz .ghosthold { position: relative; }
+.wwz .ghost {
+  position: absolute;
+  left: clamp(-140px, -9vw, -70px);
+  top: 0;
+  line-height: 1.14;
+  font-size: clamp(40px, 3.4vw, 62px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: rgba(29, 29, 29, 0.07);
+  user-select: none;
 }
 .wwz .blok h3 {
-  margin: 10px 0 0;
+  margin: 0;
   font-size: clamp(30px, 3.1vw, 58px);
   font-weight: 700;
   line-height: 1.14;
@@ -399,12 +425,14 @@
   .wwz .grid { grid-template-columns: 1fr; }
   .wwz .duo { flex-direction: column; }
   .wwz .duo .kaart { flex: none; width: 100%; }
+  /* v3: gelineariseerd — rail statisch, railfoot weg, ghosts weg */
+  .wwz .railfoot { display: none; }
+  .wwz .ghost { display: none; }
 }
 
-/* ---------- herkenbaar ---------- */
-.herkenbaar { padding: clamp(56px, 7vw, 104px) 0 clamp(64px, 8vw, 116px); }
-.herkenbaar .kopwrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 3vw, 44px); }
-.herkenbaar .kophold { text-align: center; max-width: 640px; margin: clamp(48px, 8vh, 90px) auto 0; padding: 0 22px; }
+/* ---------- herkenbaar — sticky titelstack + verstrooide kaartenmuur ---------- */
+.herkenbaar { position: relative; padding: clamp(56px, 7vw, 104px) 0 clamp(64px, 8vw, 116px); }
+.herkenbaar .kopwrap { position: relative; z-index: 5; max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 3vw, 44px); }
 .herkenbaar .badge {
   display: inline-flex;
   align-items: center;
@@ -413,25 +441,102 @@
   font-size: 12px;
   text-transform: uppercase;
   color: #a3a3a3;
+  white-space: nowrap;
 }
 .herkenbaar .badge .dot { width: 5px; height: 5px; border-radius: 999px; background: var(--dj-accent-dark); }
-.herkenbaar h2 {
-  margin: 18px 0 0;
+.herkenbaar .hk-hint {
+  position: absolute;
+  left: 50%;
+  top: 58vh;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  pointer-events: none;
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--dj-mono-muted);
+}
+.herkenbaar .hk-hint .lijn { display: block; width: 1px; height: 64px; background: linear-gradient(to bottom, transparent 0%, rgba(163, 163, 163, 0.45) 100%); }
+.herkenbaar .hk-spacer { height: max(80px, calc(38vh - clamp(56px, 7vw, 104px) - 36px)); }
+.herkenbaar .hk-badge {
+  position: sticky;
+  top: calc(50vh - 112px);
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  padding: 0 22px;
+}
+.herkenbaar .hk-titel {
+  position: sticky;
+  top: calc(50vh - 66px);
+  z-index: 2;
+  pointer-events: none;
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 0 22px;
+  text-align: center;
   font-size: clamp(32px, 3.2vw, 60px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: #ffffff;
+  mix-blend-mode: exclusion;
   text-wrap: balance;
 }
-.herkenbaar .sub { margin: 16px 0 0; font-size: 18px; letter-spacing: -0.02em; color: var(--dj-muted); }
+.herkenbaar .hk-subhold {
+  position: sticky;
+  top: calc(50vh + 74px);
+  z-index: 2;
+  pointer-events: none;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 640px;
+  padding: 0 22px;
+  height: 30px;
+  text-align: center;
+}
+.herkenbaar .hk-sub { margin: 0; font-size: 18px; letter-spacing: -0.02em; line-height: 1.5; color: var(--dj-muted); }
 .herkenbaar .muur {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(14px, 1.6vw, 22px);
+  position: relative;
+  z-index: 20;
+  margin: 50vh auto 0;
   max-width: 1180px;
-  margin: clamp(48px, 8vh, 90px) auto 0;
   padding: 0 clamp(18px, 3vw, 44px);
+}
+.herkenbaar .hk-rij { display: flex; width: 100%; }
+.herkenbaar .hk-cel { flex: 1 1 0; min-width: 0; aspect-ratio: 1 / 1; padding: clamp(6px, 1vw, 12px); display: flex; }
+.herkenbaar .hk-cel .post { width: 100%; height: 100%; }
+.herkenbaar .hk-cel[data-kant="l"] .post { transform-origin: right bottom; }
+.herkenbaar .hk-cel[data-kant="r"] .post { transform-origin: left bottom; }
+@media (min-width: 860px) {
+  /* compacte maatvoering in de 4-kolomsmuur (v3 compact) */
+  .herkenbaar .muur .post { gap: 12px; }
+  .herkenbaar .muur .post .tekst { font-size: clamp(13.5px, 1.15vw, 16px); }
+  .herkenbaar .muur .post .naam { font-size: 12.5px; }
+  .herkenbaar .muur .post .meta, .herkenbaar .muur .post .tijd, .herkenbaar .muur .post .voet { font-size: 11px; }
+  .herkenbaar .muur .post .avatar { width: 32px; height: 32px; font-size: 12px; }
+}
+@media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
+  html.js .herkenbaar .hk-cel .post { transform: scale(0); }
+}
+@media (max-width: 859px) {
+  /* v3: lineariseren — badge/kop/sub statisch, kaarten onder elkaar */
+  .herkenbaar .hk-hint { display: none; }
+  .herkenbaar .hk-spacer { height: 40px; }
+  .herkenbaar .hk-badge, .herkenbaar .hk-titel, .herkenbaar .hk-subhold { position: static; }
+  .herkenbaar .hk-titel { margin-top: 18px; }
+  .herkenbaar .hk-subhold { height: auto; margin-top: 16px; }
+  .herkenbaar .muur { margin: 40px auto 0; }
+  .herkenbaar .hk-rij { display: block; }
+  .herkenbaar .hk-cel { display: none; padding: 0; aspect-ratio: auto; }
+  .herkenbaar .hk-cel.gevuld { display: block; }
+  .herkenbaar .hk-cel .post { height: auto; margin: 0 0 16px; transform: none !important; }
 }
 .post {
   display: flex;

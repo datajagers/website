@@ -22,6 +22,7 @@ export function WieWeZijn() {
   const qwRef = useRef<HTMLDivElement>(null);
   const portretRef = useRef<HTMLImageElement>(null);
   const kopRef = useRef<HTMLDivElement>(null);
+  const currentRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const track = trackRef.current, stmt = stmtRef.current, qw = qwRef.current;
@@ -71,6 +72,24 @@ export function WieWeZijn() {
     const stap = () => {
       raf = null;
       const vh = window.innerHeight;
+
+      // A/C-teller in de sticky rail volgt het zichtbare statement (v3 _apply)
+      // — vóór de track-bail: de statements leven grotendeels vóórbij de baan
+      if (currentRef.current) {
+        const sr = stmt.getBoundingClientRect();
+        if (sr.bottom > -vh && sr.top < vh * 2) {
+          let cur: string | null = null;
+          stmt.querySelectorAll<HTMLElement>("[data-letter]").forEach((b) => {
+            const rb = b.getBoundingClientRect();
+            if (rb.top < vh * 0.65 && rb.bottom > 0) cur = b.getAttribute("data-letter");
+          });
+          if (cur) {
+            const label = `${cur} / C`;
+            if (currentRef.current.textContent !== label) currentRef.current.textContent = label;
+          }
+        }
+      }
+
       if (trackTop == null) {
         trackTop = track.getBoundingClientRect().top + window.scrollY;
         trackH = track.offsetHeight;
@@ -124,13 +143,17 @@ export function WieWeZijn() {
 
   const [a, b, c] = WIE_WE_ZIJN.statements;
   const blok = (s: typeof a, children?: React.ReactNode) => (
-    <div className="blok" key={s.letter}>
-      <Reveal>
-        <span className="letter mono">{s.letter} /</span>
-        <h3>
-          {s.tekst} {s.grijs ? <span className="grijs">{s.grijs}</span> : null}
-        </h3>
-      </Reveal>
+    <div className="blok" data-letter={s.letter} key={s.letter}>
+      <div className="ghosthold">
+        <span className="ghost" aria-hidden="true">
+          {s.letter} /
+        </span>
+        <Reveal>
+          <h3>
+            {s.tekst} {s.grijs ? <span className="grijs">{s.grijs}</span> : null}
+          </h3>
+        </Reveal>
+      </div>
       {s.chips.length > 0 ? (
         <Reveal delay={1}>
           <div className="chips">
@@ -178,10 +201,18 @@ export function WieWeZijn() {
       <div className="st-statements" ref={stmtRef}>
         <div className="wrap">
           <div className="grid">
+            {/* sticky linkerrail — pint een vol scherm terwijl A/B/C passeren */}
             <div className="rail">
-              <h2>Wie we zijn</h2>
-              <p>{WIE_WE_ZIJN.rail}</p>
-              <ArrowCta href="/contact" label={WIE_WE_ZIJN.cta} />
+              <div className="rail-top">
+                <h2>Wie we zijn</h2>
+                <span className="current mono" ref={currentRef}>
+                  A / C
+                </span>
+              </div>
+              <div className="railfoot">
+                <p>{WIE_WE_ZIJN.rail}</p>
+                <ArrowCta href="/contact" label={WIE_WE_ZIJN.cta} />
+              </div>
             </div>
             <div>
               {blok(a)}
