@@ -12,13 +12,17 @@ op 1440 én 375. **Fase 2 (motion) staat ook** (commit `5a137ba`): Vizier-
 preloader, gordijn-navigatie met landingsregel (capture-fase interceptor —
 Next Link won anders; beide scrollrichtingen flush geverifieerd), reveal-engine,
 wig-wipes + boogkap, footer sheet-reveal + page-hold, testimonial-rotatie,
-FAQ-micro-animaties, gantt-entree. Interne paginawissels kregen de VERKORTE
-reveal (slats dekken, route wisselt, slats liften) i.p.v. het volledige
-aankomst-Vizier — dat was in v3 een open punt; expliciet aan Wouter voorleggen.
-Nog niet geport: de hero-FLIP (wheel-gebaar opent In cijfers) en de
-gebaar-poorten (Herkenbaar-CTA-expansie, diensten-wipe). Main blijft de
-statische v3 tot v4 pariteit heeft. De copy-audit (§6) loopt door; akkoorden
-landen in v4 (`lib/copy.ts`).
+FAQ-micro-animaties, gantt-entree. **Besluit Wouter (2026-09-02): de verkorte
+reveal bij interne paginawissels is definitief** (slats dekken, route wisselt,
+slats liften — geen vol aankomst-Vizier per hop). **Hero-FLIP is terug in
+kalme vorm** (besluit Wouter: wél de FLIP, significant kalmer; commit
+`005166e`): één gebaar bovenaan krimpt de hero-foto als clip-path-venster tot
+exact de middelste cijfers-kaart, copy fadet, paneel komt met 10px fade-up,
+nav kleurt om; terug-gebaar speelt het omgekeerde; mobiel/reduce/no-JS
+gestapeld. Zit in `HeroFlip.tsx` (Hero/InCijfers zijn erin opgegaan).
+Bewust niet geport: de v3-gebaar-poorten (Herkenbaar-CTA-expansie,
+diensten-wipe). Main blijft de statische v3 tot v4 pariteit heeft. De
+copy-audit (§6) loopt door; akkoorden landen in v4 (`lib/copy.ts`).
 
 ## 1. Wat dit is
 
