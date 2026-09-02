@@ -147,9 +147,13 @@ Server starten: preview_start met naam `datajagers-v3`.
   `command` — toml overschrijft de UI. LET OP: www.datajagers.nl serveerde
   ook ná die fix nog de oude React-versie (gemonitord, ~8 min) — deploy-log
   in het Netlify-dashboard checken, of het domein hangt aan een andere site.
-- **Besluit Wouter (2026-09-02): contactformulier blijft mailto.** Formspark
-  is afgewezen; er komt geen extern endpoint. De mailto-flow is functioneel
-  geverifieerd (validatie, foutmeldingen, focus, statusregel, mail-body).
+- **Contactformulier: Formspark (besluit Wouter, teruggedraaid t.o.v. eerder
+  mailto-besluit diezelfde dag).** v4 POST't naar submit-form.com
+  (`lib/formspark.ts`, honeypot `_honeypot`, statussen bezig/verstuurd/
+  mislukt; foutpad getest). Zolang `FORMSPARK_FORM_ID` leeg is valt de
+  submit terug op de geverifieerde mailto-flow. WACHT OP: het form-ID uit
+  Wouters Formspark-dashboard — daarna één constante vullen + echte
+  inzending testen.
 
 ## 6. Huidige fase: inhoudsoptimalisatie
 
