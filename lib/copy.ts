@@ -45,8 +45,8 @@ export const WIE_WE_ZIJN = {
     {
       letter: "B",
       tekst:
-        "Datajagers begon aan de andere kant van de tafel: drie dashboards, twee waarheden, geen besluit.",
-      grijs: "Cijfers horen een gesprek te openen — niet te smoren.",
+        "Datajagers begon uit nieuwsgierigheid, groeide uit tot passie — en is nu het specialisme.",
+      grijs: "Van procesoptimalisatie met Lean Six Sigma, via Google Certified Data Analyst, naar AI-specialist.",
       chips: ["Bewezen ervaring", "Persoonlijke aanpak", "Alles onder één dak", "Doorlopende support"],
     },
     {

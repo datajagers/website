@@ -48,6 +48,9 @@ body {
   margin: 0;
   padding: 0;
   background: var(--dj-coal);
+  /* v3-guard: het wwz-canvas parkeert op translateX(100vw); clip (géén
+     hidden — dat zou de sticky pins breken) houdt de pagina scrollvast */
+  overflow-x: clip;
 }
 
 body {
