@@ -12,7 +12,7 @@ const ORGANISATIE = {
   logo: "https://www.datajagers.nl/assets/logo_mark.svg",
   email: "info@datajagers.nl",
   description:
-    "Datajagers maakt data begrijpelijk en besluitvorming scherper. Procesoptimalisatie, dashboards en AI-workflows — gebouwd mét je team.",
+    "Datajagers maakt data begrijpelijk en besluitvorming scherper. Procesoptimalisatie, dashboards en AI-workflows, gebouwd mét je team.",
 };
 
 export function OrganizationLd() {

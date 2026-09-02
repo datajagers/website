@@ -39,7 +39,7 @@ export const WIE_WE_ZIJN = {
     {
       letter: "A",
       tekst:
-        "Wij maken data begrijpelijk, besluitvorming scherper en teams zekerder van hun keuzes — nuchter, helder en zonder ruis.",
+        "Wij maken data begrijpelijk, besluitvorming scherper en teams zekerder van hun keuzes. Nuchter, helder en zonder ruis.",
       grijs: "",
       chips: ["Mensentaal boven jargon", "Duidelijkheid boven dashboardchaos", "Scherpe analyse zonder ego"],
     },
@@ -89,7 +89,7 @@ export const DIENSTEN = {
   kop: "tooling die wél meewerkt.",
   kopGrijs: "En training die je team meeneemt.",
   intro:
-    "Van procesoptimalisatie tot dashboards en AI-workflows — gebouwd mét je team, zodat het blijft werken als wij weg zijn.",
+    "Procesoptimalisatie, dashboards en AI-workflows, gebouwd mét je team. Zo blijft het werken als wij weg zijn.",
   meetlat: "./ ANTWOORD BINNEN 24 UUR",
   cta: "Plan een gesprek",
   rows: [
@@ -118,10 +118,10 @@ export const DIENSTEN = {
     {
       num: "03",
       titel: "AI-integratie & Maatwerk",
-      kort: "Breng AI in je dagelijkse workflow — praktisch, niet theoretisch.",
+      kort: "Breng AI in je dagelijkse workflow. Praktisch, niet theoretisch.",
       deliverables: [
         "Centraal kennismanagement, goud waard",
-        "Custom AI-tooling: van service tot SEO",
+        "Custom AI-tooling: service, SEO, rapportage",
         "Audit: website & kennis in sync",
         "Echte workflow-automatisering",
       ],
@@ -146,11 +146,11 @@ export const PROCES = {
   rechts: "04 fasen",
   kop: "Zo werken we",
   kopGrijs: "van vraag naar rust.",
-  intro: "Vier fasen, elkaar overlappend — want inzicht wacht niet op een opgeleverd systeem.",
+  intro: "Vier fasen die elkaar overlappen, want inzicht wacht niet op een opgeleverd systeem.",
   fasen: [
-    { num: "01", titel: "Ontdekken", start: 1, end: 3, tekst: "We beginnen met luisteren: doelen, cijfers en waar het schuurt — helder voordat we iets bouwen." },
+    { num: "01", titel: "Ontdekken", start: 1, end: 3, tekst: "We beginnen met luisteren: doelen, cijfers en waar het schuurt. Helder voordat we iets bouwen." },
     { num: "02", titel: "Strategie", start: 2.6, end: 5.5, tekst: "De vertaalslag: welke vraag beantwoorden we, met welke data, in welke taal. Eén richting, geen ruis." },
-    { num: "03", titel: "Bouwen", start: 4.4, end: 9, tekst: "Dashboards, koppelingen en AI-workflows — gebouwd mét je team, getoetst aan de echte praktijk." },
+    { num: "03", titel: "Bouwen", start: 4.4, end: 9, tekst: "Dashboards, koppelingen en AI-workflows, samen met je team gebouwd en in de praktijk getoetst." },
     { num: "04", titel: "Live & daarna", start: 7.8, end: 11, tekst: "Livegang is het begin: we blijven meten, bijsturen en ondersteunen zodat het waardevol blijft." },
   ],
 };
@@ -196,20 +196,20 @@ export const FAQ = {
   sidebar: {
     cta: "Plan een gesprek",
     duur: "30 min — gratis",
-    tekst: "Geen verkooppraatje — gewoon eerlijke antwoorden. Staat je vraag er niet bij? Stel hem direct.",
+    tekst: "Gewoon eerlijke antwoorden, geen verkooppraatje. Staat je vraag er niet bij? Stel hem direct.",
   },
   items: [
     {
       q: "Met wat voor bedrijven werken jullie?",
-      a: "Kleine tot middelgrote teams die generieke tools ontgroeid zijn of vastlopen in inefficiënte workflows. De rode draad: volop data, maar geen duidelijke richting — of een heldere richting, maar niet de tools om er te komen.",
+      a: "Kleine tot middelgrote teams die generieke tools ontgroeid zijn of vastlopen in inefficiënte workflows. De rode draad: volop data, maar geen duidelijke richting. Of een heldere richting, maar niet de tools om er te komen.",
     },
     {
       q: "Hoe ziet een typisch traject eruit?",
-      a: "Elk project begint met de sparringsessie — een eerlijk gesprek over het ‘waarom’. Daarna varieert de looptijd van een gerichte sprint van één week tot een partnerschap van meerdere maanden, afhankelijk van scope en complexiteit.",
+      a: "Elk project begint met de sparringsessie: een eerlijk gesprek over het ‘waarom’. Daarna varieert de looptijd van een gerichte sprint van één week tot een partnerschap van meerdere maanden, afhankelijk van scope en complexiteit.",
     },
     {
       q: "Hoe verschilt dit van een gewone consultant?",
-      a: "Je krijgt een strategische sparringpartner, geen rapportschrijver. Het doel is nooit een document in de la — maar een werkende oplossing die vanaf dag één echte waarde creëert. Een halve zin is meestal genoeg om te weten wat er nodig is.",
+      a: "Je krijgt een strategische sparringpartner, geen rapportschrijver. Het doel is nooit een document in de la, maar een werkende oplossing die vanaf dag één waarde oplevert. Een halve zin is meestal genoeg om te weten wat er nodig is.",
     },
     {
       q: "Welke tools en technologieën gebruiken jullie?",
@@ -217,11 +217,11 @@ export const FAQ = {
     },
     {
       q: "Werken jullie remote of on-site?",
-      a: "Voornamelijk remote, met de optie voor on-site sessies wanneer het werk daarom vraagt — zeker bij complexe data-architectuurworkshops of strategische sparringsessies waar samen in één ruimte zijn het verschil maakt.",
+      a: "Voornamelijk remote, met de optie voor on-site sessies wanneer het werk daarom vraagt. Zeker bij complexe data-architectuurworkshops of strategische sparringsessies waar samen in één ruimte zijn het verschil maakt.",
     },
     {
       q: "Hoe gaan we van start?",
-      a: "Plan een gratis sparringsessie. In 30 minuten bepalen we of er een match is en wat de eerste concrete stap is. Geen pitchdeck, geen poespas — gewoon een eerlijk gesprek over jouw uitdaging.",
+      a: "Plan een gratis sparringsessie. In 30 minuten bepalen we of er een match is en wat de eerste concrete stap is. Geen pitchdeck of poespas: gewoon een eerlijk gesprek over jouw uitdaging.",
     },
   ],
 };

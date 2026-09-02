@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.datajagers.nl"),
   title: "Datajagers — Begrijpelijke data voor scherpere beslissingen",
   description:
-    "Datajagers maakt data begrijpelijk en besluitvorming scherper. Procesoptimalisatie, dashboards en AI-workflows — gebouwd mét je team, zodat het blijft werken.",
+    "Datajagers maakt data begrijpelijk en besluitvorming scherper. Procesoptimalisatie, dashboards en AI-workflows, gebouwd mét je team zodat het blijft werken.",
   icons: { icon: "/assets/logo_mark.svg", apple: "/assets/logo_mark.svg" },
   openGraph: {
     type: "website",

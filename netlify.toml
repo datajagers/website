@@ -1,0 +1,11 @@
+# Next.js op Netlify — de Next-runtime wordt gedetecteerd via de plugin.
+# command hier overschrijft de UI-instelling (les uit de statische v3-fase).
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
