@@ -101,6 +101,9 @@ export function Testimonials() {
       onBlur={() => { if (!reduce.current) startCycle(); }}
     >
       <Wig kleur="#f6f6f4" />
+      {/* binnenlaag draagt de overflow-clip voor de backdrop; de wig op de
+          sectie zelf mag boven de rand uitsteken */}
+      <div className="tm-binnen">
       <div className="backdrop" aria-hidden="true" />
       <div className="wrap" style={{ position: "relative" }}>
         <Sectiekop
@@ -166,6 +169,7 @@ export function Testimonials() {
           <span className="teller mono">/{TESTIMONIALS.quotes[actief].num}</span>
           <span className="meetlat mono">{TESTIMONIALS.meetlat}</span>
         </div>
+      </div>
       </div>
     </section>
   );

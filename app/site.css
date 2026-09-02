@@ -744,7 +744,10 @@
 }
 
 /* ---------- testimonials ---------- */
-.tm { padding: clamp(56px, 7vw, 104px) 0; position: relative; overflow: hidden; }
+/* overflow-clip zit op de binnenlaag: op de sectie zelf zou hij de wig
+   wegknippen die boven de sectierand uitsteekt */
+.tm { position: relative; }
+.tm .tm-binnen { position: relative; overflow: hidden; padding: clamp(56px, 7vw, 104px) 0; }
 .tm .backdrop {
   position: absolute;
   top: 0;
@@ -830,6 +833,10 @@
 .faq { padding: clamp(56px, 7vw, 104px) 22px clamp(64px, 8vw, 116px); }
 .faq .inner { max-width: 1180px; margin: 0 auto; }
 .faq .grid { display: grid; grid-template-columns: 0.72fr 1.28fr; gap: clamp(28px, 4vw, 76px); align-items: start; margin-top: clamp(28px, 3.5vw, 48px); }
+/* zijkolom pint (v3: sticky top 96px) zodat de kaart meereist tot de laatste vraag */
+@media (min-width: 860px) {
+  .faq .zijkolom { position: sticky; top: 96px; align-self: start; z-index: 1; }
+}
 .faq .mediakaart {
   display: block;
   width: min(400px, 100%);
