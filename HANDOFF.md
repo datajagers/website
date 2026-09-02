@@ -21,8 +21,17 @@ exact de middelste cijfers-kaart, copy fadet, paneel komt met 10px fade-up,
 nav kleurt om; terug-gebaar speelt het omgekeerde; mobiel/reduce/no-JS
 gestapeld. Zit in `HeroFlip.tsx` (Hero/InCijfers zijn erin opgegaan).
 Bewust niet geport: de v3-gebaar-poorten (Herkenbaar-CTA-expansie,
-diensten-wipe). Main blijft de statische v3 tot v4 pariteit heeft. De
-copy-audit (§6) loopt door; akkoorden landen in v4 (`lib/copy.ts`).
+diensten-wipe). Main blijft de statische v3 tot v4 pariteit heeft.
+**Copy-akkoorden A–G zijn goedgekeurd en doorgevoerd in v4** (commit
+`fa579c1`, alles in `lib/copy.ts` + JSON-LD Organization/FAQPage): o.a.
+24-uursbelofte gelijkgetrokken, contactonderwerpen = de vier diensten,
+"AI-integratie & Maatwerk", "Alles onder één dak", C-statement "Ervaar de
+rust van data die voor je werkt.", FAQ zonder "The Sparring Session",
+testimonial-CTA "Werk met ons samen". Testimonials inhoudelijk onaangeroerd.
+LET OP: deze v3 heeft die copy-wijzigingen NIET — v3 is bevroren als vangnet.
+Nog open uit de audit: founder-kaart (bestaat niet in v4; hangt aan het
+stockfoto-besluit) en de cijferkaarten koffie/collega's (blijven staan tenzij
+Wouter een echt werkgetal aanlevert).
 
 ## 1. Wat dit is
 
