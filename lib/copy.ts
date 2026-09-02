@@ -17,7 +17,8 @@ export const HERO = {
 
 export const IN_CIJFERS = {
   num: "01",
-  label: "In cijfers",
+  label: "Het overzicht", // sluit aan op de middenkaart waar de hero-FLIP in landt
+
   kop: "Overzicht geeft rust,",
   kopGrijs: "elke dag opnieuw.",
   kaarten: [
