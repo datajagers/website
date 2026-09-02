@@ -1,10 +1,13 @@
 "use client";
 
-// Mailto-flow — bewust besluit (2026-09-02): geen extern endpoint. De submit
-// opent het mailprogramma van de bezoeker met alle velden in de body.
+// Contactformulier — Formspark (besluit 2026-09-02). Zolang er geen form-ID
+// in lib/formspark.ts staat, valt de submit terug op de mailto-flow zodat
+// het formulier nooit dood is. Spam: honeypot-veld `_honeypot` (Formspark
+// negeert de inzending stil als een bot het invult) + hun standaardfilter.
 
 import { useState } from "react";
 import { CONTACT } from "@/lib/copy";
+import { FORMSPARK_FORM_ID, FORMSPARK_URL } from "@/lib/formspark";
 
 const ONDERWERPEN: Record<string, string> = Object.fromEntries(
   CONTACT.onderwerpen.map((o) => [o.value, o.value ? o.label : "Niet opgegeven"])
@@ -13,19 +16,23 @@ const ONDERWERPEN: Record<string, string> = Object.fromEntries(
 type Velden = { voornaam: string; achternaam: string; onderwerp: string; email: string; bericht: string };
 const LEEG: Velden = { voornaam: "", achternaam: "", onderwerp: "", email: "", bericht: "" };
 
+type Status = "leeg" | "bezig" | "verzonden" | "mislukt";
+
 export function ContactForm() {
   const [form, setForm] = useState<Velden>(LEEG);
   const [fouten, setFouten] = useState<Partial<Velden>>({});
-  const [verzonden, setVerzonden] = useState(false);
+  const [status, setStatus] = useState<Status>("leeg");
+  const [honing, setHoning] = useState("");
 
   const zet = (k: keyof Velden) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [k]: e.target.value }));
     setFouten((f) => ({ ...f, [k]: undefined }));
-    setVerzonden(false);
+    if (status === "verzonden" || status === "mislukt") setStatus("leeg");
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (status === "bezig") return;
     const errs: Partial<Velden> = {};
     if (!form.voornaam.trim()) errs.voornaam = "Vul je voornaam in.";
     if (!form.achternaam.trim()) errs.achternaam = "Vul je achternaam in.";
@@ -37,21 +44,47 @@ export function ContactForm() {
       if (eerste) (e.currentTarget.elements.namedItem(eerste) as HTMLElement | null)?.focus();
       return;
     }
-    const onderwerp = ONDERWERPEN[form.onderwerp] || "Niet opgegeven";
-    const body = [
-      `Naam: ${form.voornaam} ${form.achternaam}`,
-      `E-mail: ${form.email}`,
-      `Onderwerp: ${onderwerp}`,
-      "",
-      "Bericht:",
-      form.bericht,
-    ].join("\n");
-    window.location.href =
-      "mailto:info@datajagers.nl" +
-      `?subject=${encodeURIComponent(`Aanvraag via datajagers.nl — ${onderwerp}`)}` +
-      `&body=${encodeURIComponent(body)}`;
     setFouten({});
-    setVerzonden(true);
+    const onderwerp = ONDERWERPEN[form.onderwerp] || "Niet opgegeven";
+
+    if (!FORMSPARK_FORM_ID) {
+      // vangnet zolang het form-ID ontbreekt: de mailto-flow van v3
+      const body = [
+        `Naam: ${form.voornaam} ${form.achternaam}`,
+        `E-mail: ${form.email}`,
+        `Onderwerp: ${onderwerp}`,
+        "",
+        "Bericht:",
+        form.bericht,
+      ].join("\n");
+      window.location.href =
+        "mailto:info@datajagers.nl" +
+        `?subject=${encodeURIComponent(`Aanvraag via datajagers.nl — ${onderwerp}`)}` +
+        `&body=${encodeURIComponent(body)}`;
+      setStatus("verzonden");
+      return;
+    }
+
+    setStatus("bezig");
+    try {
+      const res = await fetch(FORMSPARK_URL(FORMSPARK_FORM_ID), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          voornaam: form.voornaam,
+          achternaam: form.achternaam,
+          email: form.email,
+          onderwerp,
+          bericht: form.bericht,
+          _honeypot: honing,
+          _email: { subject: `Aanvraag via datajagers.nl — ${onderwerp}` },
+        }),
+      });
+      if (!res.ok) throw new Error(`Formspark ${res.status}`);
+      setStatus("verzonden");
+    } catch {
+      setStatus("mislukt");
+    }
   };
 
   const veld = (k: keyof Velden, label: string, props: React.InputHTMLAttributes<HTMLInputElement>) => (
@@ -75,9 +108,39 @@ export function ContactForm() {
   );
 
   const heeftFouten = Object.values(fouten).some(Boolean);
+  const viaFormspark = !!FORMSPARK_FORM_ID;
+  const statusTekst =
+    status === "verzonden"
+      ? viaFormspark
+        ? "Bedankt! Je bericht is verstuurd — je hoort binnen 24 uur van ons."
+        : "Je mailprogramma is geopend met je bericht. Verstuur het daar om de aanvraag af te ronden."
+      : status === "mislukt"
+        ? "Versturen lukte niet. Probeer het opnieuw, of mail ons direct via info@datajagers.nl."
+        : heeftFouten
+          ? "Controleer de gemarkeerde velden."
+          : "";
+  const knopTekst =
+    status === "bezig"
+      ? "Versturen…"
+      : status === "verzonden"
+        ? viaFormspark
+          ? "Verstuurd"
+          : "Geopend in je mailprogramma"
+        : "Verstuur";
 
   return (
     <form onSubmit={onSubmit} noValidate>
+      {/* honeypot — onzichtbaar voor mensen, bots vullen hem in */}
+      <input
+        type="text"
+        name="_honeypot"
+        value={honing}
+        onChange={(e) => setHoning(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+      />
       <div className="velden">
         {veld("voornaam", "Voornaam*", { type: "text", autoComplete: "given-name", placeholder: "Jim", required: true })}
         {veld("achternaam", "Achternaam*", { type: "text", autoComplete: "family-name", placeholder: "Hopper", required: true })}
@@ -115,15 +178,13 @@ export function ContactForm() {
           ) : null}
         </label>
       </div>
-      {verzonden || heeftFouten ? (
-        <p role="status" aria-live="polite" className={verzonden ? "status ok" : "status err"}>
-          {verzonden
-            ? "Je mailprogramma is geopend met je bericht. Verstuur het daar om de aanvraag af te ronden."
-            : "Controleer de gemarkeerde velden."}
+      {statusTekst ? (
+        <p role="status" aria-live="polite" className={status === "verzonden" ? "status ok" : "status err"}>
+          {statusTekst}
         </p>
       ) : null}
-      <button type="submit" className={verzonden ? "verzonden" : undefined}>
-        {verzonden ? "Geopend in je mailprogramma" : "Verstuur"}
+      <button type="submit" disabled={status === "bezig"} className={status === "verzonden" ? "verzonden" : undefined}>
+        {knopTekst}
       </button>
     </form>
   );
