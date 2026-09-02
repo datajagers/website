@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function FounderCard({ className }: { className?: string }) {
   return (
-    <Link href="/#verhaal" className={className ? `founder-card ${className}` : "founder-card"}>
+    <Link href="/contact" className={className ? `founder-card ${className}` : "founder-card"}>
       <span className="fc-foto">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/lanyard_person.jpg" alt="" width={560} height={560} decoding="async" />
