@@ -255,7 +255,10 @@
 }
 
 /* ---------- wie we zijn ---------- */
-.wwz { padding-bottom: clamp(80px, 12vh, 200px); }
+/* padding-top blokkeert margin-collapse van de sectiekop: zonder deze
+   padding valt diens marge buiten de sectie en toont de coal-body als
+   donkere wig boven de sectietop (v3 had 24px padding op de quotetrack) */
+.wwz { padding-top: 24px; padding-bottom: clamp(80px, 12vh, 200px); }
 .wwz .quotevlak {
   position: relative;
   min-height: 70vh;

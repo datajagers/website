@@ -123,7 +123,9 @@ a:focus-visible {
   font-feature-settings: "tnum";
 }
 
-/* underline-CTA — identiek hovergedrag overal */
+/* underline-CTA — identiek hovergedrag overal (1-op-1 v3 [data-cta]):
+   label nudget 4px mee, pijl staat in rust horizontaal (rotate 45) en
+   springt op hover/focus naar 45 graden omhoog met een 3px-nudge */
 .cta-line {
   display: inline-flex;
   align-items: baseline;
@@ -132,6 +134,22 @@ a:focus-visible {
   padding-bottom: 10px;
   font-size: clamp(15px, 0.85vw, 16px);
   letter-spacing: -0.02em;
+}
+.cta-line .cta-label {
+  display: inline-block;
+  transition: transform var(--dj-dur) var(--dj-ease);
+}
+.cta-line .cta-arrow {
+  transform: rotate(45deg);
+  transition: transform var(--dj-dur) var(--dj-ease);
+}
+.cta-line:hover .cta-label,
+.cta-line:focus-visible .cta-label {
+  transform: translateX(4px);
+}
+.cta-line:hover .cta-arrow,
+.cta-line:focus-visible .cta-arrow {
+  transform: translate(3px, -3px) rotate(0deg);
 }
 
 /* chips (Wie we zijn) */
