@@ -29,9 +29,11 @@ diensten-wipe). Main blijft de statische v3 tot v4 pariteit heeft.
 rust van data die voor je werkt.", FAQ zonder "The Sparring Session",
 testimonial-CTA "Werk met ons samen". Testimonials inhoudelijk onaangeroerd.
 LET OP: deze v3 heeft die copy-wijzigingen NIET — v3 is bevroren als vangnet.
-Nog open uit de audit: founder-kaart (bestaat niet in v4; hangt aan het
-stockfoto-besluit) en de cijferkaarten koffie/collega's (blijven staan tenzij
-Wouter een echt werkgetal aanlevert).
+Nabesluiten (2026-09-02): cijferkaarten koffie/collega's blijven definitief;
+founder-kaart is terug in v4 (commit `7056c67`) — BEWUST ANONIEM ("Ontmoet de
+oprichter", geen naam: Wouter wil geen relateerbaarheid aan zijn huidige
+werkgever; dit nooit "verbeteren" door een naam toe te voegen). De stockfoto
+op die kaart (lanyard_person.jpg) blijft wél een open punt uit §7.
 
 ## 1. Wat dit is
 
