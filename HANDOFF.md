@@ -23,8 +23,13 @@ gestapeld. Zit in `HeroFlip.tsx` (Hero/InCijfers zijn erin opgegaan).
 De Wie-we-zijn-choreografie (gepinde quote + woord-oplichting + horizontale
 wipe) is alsnog geport (commit `124651f`, ViewTimeline + JS-fallback), net
 als het v3-CTA-hoversysteem (pijl 45°→0° + nudge) en de margin-collapse-fix
-boven #verhaal. Bewust niet geport: de v3-gebaar-poorten (Herkenbaar-CTA-
-expansie, diensten-wipe) en de dienst-rijen als links met pijl/hovercirkel.
+boven #verhaal. Later alsnog geport op verzoek Wouter: de sticky wwz-rail + ghost-letters +
+A/C-teller, de Herkenbaar-kaartenmuur (sticky titelstack + schaal-scrub) en
+de estafette ("tooling" reist naar de dienstenkop; commit `24108f1` —
+diensten-sectiekop/intro leven weer in de scene). Bewust niet geport: de
+v3-gebaar-poorten (Herkenbaar-CTA-expansie, diensten-wipe) en de
+dienst-rijen als links met pijl/hovercirkel. LET OP bij verifiëren: een
+verborgen browser-pane pauzeert rAF — drivers lijken dan dood (§8.5).
 Main blijft de statische v3 tot v4 pariteit heeft.
 **Copy-akkoorden A–G zijn goedgekeurd en doorgevoerd in v4** (commit
 `fa579c1`, alles in `lib/copy.ts` + JSON-LD Organization/FAQPage): o.a.
