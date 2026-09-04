@@ -20,6 +20,14 @@ import { Wig } from "@/components/motion/Wig";
 
 const RAND_START = 1; // px — de dunne witte lijn in ruststand (v3-kader was ook 1px)
 
+// kleinere varianten voor de statkaarten (getoond ≤260px breed op desktop,
+// ~80vw mobiel); de middenkaart hergebruikt bewust de al geladen hero-jpg
+const KAART_SRCSET: Record<string, string> = {
+  "/uploads/coffee.jpg": "/uploads/coffee-640.jpg 640w, /uploads/coffee.jpg 1042w",
+  "/assets/happy_collegas.jpg": "/assets/happy_collegas-640.jpg 640w, /assets/happy_collegas.jpg 760w",
+};
+const KAART_SIZES = "(max-width: 859px) 80vw, 260px";
+
 export function HeroFlip() {
   const stageRef = useRef<HTMLElement>(null);
   const fotoRef = useRef<HTMLImageElement>(null);
@@ -143,6 +151,7 @@ export function HeroFlip() {
     };
 
     const onResize = () => {
+      zetGebaarListeners(); // stage-modus kan omslaan → passive-status herzien
       if (!stageMode()) {
         stage.setAttribute("data-open", "false");
         tl?.kill(); tl = null;
@@ -172,13 +181,31 @@ export function HeroFlip() {
       });
     }
 
-    window.addEventListener("wheel", onWheel, { passive: false });
+    // Smoothness-audit 2026-09: wheel/touchmove alleen blokkerend (passive:
+    // false) registreren zolang we bovenaan in stage-modus staan — de enige
+    // plek waar preventDefault kan vallen. Daarbuiten passive, zodat de
+    // compositor bij echte gebaren niet meer op de main thread wacht.
+    let blokkeert: boolean | null = null;
+    const zetGebaarListeners = () => {
+      const blok = stageMode() && bovenaan();
+      if (blok === blokkeert) return;
+      if (blokkeert !== null) {
+        window.removeEventListener("wheel", onWheel);
+        window.removeEventListener("touchmove", onTM);
+      }
+      window.addEventListener("wheel", onWheel, { passive: !blok });
+      window.addEventListener("touchmove", onTM, { passive: !blok });
+      blokkeert = blok;
+    };
+    const onScroll = () => zetGebaarListeners();
+    zetGebaarListeners();
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("touchstart", onTS, { passive: true });
-    window.addEventListener("touchmove", onTM, { passive: false });
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchstart", onTS);
       window.removeEventListener("touchmove", onTM);
       window.removeEventListener("keydown", onKey);
@@ -193,7 +220,7 @@ export function HeroFlip() {
   const stat = (k: typeof links) => (
     <div className="kaart" key={k.label}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={k.foto} alt={k.alt} decoding="async" />
+      <img src={k.foto} srcSet={KAART_SRCSET[k.foto]} sizes={KAART_SRCSET[k.foto] ? KAART_SIZES : undefined} alt={k.alt} decoding="async" />
       <div className="tint" aria-hidden="true" />
       <div className="voet">
         <div className="lbl mono">{k.label}</div>

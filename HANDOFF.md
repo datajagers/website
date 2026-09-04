@@ -1,11 +1,11 @@
 # HANDOFF — Datajagers-website (v4, LIVE)
 
-Laatst bijgewerkt: 2026-09-02. Lees dit volledig vóór de eerste wijziging.
+Laatst bijgewerkt: 2026-09-04. Lees dit volledig vóór de eerste wijziging.
 De oude v3-handoff (statische bundel-architectuur) staat in de git-historie;
 alles wat je nu nodig hebt staat hier.
 
-**Huidige fase: visuele smoothness** — zie §5. Wouter ervaart de site als
-laggy bij scrollen en animaties. Eerst meten, dan pas optimaliseren.
+**Status: smoothness-audit afgerond, optimalisaties live** — zie §5 voor
+de metingen, wat er is doorgevoerd en wat er nog open staat.
 
 ## 1. Wat dit is + status
 
@@ -76,39 +76,47 @@ bovenaan reverset. Parallax-exits via ScrollTrigger (scrub): nav −50px +
 fade, paneelkop 12vh lag, rij 6vh, fotolaag 10vh. Warm-up onder de Vizier
 (img.decode) tegen first-run jank.
 
-## 5. HUIDIGE FASE: smoothness-audit (meten → dan pas fixen)
+## 5. Smoothness: audit afgerond, optimalisaties doorgevoerd (2026-09-04)
 
-Klacht: scroll en animaties voelen laggy. Verdachten, op volgorde van
-mijn inschatting (maar: PROFILEER EERST, giswerk heeft hier al eerder
-tijd gekost):
+Meetresultaat eerst: op een M-serie-Mac was er meetbaar níets mis — prod,
+dev (warm), live site én mobiel 375 scrollen op een vastgeklonken 120fps
+(0 gemiste frames, 0 long tasks, in élke configuratie; alle drivers samen
+~0,33ms van het 8,3ms-framebudget). De oude verdachtenlijst staat in de
+git-historie; per driver gekwantificeerd via tijdelijke uitschakel-toggles.
 
-1. **Te veel losse scroll-drivers die elkaars layout invalideren.** Per
-   scroll-frame draaien: 4× Wig (veer-rAF, leest sectie-rect én schrijft
-   clip-path + HEIGHT — height triggert layout!), WieWeZijn (23
-   woord-writes + teller-querySelectorAll + rects), Herkenbaar (6×
-   cel-rect + transforms + 3 sticky-fades), Footer-sheet, hero-exit-
-   ScrollTrigger, en de **Estafette draait een CONTINUE rAF-loop** (v3-
-   erfenis) met 3–4 getBoundingClientRect per frame, ook buiten beeld
-   (er is een range-bail, maar de loop zelf tikt altijd). Reads en writes
-   zijn per driver gebatcht, maar NIET cross-driver → forced reflows.
-2. **Wig animeert `height`** (layout per frame, 4 instanties). Kandidaat:
-   vaste hoogte + scaleY/clip-path-only.
-3. **Hero-rand = box-shadow-spread** — paint-zwaar tijdens de 1.15s (en
-   bij reverse). Eenmalig, maar op zwakkere GPU's voelbaar. Kandidaat:
-   4 witte vlak-divs (boven/onder/links/rechts, transform-only) of
-   mask/clip-benadering.
-4. **Beelden**: plain `<img>`, geen next/image; hero-jpg is 1672px breed
-   en wordt overal full-bleed gebruikt; geen srcset/preload-tuning.
-5. **Dev vs prod**: Turbopack-dev voelt trager dan de Netlify-build.
-   Meet op de LIVE site en op `npm run build && npx next start -p 4491`,
-   niet alleen op de dev-server.
+Doorgevoerd (alle vier geverifieerd gedragsidentiek, mét vóór/na-meting):
 
-Meetaanpak die hier werkt (browser-pane, zie §6): PerformanceObserver op
-longtasks + frame-tijden samplen tijdens gescripte scroll; per verdachte
-de driver tijdelijk uitschakelen en het verschil meten; pas daarna
-consolideren (bijv. één gedeelde scroll-rAF-bus met read-fase → write-
-fase over alle drivers). Elke optimalisatie: vóór/na-meting in het
-verslag, en visueel geen gedragsverandering (alle §3/§4-gedrag blijft).
+1. **HeroFlip**: wheel/touchmove alleen `passive: false` bovenaan in
+   stage-modus (her-registratie bij de scrollgrens). Buiten de top wacht
+   de compositor niet meer op de main thread — het enige pad dat gescripte
+   scroll principieel niet kan meten (echte-gebaar-latency).
+2. **Wig**: vaste dooshoogte + clip-path-only (diagonaal als polygon met
+   verrekend percentage, boog als path()-dome die de border-radius-vorm
+   exact reproduceert). De height-write/layout-invalidatie per frame is
+   weg. Geometrie ≤0,3px gelijk; main-werk −20% desktop, −25% mobiel
+   (0,65→0,52 / 0,59→0,44 ms per frame).
+3. **Estafette**: kick-patroon i.p.v. continue rAF-loop, plus één kick op
+   fonts.ready tegen verschoven slot-rects. Idle tikt de sectie niet meer.
+4. **Kaartbeelden**: srcset/sizes met q70-varianten, −528kB op vijf
+   beelden. De middenkaart hergebruikt bewust de al geladen hero-jpg;
+   founder-kaart en portret onaangeraakt.
+
+Open punten / wetenswaardig voor een vervolg:
+
+- Wouter voelt de lag op een MacBook Pro M4 Pro — meetbaar niet
+  gereproduceerd. Vraag staat uit: waar/wanneer precies (sectie, tijdens
+  het gebaar of erná, welk scherm)? Kandidaat-verklaring "erná" = de
+  bewuste veer/scrub-choreografie zelf (trailing leest als lag).
+- De Wig-veer is per-frame gedefinieerd (0.07/0.106/0.875 per tick): op
+  een 60Hz-scherm trailt hij ~2× zo lang als op 120Hz. Gedragsvraag,
+  bewust niet aangepast.
+- GSAP's ticker tikt idle door (120/s, ~0 kost) zodra ScrollTrigger
+  geregistreerd is — eventuele energie-hygiëne.
+- Hero-jpg (1672px) is te klein voor 1440@2x (2880px nodig): licht
+  onscherp op retina. Geen groter origineel gevonden in alle projectmappen;
+  opschalen afgewezen (nepscherpte). Wil je dit fixen: nieuwe bron nodig.
+- Niet doen: de gedeelde scroll-rAF-bus — cross-driver-reflows kosten
+  aantoonbaar te weinig voor de complexiteit.
 
 ## 6. Verificatieprotocol (hard geleerd — niet overslaan)
 
@@ -120,8 +128,10 @@ verslag, en visueel geen gedragsverandering (alle §3/§4-gedrag blijft).
    artefacten in screenshots van gecomposite lagen (DOM-metingen kloppen
    wél); een verborgen/achtergrond-pane pauzeert rAF (GSAP valt terug op
    setTimeout; eigen rAF-drivers NIET — front de tab of meet event-
-   gedreven); innerHeight kan verdubbeld rapporteren direct na een
-   emulatie-wissel.
+   gedreven); dat geldt óók per TAB: een niet-actieve tab in een zichtbare
+   pane pauzeert rAF net zo hard (tabs_select vóór elke rAF-meting, en
+   tussen tool-calls door loopt rAF sowieso niet betrouwbaar door);
+   innerHeight kan verdubbeld rapporteren direct na een emulatie-wissel.
 4. Sticky/pins: landingen en pins uit beide scrollrichtingen testen.
 5. Nowrap-teksten (deliverables, kaartlabels): scrollWidth vs clientWidth
    meten op beide breekpunten.

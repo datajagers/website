@@ -240,7 +240,7 @@ export function WieWeZijn() {
                   <div className="duo">
                     <div className="kaart">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/uploads/character-windows-xp-9146bdbb.jpg" alt="Werkplek met een computer uit 2005" loading="lazy" decoding="async" style={{ filter: "grayscale(0.4)" }} />
+                      <img src="/uploads/character-windows-xp-9146bdbb.jpg" srcSet="/uploads/character-windows-xp-9146bdbb-760.jpg 760w, /uploads/character-windows-xp-9146bdbb.jpg 1672w" sizes="(max-width: 859px) 88vw, 360px" alt="Werkplek met een computer uit 2005" loading="lazy" decoding="async" style={{ filter: "grayscale(0.4)" }} />
                       <div className="voet">
                         <div className="lbl mono">HERKENBAAR?</div>
                         <div className="val">Zo werk jij misschien nog</div>
@@ -248,7 +248,7 @@ export function WieWeZijn() {
                     </div>
                     <div className="kaart">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/assets/hero-shoes-on-desk-tall.jpg" alt="Man leunt ontspannen achterover met de voeten op het bureau, hoog boven de bergen" loading="lazy" decoding="async" style={{ objectPosition: "87% 100%" }} />
+                      <img src="/assets/hero-shoes-on-desk-tall.jpg" srcSet="/assets/hero-shoes-on-desk-tall-760.jpg 760w, /assets/hero-shoes-on-desk-tall.jpg 1672w" sizes="(max-width: 859px) 88vw, 360px" alt="Man leunt ontspannen achterover met de voeten op het bureau, hoog boven de bergen" loading="lazy" decoding="async" style={{ objectPosition: "87% 100%" }} />
                       <div className="voet">
                         <div className="lbl mono">HET KAN ANDERS</div>
                         <div className="val">Zo voelt de maandag met overzicht</div>

@@ -23,7 +23,7 @@ export function Faq({ ctaHref = "/contact" }: { ctaHref?: string }) {
           <div className="zijkolom">
             <a className="mediakaart" href={ctaHref}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/floating_cocktail.jpg" alt="Man drijft ontspannen op het water met een cocktail" loading="lazy" decoding="async" />
+              <img src="/assets/floating_cocktail.jpg" srcSet="/assets/floating_cocktail-760.jpg 760w, /assets/floating_cocktail.jpg 1672w" sizes="(max-width: 859px) 82vw, 375px" alt="Man drijft ontspannen op het water met een cocktail" loading="lazy" decoding="async" />
               <span className="regel">
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontWeight: 500 }}>
                   <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true" style={{ flex: "none" }}>

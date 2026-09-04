@@ -9,6 +9,10 @@
 // er geen dood gepind scherm overblijft). Mobiel (<860), reduced motion
 // en no-JS: beide scenes statisch onder elkaar met "tooling" gewoon in
 // de zin.
+// Smoothness-audit 2026-09: de continue v3-rAF-loop is vervangen door het
+// kick-patroon van de andere drivers (scroll/resize-gedreven, plus één kick
+// als de fonts binnen zijn tegen verschoven slot-rects) — zelfde scrub,
+// geen permanent tikkende loop meer.
 
 import { useEffect, useRef } from "react";
 import { DIENSTEN } from "@/lib/copy";
@@ -28,13 +32,12 @@ export function Estafette() {
     const slotB = track.querySelector<HTMLElement>('[data-es-slot="b"]');
     if (!stage || !s1 || !s2 || !woord || !slotA || !slotB) return;
 
-    let raf: number;
+    let raf: number | null = null;
     const sm = (t: number) => t * t * (3 - 2 * t);
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
 
     const step = () => {
-      raf = requestAnimationFrame(step);
-      if (document.hidden) return; // een gepauzeerde tab heeft niets te scrubben
+      raf = null;
       if (reduce || window.innerWidth < 860) { woord.style.opacity = "0"; return; }
       const r = track.getBoundingClientRect();
       const vh = window.innerHeight;
@@ -59,8 +62,16 @@ export function Estafette() {
       woord.style.fontSize = getComputedStyle(slotA).fontSize;
       woord.style.color = w > 0.55 ? "#93c3fd" : "#ffffff";
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+    const kick = () => { if (raf === null) raf = requestAnimationFrame(step); };
+    kick();
+    document.fonts?.ready.then(kick).catch(() => {});
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", kick);
+    return () => {
+      window.removeEventListener("scroll", kick);
+      window.removeEventListener("resize", kick);
+      if (raf !== null) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const woord = DIENSTEN.woord;
