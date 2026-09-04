@@ -128,7 +128,7 @@ export const DIENSTEN = {
     },
     {
       num: "04",
-      titel: "1-op-1 AI-Coaching",
+      titel: "1-op-1 AI-coaching",
       kort: "Jij bouwt, ik begeleid — je gaat weg met iets dat werkt.",
       deliverables: [
         "Echte use case uit jouw werk",
@@ -246,7 +246,7 @@ export const CONTACT = {
     { value: "procesoptimalisatie", label: "Procesoptimalisatie" },
     { value: "dashboards", label: "Data & Dashboards" },
     { value: "ai", label: "AI-integratie & Maatwerk" },
-    { value: "coaching", label: "1-op-1 AI-Coaching" },
+    { value: "coaching", label: "1-op-1 AI-coaching" },
     { value: "anders", label: "Iets anders" },
   ],
 };
